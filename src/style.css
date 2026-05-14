@@ -2,23 +2,370 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════
+   COBALT ATELIER — Design Tokens
+   Light: cool porcelain on near-white, electric cobalt accent.
+   Dark : deep midnight navy with luminous primary, no flat gray.
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  color-scheme: light;
+  /* ─ M3 Primary / Accents ─ */
+  --color-primary: 0 87 194;
+  --color-primary-container: 0 110 242;
+  --color-primary-fixed: 217 226 255;
+  --color-primary-fixed-dim: 175 198 255;
+  --color-on-primary: 255 255 255;
+  --color-on-primary-fixed: 0 26 67;
+  --color-on-primary-fixed-variant: 0 67 152;
+  --color-on-primary-container: 254 252 255;
+  --color-secondary: 83 96 105;
+  --color-secondary-container: 214 228 239;
+  --color-secondary-fixed: 214 228 239;
+  --color-secondary-fixed-dim: 186 200 211;
+  --color-on-secondary: 255 255 255;
+  --color-on-secondary-container: 89 102 111;
+  --color-on-secondary-fixed: 16 29 37;
+  --color-on-secondary-fixed-variant: 59 72 81;
+  --color-tertiary: 158 61 0;
+  --color-tertiary-container: 198 79 0;
+  --color-tertiary-fixed: 255 219 204;
+  --color-tertiary-fixed-dim: 255 182 149;
+  --color-on-tertiary: 255 255 255;
+  --color-on-tertiary-container: 255 251 255;
+  --color-on-tertiary-fixed: 53 16 0;
+  --color-on-tertiary-fixed-variant: 124 46 0;
+  /* ─ Surfaces (light: cool porcelain) ─ */
+  --color-surface: 244 247 252;
+  --color-surface-bright: 248 250 253;
+  --color-surface-dim: 219 228 240;
+  --color-surface-variant: 209 228 255;
+  --color-surface-container: 230 237 247;
+  --color-surface-container-high: 220 230 244;
+  --color-surface-container-highest: 209 222 241;
+  --color-surface-container-low: 238 244 252;
+  --color-surface-container-lowest: 255 255 255;
+  --color-surface-tint: 0 89 199;
+  --color-on-surface: 11 22 41;
+  --color-on-surface-variant: 60 71 92;
+  --color-on-background: 11 22 41;
+  --color-error: 186 26 26;
+  --color-error-container: 255 218 214;
+  --color-on-error: 255 255 255;
+  --color-on-error-container: 147 0 10;
+  --color-outline: 108 122 148;
+  --color-outline-variant: 195 207 226;
+  --color-inverse-surface: 14 24 42;
+  --color-inverse-on-surface: 233 241 255;
+  --color-inverse-primary: 175 198 255;
+  /* ─ Semantic status (light) ─ */
+  --color-success: 16 185 129;
+  --color-success-container: 209 250 229;
+  --color-on-success-container: 4 120 87;
+  --color-warning: 217 119 6;
+  --color-warning-container: 254 243 199;
+  --color-on-warning-container: 146 64 14;
+  --color-danger: 220 38 38;
+  --color-danger-container: 254 226 226;
+  --color-on-danger-container: 153 27 27;
+  --color-info: 14 165 233;
+  --color-info-container: 224 242 254;
+  --color-on-info-container: 3 105 161;
+  /* ─ Atmospheric mesh tints ─ */
+  --mesh-1: 0 87 194;
+  --mesh-2: 198 79 0;
+  --mesh-1-alpha: 0.05;
+  --mesh-2-alpha: 0.025;
+  /* ─ Bento shadow recipe ─ */
+  --bento-shadow:
+    0 1px 0 rgb(255 255 255 / 0.6) inset,
+    0 12px 32px -8px rgb(11 22 41 / 0.08),
+    0 4px 12px -4px rgb(11 22 41 / 0.06);
+  --bento-shadow-primary:
+    0 1px 0 rgb(255 255 255 / 0.6) inset,
+    0 14px 36px -10px rgb(0 87 194 / 0.18),
+    0 4px 14px -6px rgb(0 87 194 / 0.10);
+  --bento-shadow-lg:
+    0 1px 0 rgb(255 255 255 / 0.6) inset,
+    0 24px 48px -12px rgb(11 22 41 / 0.12);
+}
+
+.dark {
+  color-scheme: dark;
+  /* ─ M3 Primary / Accents (dark: luminous cobalt) ─ */
+  --color-primary: 161 188 255;
+  --color-primary-container: 0 80 180;
+  --color-primary-fixed: 21 38 75;          /* deep navy panel (overrides M3 spec) */
+  --color-primary-fixed-dim: 32 56 105;     /* edge of navy panel */
+  --color-on-primary: 0 35 90;
+  --color-on-primary-fixed: 215 225 255;
+  --color-on-primary-fixed-variant: 175 198 255;
+  --color-on-primary-container: 217 226 255;
+  --color-secondary: 186 200 211;
+  --color-secondary-container: 46 60 80;
+  --color-secondary-fixed: 36 49 67;
+  --color-secondary-fixed-dim: 56 73 96;
+  --color-on-secondary: 36 49 57;
+  --color-on-secondary-container: 214 228 239;
+  --color-on-secondary-fixed: 214 228 239;
+  --color-on-secondary-fixed-variant: 186 200 211;
+  --color-tertiary: 255 182 149;
+  --color-tertiary-container: 86 30 0;       /* used for "warm" badges in dark */
+  --color-tertiary-fixed: 64 22 0;           /* deep ember panel */
+  --color-tertiary-fixed-dim: 96 36 4;
+  --color-on-tertiary: 86 30 0;
+  --color-on-tertiary-container: 255 219 204;
+  --color-on-tertiary-fixed: 255 219 204;
+  --color-on-tertiary-fixed-variant: 255 182 149;
+  /* ─ Surfaces (dark: midnight navy stack) ─ */
+  --color-surface: 9 13 23;
+  --color-surface-bright: 38 50 78;
+  --color-surface-dim: 4 7 14;
+  --color-surface-variant: 50 65 95;
+  --color-surface-container: 22 29 47;
+  --color-surface-container-high: 29 38 60;
+  --color-surface-container-highest: 38 50 78;
+  --color-surface-container-low: 16 22 38;
+  --color-surface-container-lowest: 13 18 32;
+  --color-surface-tint: 161 188 255;
+  --color-on-surface: 226 232 247;
+  --color-on-surface-variant: 174 187 213;
+  --color-on-background: 226 232 247;
+  --color-error: 255 180 171;
+  --color-error-container: 105 0 5;
+  --color-on-error: 105 0 5;
+  --color-on-error-container: 255 218 214;
+  --color-outline: 120 138 170;
+  --color-outline-variant: 56 70 100;
+  --color-inverse-surface: 226 232 247;
+  --color-inverse-on-surface: 14 24 42;
+  --color-inverse-primary: 0 87 194;
+  /* ─ Semantic status (dark: vivid against deep surface) ─ */
+  --color-success: 74 222 128;
+  --color-success-container: 7 58 36;
+  --color-on-success-container: 167 243 208;
+  --color-warning: 251 191 36;
+  --color-warning-container: 78 41 12;
+  --color-on-warning-container: 253 230 138;
+  --color-danger: 251 113 133;
+  --color-danger-container: 88 14 24;
+  --color-on-danger-container: 254 202 202;
+  --color-info: 56 189 248;
+  --color-info-container: 14 60 92;
+  --color-on-info-container: 186 230 253;
+  /* ─ Atmospheric mesh tints (dark: vivid) ─ */
+  --mesh-1: 0 110 242;
+  --mesh-2: 161 188 255;
+  --mesh-1-alpha: 0.10;
+  --mesh-2-alpha: 0.06;
+  /* ─ Bento shadow recipe (dark: anchored not floating) ─ */
+  --bento-shadow:
+    0 1px 0 rgb(255 255 255 / 0.04) inset,
+    0 12px 32px -8px rgb(0 0 0 / 0.55),
+    0 2px 8px -4px rgb(0 0 0 / 0.4);
+  --bento-shadow-primary:
+    0 1px 0 rgb(161 188 255 / 0.06) inset,
+    0 14px 36px -8px rgb(0 0 0 / 0.6),
+    0 0 0 1px rgb(161 188 255 / 0.04);
+  --bento-shadow-lg:
+    0 1px 0 rgb(255 255 255 / 0.04) inset,
+    0 24px 64px -12px rgb(0 0 0 / 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Typography stack
+   ═══════════════════════════════════════════════════════════════ */
 * {
   box-sizing: border-box;
 }
 
+html,
 body {
-  font-family: 'Microsoft YaHei', 'Inter', 'PingFang SC', sans-serif;
-  background-color: #f8f9ff;
-  color: #071d31;
+  background-color: rgb(var(--color-surface));
+  color: rgb(var(--color-on-surface));
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', system-ui, sans-serif;
+  font-feature-settings: 'ss01', 'cv11';
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.35s ease, color 0.35s ease;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Atmospheric gradient mesh — adds depth on both themes without distraction */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 1100px 700px at 8% -10%, rgb(var(--mesh-1) / var(--mesh-1-alpha)), transparent 55%),
+    radial-gradient(ellipse 900px 600px at 110% 110%, rgb(var(--mesh-2) / var(--mesh-2-alpha)), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.35s ease;
 }
 
 #app {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
+}
+
+.font-display {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-feature-settings: 'ss01';
+  letter-spacing: -0.02em;
+}
+
+.font-num {
+  font-family: 'JetBrains Mono', 'Cascadia Code', 'SF Mono', ui-monospace, monospace;
+  font-feature-settings: 'zero', 'ss02';
+  font-variant-numeric: tabular-nums;
 }
 
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   vertical-align: middle;
   font-size: 20px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UI Chrome transitions
+   ═══════════════════════════════════════════════════════════════ */
+aside,
+header,
+section,
+table,
+input,
+button,
+select,
+textarea,
+.kpi-card,
+.bento-card,
+.bento-shadow,
+.bento-shadow-primary,
+.bento-shadow-lg {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Bento card shadows — theme-aware, multi-layer for depth
+   ═══════════════════════════════════════════════════════════════ */
+.bento-shadow      { box-shadow: var(--bento-shadow); }
+.bento-shadow-primary { box-shadow: var(--bento-shadow-primary); }
+.bento-shadow-lg   { box-shadow: var(--bento-shadow-lg); }
+
+/* ═══════════════════════════════════════════════════════════════
+   Reusable patterns
+   ═══════════════════════════════════════════════════════════════ */
+
+/* KPI cards: subtle hover lift + accent edge */
+.kpi-card {
+  position: relative;
+  background-color: rgb(var(--color-surface-container-lowest));
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-radius: 0.875rem;
+  box-shadow: var(--bento-shadow);
+  overflow: hidden;
+  isolation: isolate;
+}
+.kpi-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 100% 0%, rgb(var(--color-primary) / 0.04), transparent 50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--bento-shadow-primary);
+}
+.kpi-card:hover::after {
+  opacity: 1;
+}
+.dark .kpi-card::after {
+  background: radial-gradient(circle at 100% 0%, rgb(var(--color-primary) / 0.10), transparent 55%);
+}
+
+/* Bento card (alt to inline) */
+.bento-card {
+  background-color: rgb(var(--color-surface-container-lowest));
+  border-radius: 0.875rem;
+  box-shadow: var(--bento-shadow);
+}
+
+/* Numbered section header (01·02·03 inline) */
+.section-num {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  color: rgb(var(--color-primary) / 0.35);
+  letter-spacing: -0.04em;
+}
+
+/* Status pill convention: subtle tint + colored dot + saturated text */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid currentColor;
+}
+.status-pill::before {
+  content: '';
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 2px rgb(var(--color-surface-container-lowest));
+}
+
+/* Card hover for tables/lists */
+.row-hover {
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+.row-hover:hover {
+  background-color: rgb(var(--color-primary-fixed) / 0.6);
+}
+.dark .row-hover:hover {
+  background-color: rgb(var(--color-primary-fixed) / 0.7);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Scrollbar tuned for both themes
+   ═══════════════════════════════════════════════════════════════ */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--color-outline-variant));
+  border-radius: 8px;
+  border: 2px solid rgb(var(--color-surface));
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--color-outline));
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   Selection
+   ═══════════════════════════════════════════════════════════════ */
+::selection {
+  background-color: rgb(var(--color-primary) / 0.25);
+  color: rgb(var(--color-on-surface));
 }

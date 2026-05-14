@@ -1,32 +1,33 @@
 <template>
   <div class="space-y-8">
     <!-- Page Header & Action -->
-    <div class="flex justify-between items-end">
-      <div class="space-y-1">
-        <div class="flex items-center gap-2 text-on-surface-variant text-xs">
-          <span>个人工作台</span>
-          <span class="material-symbols-outlined" style="font-size: 14px">chevron_right</span>
-          <span class="text-primary font-bold">{{ activeTab === 'mine' ? '我的审批' : '我的申请' }}</span>
-        </div>
-        <h2 class="text-2xl font-bold tracking-tight text-on-surface">{{ activeTab === 'mine' ? '我的审批' : '我的申请' }}</h2>
+    <div class="flex justify-between items-end gap-6 flex-wrap">
+      <div>
+        <nav class="flex items-center gap-1.5 text-[11px] font-num text-outline uppercase tracking-[0.18em] mb-3">
+          <span>WORKSPACE</span>
+          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
+          <span class="text-primary">{{ activeTab === 'mine' ? 'APPROVALS' : 'APPLICATIONS' }}</span>
+        </nav>
+        <h2 class="font-display text-[28px] font-extrabold tracking-tight text-on-surface leading-none">{{ activeTab === 'mine' ? '我的审批' : '我的申请' }}</h2>
+        <p class="text-on-surface-variant mt-2 text-sm">{{ activeTab === 'mine' ? '查看与处理待我审批的事项，跟踪历史决策记录。' : '管理我发起的申请，跟踪流程进度与最新动态。' }}</p>
       </div>
-      <div class="flex items-end gap-4">
-        <div class="flex p-1 bg-surface-container-low rounded-xl">
+      <div class="flex items-end gap-3">
+        <div class="flex p-1 bg-surface-container-low rounded-xl border border-outline-variant/20">
           <button
             v-for="tab in tabs"
             :key="tab.key"
             @click="activeTab = tab.key"
             :class="[
-              'px-6 py-2 text-sm font-medium rounded-lg transition-all',
+              'px-5 py-2 text-sm rounded-lg transition-all',
               activeTab === tab.key
-                ? 'bg-white text-primary shadow-sm font-bold'
-                : 'text-on-surface-variant hover:text-primary'
+                ? 'bg-surface-container-lowest text-primary shadow-sm font-bold'
+                : 'text-on-surface-variant hover:text-primary font-medium'
             ]"
           >{{ tab.label }}</button>
         </div>
-        <button v-if="activeTab === 'apply'" class="bg-gradient-to-b from-primary-container to-primary text-white px-6 py-2.5 rounded-lg flex items-center gap-2 shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">
-          <span class="material-symbols-outlined" style="font-size: 20px">add</span>
-          <span class="font-bold">发起申请</span>
+        <button v-if="activeTab === 'apply'" class="bg-gradient-to-br from-primary to-primary-container text-on-primary px-5 py-2.5 rounded-lg flex items-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-px transition-all">
+          <span class="material-symbols-outlined" style="font-size: 18px">add</span>
+          <span class="font-bold text-sm">发起申请</span>
         </button>
       </div>
     </div>
@@ -35,23 +36,23 @@
     <template v-if="activeTab === 'mine'">
       <!-- Stats Bento Grid -->
       <div class="grid grid-cols-12 gap-6">
-        <div class="col-span-8 bg-white rounded-xl p-6 relative overflow-hidden group border border-transparent hover:border-outline-variant/10 transition-all" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+        <div class="col-span-8 bg-surface-container-lowest rounded-xl p-6 relative overflow-hidden group border border-transparent hover:border-outline-variant/10 transition-all bento-shadow">
           <div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
           <div class="flex justify-between relative z-10">
             <div>
               <p class="text-sm text-on-surface-variant mb-4">当前审批效率分析</p>
               <div class="flex items-end gap-8">
                 <div>
-                  <span class="text-4xl font-black text-on-surface">24</span>
-                  <span class="text-xs text-on-surface-variant ml-1">待我处理</span>
+                  <span class="font-display text-[42px] font-extrabold text-on-surface tabular-nums tracking-tighter leading-none">24</span>
+                  <span class="text-[10px] uppercase tracking-widest text-on-surface-variant ml-2 font-bold">待我处理</span>
                 </div>
                 <div class="pb-1">
-                  <span class="text-lg font-bold text-tertiary">98.2%</span>
-                  <span class="text-[10px] text-on-surface-variant ml-1">平均通过率</span>
+                  <span class="font-num text-lg font-bold text-tertiary">98.2%</span>
+                  <span class="text-[10px] uppercase tracking-widest text-on-surface-variant ml-1 font-medium">通过率</span>
                 </div>
                 <div class="pb-1">
-                  <span class="text-lg font-bold text-primary">1.2h</span>
-                  <span class="text-[10px] text-on-surface-variant ml-1">平均耗时</span>
+                  <span class="font-num text-lg font-bold text-primary">1.2h</span>
+                  <span class="text-[10px] uppercase tracking-widest text-on-surface-variant ml-1 font-medium">平均耗时</span>
                 </div>
               </div>
             </div>
@@ -65,7 +66,7 @@
           </div>
         </div>
 
-        <div class="col-span-4 bg-gradient-to-br from-primary to-primary-container rounded-xl p-6 text-white flex flex-col justify-between shadow-lg shadow-primary/20">
+        <div class="col-span-4 bg-gradient-to-br from-primary to-primary-container rounded-xl p-6 text-on-primary flex flex-col justify-between shadow-lg shadow-primary/20">
           <div>
             <p class="text-xs opacity-80 mb-1">系统公告</p>
             <h3 class="text-lg font-bold leading-tight">V2.4 版本审批流引擎已完成性能升级</h3>
@@ -78,10 +79,10 @@
       </div>
 
       <!-- 待审批 Table -->
-      <div class="bg-white rounded-xl overflow-hidden shadow-sm" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+      <div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm bento-shadow">
         <div class="p-5 flex items-center justify-between bg-surface-container-low/30">
           <div class="flex gap-3">
-            <div class="flex items-center bg-white rounded-lg px-3 py-1.5 border border-outline-variant/20">
+            <div class="flex items-center bg-surface-container-lowest rounded-lg px-3 py-1.5 border border-outline-variant/20">
               <span class="text-xs text-on-surface-variant mr-2">状态筛选:</span>
               <select v-model="filterStatus" class="text-xs font-bold border-none p-0 focus:outline-none bg-transparent">
                 <option value="">全部状态</option>
@@ -90,7 +91,7 @@
                 <option value="驳回">驳回</option>
               </select>
             </div>
-            <div class="flex items-center bg-white rounded-lg px-3 py-1.5 border border-outline-variant/20">
+            <div class="flex items-center bg-surface-container-lowest rounded-lg px-3 py-1.5 border border-outline-variant/20">
               <span class="text-xs text-on-surface-variant mr-2">申请时间:</span>
               <span class="text-xs font-bold">最近7天</span>
               <span class="material-symbols-outlined ml-2 text-outline" style="font-size: 14px">calendar_today</span>
@@ -149,7 +150,7 @@
             <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-low transition-colors">
               <span class="material-symbols-outlined" style="font-size: 16px">chevron_left</span>
             </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-white text-xs font-bold">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary text-xs font-bold">1</button>
             <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-low text-xs font-bold">2</button>
             <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-low text-xs font-bold">3</button>
             <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant/30 text-on-surface-variant hover:bg-surface-container-low transition-colors">
@@ -177,8 +178,8 @@
 
         <div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_8px_24px_rgba(0,87,194,0.04)] border border-outline-variant/5">
           <div class="flex justify-between items-start mb-4">
-            <div class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-              <span class="material-symbols-outlined text-emerald-600">check_circle</span>
+            <div class="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-success-container">check_circle</span>
             </div>
           </div>
           <p class="text-on-surface-variant text-sm">已通过申请</p>
@@ -228,7 +229,7 @@
             <input class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg py-2.5 px-4 text-sm focus:border-primary outline-none" type="date" />
           </div>
           <div class="flex items-end gap-3">
-            <button class="bg-primary text-white flex-1 py-2.5 rounded-lg font-bold hover:bg-primary-container transition-colors">查询</button>
+            <button class="bg-primary text-on-primary flex-1 py-2.5 rounded-lg font-bold hover:bg-primary-container transition-colors">查询</button>
             <button @click="applyKeyword = ''; applyStatus = ''" class="bg-surface-container-high text-on-surface-variant px-4 py-2.5 rounded-lg font-bold hover:bg-outline-variant/20 transition-colors">重置</button>
           </div>
         </div>
@@ -287,7 +288,7 @@
             <button class="w-9 h-9 flex items-center justify-center rounded-lg text-outline-variant hover:bg-surface-container-high transition-colors">
               <span class="material-symbols-outlined" style="font-size: 20px">chevron_left</span>
             </button>
-            <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+            <button class="w-9 h-9 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold">1</button>
             <button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface-variant">2</button>
             <button class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface-variant">3</button>
             <span class="px-2 text-outline-variant">...</span>
@@ -355,16 +356,16 @@ const filteredMineRows = computed(() =>
 )
 
 const statusClass = (status) => ({
-  '审批中': 'bg-blue-50 text-blue-700 border-blue-100',
-  '通过': 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  '驳回': 'bg-red-50 text-red-700 border-red-100',
-}[status] || 'bg-slate-50 text-slate-600 border-slate-200')
+  '审批中': 'bg-primary-fixed text-on-primary-fixed-variant border-primary/30',
+  '通过': 'bg-success-container text-on-success-container border-success/30',
+  '驳回': 'bg-danger-container text-on-danger-container border-danger/30',
+}[status] || 'bg-surface-container-low text-on-surface-variant border-outline-variant/30')
 
 const statusDotClass = (status) => ({
-  '审批中': 'bg-blue-600',
-  '通过': 'bg-emerald-600',
-  '驳回': 'bg-red-600',
-}[status] || 'bg-slate-400')
+  '审批中': 'bg-primary',
+  '通过': 'bg-success',
+  '驳回': 'bg-danger',
+}[status] || 'bg-outline-variant')
 
 // === Apply (我申请) data ===
 const applyData = ref([
@@ -385,14 +386,14 @@ const filteredApplyRows = computed(() =>
 )
 
 const applyStatusDot = (s) => ({
-  'pending': 'bg-amber-500 animate-pulse',
-  'approved': 'bg-emerald-500',
+  'pending': 'bg-warning animate-pulse',
+  'approved': 'bg-success',
   'rejected': 'bg-error',
-}[s] || 'bg-slate-400')
+}[s] || 'bg-outline-variant')
 
 const applyStatusText = (s) => ({
-  'pending': 'text-amber-700',
-  'approved': 'text-emerald-700',
+  'pending': 'text-on-warning-container',
+  'approved': 'text-on-success-container',
   'rejected': 'text-error',
 }[s] || 'text-on-surface')
 </script>

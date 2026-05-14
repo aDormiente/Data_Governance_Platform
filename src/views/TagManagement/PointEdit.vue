@@ -10,20 +10,20 @@
           <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
           <span class="text-primary font-medium">编辑点位</span>
         </nav>
-        <h2 class="text-2xl font-bold tracking-tight text-slate-900">编辑点位 - {{ form.name }}</h2>
+        <h2 class="text-2xl font-bold tracking-tight text-on-surface">编辑点位 - {{ form.name }}</h2>
         <p class="text-on-surface-variant mt-1 text-sm">编辑点位基本信息及调整关联标签</p>
       </div>
       <div class="flex gap-3">
         <button
           @click="cancel"
-          class="px-5 py-2 bg-white border border-outline-variant text-on-surface-variant rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-low transition-all"
+          class="px-5 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface-variant rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-low transition-all"
         >
           <span class="material-symbols-outlined" style="font-size: 16px">close</span>
           取消
         </button>
         <button
           @click="save"
-          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
         >
           <span class="material-symbols-outlined" style="font-size: 16px">check</span>
           确认保存
@@ -36,7 +36,7 @@
 
       <!-- LEFT COLUMN -->
       <div class="lg:col-span-8">
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
 
           <!-- Step Tab Navigation -->
           <div class="flex border-b border-surface-container-low bg-surface-container-low/30 px-6">
@@ -55,7 +55,7 @@
                 :class="[
                   'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black shrink-0',
                   activeTab === tab.key
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-on-primary'
                     : 'bg-surface-container-high text-on-surface-variant'
                 ]"
               >{{ tab.key }}</span>
@@ -71,12 +71,12 @@
               <div class="flex flex-col gap-1.5">
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
                   点位名称
-                  <span class="text-red-500 ml-0.5">*</span>
+                  <span class="text-danger ml-0.5">*</span>
                 </label>
                 <input
                   v-model="form.name"
                   type="text"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
                 />
               </div>
 
@@ -95,13 +95,13 @@
               <div class="flex flex-col gap-1.5">
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
                   经度
-                  <span class="text-red-500 ml-0.5">*</span>
+                  <span class="text-danger ml-0.5">*</span>
                 </label>
                 <input
                   v-model="form.lng"
                   type="text"
                   placeholder="例: 116.4074"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900 font-mono"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface font-mono"
                 />
               </div>
 
@@ -109,13 +109,13 @@
               <div class="flex flex-col gap-1.5">
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
                   纬度
-                  <span class="text-red-500 ml-0.5">*</span>
+                  <span class="text-danger ml-0.5">*</span>
                 </label>
                 <input
                   v-model="form.lat"
                   type="text"
                   placeholder="例: 39.9042"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900 font-mono"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface font-mono"
                 />
               </div>
 
@@ -123,12 +123,12 @@
               <div class="flex flex-col gap-1.5 col-span-2">
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
                   安装位置
-                  <span class="text-red-500 ml-0.5">*</span>
+                  <span class="text-danger ml-0.5">*</span>
                 </label>
                 <input
                   v-model="form.location"
                   type="text"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
                 />
               </div>
 
@@ -136,11 +136,11 @@
               <div class="flex flex-col gap-1.5">
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
                   设备状态
-                  <span class="text-red-500 ml-0.5">*</span>
+                  <span class="text-danger ml-0.5">*</span>
                 </label>
                 <select
                   v-model="form.status"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
                 >
                   <option value="在线">在线</option>
                   <option value="离线">离线</option>
@@ -154,7 +154,7 @@
                 <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">所属部门</label>
                 <select
                   v-model="form.department"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
                 >
                   <option value="城市管理指挥中心">城市管理指挥中心</option>
                   <option value="公安交管支队">公安交管支队</option>
@@ -170,7 +170,7 @@
                   v-model="form.desc"
                   rows="3"
                   placeholder="请输入点位描述（选填）..."
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-slate-900 resize-none leading-relaxed placeholder:text-on-surface-variant/50"
+                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface resize-none leading-relaxed placeholder:text-on-surface-variant/50"
                 ></textarea>
               </div>
 
@@ -184,24 +184,24 @@
             <div class="flex items-center justify-between mb-5">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-primary" style="font-size: 18px">label</span>
-                <span class="text-sm font-bold text-slate-900">当前已关联</span>
+                <span class="text-sm font-bold text-on-surface">当前已关联</span>
                 <span class="text-primary font-black text-base">{{ linkedTags.length }}</span>
-                <span class="text-sm font-bold text-slate-900">个标签</span>
+                <span class="text-sm font-bold text-on-surface">个标签</span>
               </div>
               <div class="flex gap-3">
                 <button
                   :class="[
                     'px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 border transition-colors',
                     selectedTagIds.length > 0
-                      ? 'border-red-200 text-red-600 bg-red-50 hover:bg-red-100'
-                      : 'border-outline-variant text-on-surface-variant bg-white hover:bg-surface-container-low'
+                      ? 'border-danger/30 text-danger bg-danger-container hover:bg-danger-container'
+                      : 'border-outline-variant text-on-surface-variant bg-surface-container-lowest hover:bg-surface-container-low'
                   ]"
                 >
                   <span class="material-symbols-outlined" style="font-size: 15px">remove_circle_outline</span>
                   批量移除
-                  <span v-if="selectedTagIds.length > 0" class="ml-1 text-xs bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center font-black">{{ selectedTagIds.length }}</span>
+                  <span v-if="selectedTagIds.length > 0" class="ml-1 text-xs bg-danger text-on-primary rounded-full w-4 h-4 flex items-center justify-center font-black">{{ selectedTagIds.length }}</span>
                 </button>
-                <button class="px-4 py-1.5 bg-primary text-white rounded-lg text-sm font-medium flex items-center gap-1.5 hover:opacity-90 transition-all">
+                <button class="px-4 py-1.5 bg-primary text-on-primary rounded-lg text-sm font-medium flex items-center gap-1.5 hover:opacity-90 transition-all">
                   <span class="material-symbols-outlined" style="font-size: 15px">add</span>
                   添加标签
                 </button>
@@ -247,7 +247,7 @@
                         <div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
                           <span class="material-symbols-outlined text-on-primary-fixed-variant" style="font-size: 15px">sell</span>
                         </div>
-                        <span class="text-sm font-semibold text-slate-900">{{ row.name }}</span>
+                        <span class="text-sm font-semibold text-on-surface">{{ row.name }}</span>
                       </div>
                     </td>
                     <td class="px-4 py-4">
@@ -255,7 +255,7 @@
                     </td>
                     <td class="px-4 py-4 text-sm text-on-surface-variant font-mono">{{ row.linkedAt }}</td>
                     <td class="px-4 py-4 text-right">
-                      <button class="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 text-xs font-medium flex items-center gap-1 ml-auto">
+                      <button class="opacity-0 group-hover:opacity-100 transition-opacity text-danger hover:text-on-danger-container text-xs font-medium flex items-center gap-1 ml-auto">
                         <span class="material-symbols-outlined" style="font-size: 14px">link_off</span>
                         移除
                       </button>
@@ -273,31 +273,31 @@
       <div class="lg:col-span-4 flex flex-col gap-5">
 
         <!-- Change Log Card -->
-        <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+        <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
 
           <div class="px-6 py-4 border-b border-surface-container-low flex items-center gap-2">
             <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black bg-surface-container-high text-on-surface-variant shrink-0">03</span>
-            <span class="text-sm font-bold text-slate-900">更改日志</span>
+            <span class="text-sm font-bold text-on-surface">更改日志</span>
           </div>
 
           <div class="p-5 flex flex-col gap-5">
 
             <div>
-              <div class="bg-amber-50 border-l-4 border-amber-400 rounded-r-lg px-4 py-3 mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-amber-600" style="font-size: 17px">warning_amber</span>
-                <span class="text-xs font-bold text-amber-700">当前未保存的变更</span>
+              <div class="bg-warning-container border-l-4 border-warning rounded-r-lg px-4 py-3 mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-on-warning-container" style="font-size: 17px">warning_amber</span>
+                <span class="text-xs font-bold text-on-warning-container">当前未保存的变更</span>
               </div>
 
               <div class="space-y-3">
                 <div class="flex flex-col gap-1.5 p-3 bg-surface-container-low/60 rounded-lg">
                   <div class="flex items-center justify-between">
                     <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">设备状态</span>
-                    <span class="text-[10px] font-bold text-amber-600 bg-amber-100 px-2 py-0.5 rounded">已修改</span>
+                    <span class="text-[10px] font-bold text-on-warning-container bg-warning-container px-2 py-0.5 rounded">已修改</span>
                   </div>
                   <div class="flex items-center gap-2 flex-wrap mt-0.5">
-                    <span class="text-sm text-on-surface-variant line-through decoration-red-400">在线</span>
+                    <span class="text-sm text-on-surface-variant line-through decoration-danger">在线</span>
                     <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 14px">arrow_forward</span>
-                    <span class="text-sm font-semibold text-emerald-700">{{ form.status }}</span>
+                    <span class="text-sm font-semibold text-on-success-container">{{ form.status }}</span>
                   </div>
                 </div>
               </div>
@@ -317,7 +317,7 @@
                       <span class="text-[10px] font-bold text-primary">昨天 16:20</span>
                       <span class="text-[10px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded font-medium">系统管理员</span>
                     </div>
-                    <p class="text-xs text-slate-900 font-medium">关联了 2 个新标签</p>
+                    <p class="text-xs text-on-surface font-medium">关联了 2 个新标签</p>
                   </div>
                 </div>
 
@@ -328,7 +328,7 @@
                       <span class="text-[10px] font-bold text-on-surface-variant">2023-05-14 10:22</span>
                       <span class="text-[10px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded font-medium">系统管理员</span>
                     </div>
-                    <p class="text-xs text-slate-900 font-medium">初始化点位</p>
+                    <p class="text-xs text-on-surface font-medium">初始化点位</p>
                   </div>
                 </div>
 
@@ -339,7 +339,7 @@
         </div>
 
         <!-- Compliance Note -->
-        <div class="bg-primary-fixed rounded-xl p-5 flex items-start gap-3" style="border: 1px solid #afc6ff30">
+        <div class="bg-primary-fixed rounded-xl p-5 flex items-start gap-3 border border-primary-fixed-dim/20">
           <div class="w-9 h-9 rounded-lg bg-on-primary-fixed-variant/10 flex items-center justify-center shrink-0 mt-0.5">
             <span class="material-symbols-outlined text-on-primary-fixed-variant" style="font-size: 20px">policy</span>
           </div>

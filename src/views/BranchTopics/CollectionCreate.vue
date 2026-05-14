@@ -185,7 +185,7 @@
     </form>
 
     <!-- Sticky Footer Action Bar -->
-    <div class="fixed bottom-0 right-0 left-64 h-20 bg-white border-t border-outline-variant/20 flex items-center justify-end px-12 space-x-4 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
+    <div class="fixed bottom-0 right-0 left-64 h-20 bg-surface-container-lowest border-t border-outline-variant/20 flex items-center justify-end px-12 space-x-4 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
       <button
         @click="cancel"
         class="px-8 py-2.5 rounded text-sm font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors"
@@ -194,7 +194,7 @@
       </button>
       <button
         @click="submit"
-        class="px-8 py-2.5 bg-primary text-white rounded text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center"
+        class="px-8 py-2.5 bg-primary text-on-primary rounded text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center"
       >
         <span class="material-symbols-outlined mr-2" style="font-size: 16px; font-variation-settings: 'FILL' 1;">check_circle</span>
         确认创建

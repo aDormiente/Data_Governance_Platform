@@ -6,12 +6,12 @@
         <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
         <span class="text-primary font-medium">新建标签</span>
       </nav>
-      <h2 class="text-2xl font-bold tracking-tight text-slate-900">新建标签</h2>
+      <h2 class="text-2xl font-bold tracking-tight text-on-surface">新建标签</h2>
       <p class="text-on-surface-variant mt-1 text-sm">通过定义基本属性与物理映射规则来创建新的治理标签</p>
 
       <div class="mt-8 grid grid-cols-12 gap-6">
         <div class="col-span-12 lg:col-span-5 flex flex-col gap-6">
-          <div class="bg-white rounded-xl shadow-sm p-6" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+          <div class="bg-surface-container-lowest rounded-xl shadow-sm p-6 bento-shadow">
             <div class="flex items-center gap-2 mb-6">
               <span class="w-1 h-5 bg-primary rounded-full"></span>
               <span class="text-xs font-black tracking-widest text-primary uppercase">01 基本信息</span>
@@ -26,7 +26,7 @@
                   v-model="form.name"
                   type="text"
                   placeholder="输入标签名称 (如: 常住人口)"
-                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all"
+                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all"
                 />
               </div>
 
@@ -38,7 +38,7 @@
                   v-model="form.enId"
                   type="text"
                   placeholder="如: LABEL_RESIDENT_POP"
-                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-on-surface-variant/50 font-mono tracking-wide focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all"
+                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder-on-surface-variant/50 font-mono tracking-wide focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all"
                   style="font-family: 'JetBrains Mono', 'Fira Mono', 'Courier New', monospace"
                 />
               </div>
@@ -48,7 +48,7 @@
                 <div class="relative">
                   <select
                     v-model="form.category"
-                    class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 pr-10 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all appearance-none"
+                    class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 pr-10 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all appearance-none"
                   >
                     <option value="" disabled>请选择分类</option>
                     <option v-for="cat in categories" :key="cat" :value="cat">{{ cat }}</option>
@@ -67,7 +67,7 @@
                     :class="[
                       'flex-1 py-2 rounded-lg text-sm font-medium border transition-all',
                       updateCycle === cycle
-                        ? 'bg-primary text-white border-primary shadow-sm shadow-primary/20'
+                        ? 'bg-primary text-on-primary border-primary shadow-sm shadow-primary/20'
                         : 'bg-surface-container-low text-on-surface-variant border-outline-variant/30 hover:border-primary/30 hover:text-primary'
                     ]"
                   >{{ cycle }}</button>
@@ -80,7 +80,7 @@
                   v-model="form.desc"
                   rows="4"
                   placeholder="描述该标签的业务含义及应用场景..."
-                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-slate-900 placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all resize-none"
+                  class="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-2.5 text-sm text-on-surface placeholder-on-surface-variant/50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/40 transition-all resize-none"
                 ></textarea>
               </div>
             </div>
@@ -101,7 +101,7 @@
             </div>
           </div>
 
-          <div class="bg-white rounded-xl shadow-sm p-6" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+          <div class="bg-surface-container-lowest rounded-xl shadow-sm p-6 bento-shadow">
             <div class="flex items-center gap-2 mb-5">
               <span class="w-1 h-5 bg-tertiary rounded-full"></span>
               <span class="text-xs font-black tracking-widest text-on-surface-variant uppercase">治理规则设置 (可选)</span>
@@ -112,7 +112,7 @@
                 <div class="w-8 h-8 rounded-lg bg-secondary-container flex items-center justify-center mb-3">
                   <span class="material-symbols-outlined text-on-secondary-container" style="font-size: 18px">security</span>
                 </div>
-                <p class="text-sm font-bold text-slate-900 mb-1.5">数据脱敏规则</p>
+                <p class="text-sm font-bold text-on-surface mb-1.5">数据脱敏规则</p>
                 <p class="text-[11px] text-on-surface-variant leading-relaxed mb-4">自动对身份证、手机号等敏感信息进行掩码处理</p>
                 <button class="w-full py-1.5 text-xs font-medium text-primary border border-primary/30 rounded-lg hover:bg-primary/5 transition-colors">配置规则</button>
               </div>
@@ -121,7 +121,7 @@
                 <div class="w-8 h-8 rounded-lg bg-tertiary-fixed flex items-center justify-center mb-3">
                   <span class="material-symbols-outlined text-on-tertiary-fixed-variant" style="font-size: 18px">monitor_heart</span>
                 </div>
-                <p class="text-sm font-bold text-slate-900 mb-1.5">异常数据监控</p>
+                <p class="text-sm font-bold text-on-surface mb-1.5">异常数据监控</p>
                 <p class="text-[11px] text-on-surface-variant leading-relaxed mb-4">当点位字段波动率超过 15% 时触发治理告警</p>
                 <div class="flex items-center gap-2">
                   <button
@@ -133,7 +133,7 @@
                   >
                     <span
                       :class="[
-                        'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                        'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-surface-container-lowest shadow ring-0 transition duration-200 ease-in-out',
                         monitorEnabled ? 'translate-x-4' : 'translate-x-0'
                       ]"
                     ></span>
@@ -150,7 +150,7 @@
                     <span class="material-symbols-outlined text-on-secondary-container" style="font-size: 18px">security</span>
                   </div>
                   <div>
-                    <p class="text-sm font-bold text-slate-900">字段脱敏开关</p>
+                    <p class="text-sm font-bold text-on-surface">字段脱敏开关</p>
                     <p class="text-[11px] text-on-surface-variant">对导出数据中的敏感字段自动执行脱敏</p>
                   </div>
                 </div>
@@ -163,7 +163,7 @@
                 >
                   <span
                     :class="[
-                      'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                      'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-surface-container-lowest shadow ring-0 transition duration-200 ease-in-out',
                       maskEnabled ? 'translate-x-4' : 'translate-x-0'
                     ]"
                   ></span>
@@ -174,13 +174,13 @@
         </div>
 
         <div class="col-span-12 lg:col-span-7">
-          <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+          <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
             <div class="px-6 py-5 border-b border-surface-container-low bg-surface-container-low/20 flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <h3 class="font-bold text-slate-900">下属点位管理</h3>
+                <h3 class="font-bold text-on-surface">下属点位管理</h3>
                 <span class="bg-primary/10 text-primary text-xs font-bold px-2.5 py-1 rounded-full">{{ pointData.length }}个点位</span>
               </div>
-              <button class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-medium text-xs flex items-center gap-1.5 shadow shadow-primary/20 hover:opacity-90 transition-all">
+              <button class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-medium text-xs flex items-center gap-1.5 shadow shadow-primary/20 hover:opacity-90 transition-all">
                 <span class="material-symbols-outlined" style="font-size: 14px">add</span>
                 添加关联点位
               </button>
@@ -216,7 +216,7 @@
                         <div class="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center flex-shrink-0">
                           <span class="material-symbols-outlined text-primary" style="font-size: 13px; font-variation-settings: 'FILL' 1">location_on</span>
                         </div>
-                        <span class="text-sm font-semibold text-slate-900 whitespace-nowrap">{{ point.name }}</span>
+                        <span class="text-sm font-semibold text-on-surface whitespace-nowrap">{{ point.name }}</span>
                       </div>
                     </td>
                     <td class="px-5 py-4">
@@ -227,8 +227,8 @@
                         :class="[
                           'inline-flex items-center px-2 py-0.5 rounded text-xs font-medium whitespace-nowrap',
                           point.mapType === '直接映射'
-                            ? 'bg-blue-100 text-blue-700'
-                            : 'bg-amber-100 text-amber-700'
+                            ? 'bg-primary-fixed text-on-primary-fixed-variant'
+                            : 'bg-warning-container text-on-warning-container'
                         ]"
                       >{{ point.mapType }}</span>
                     </td>
@@ -240,14 +240,14 @@
                         :class="[
                           'inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-bold whitespace-nowrap',
                           point.status === '已校验'
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : 'bg-amber-100 text-amber-700'
+                            ? 'bg-success-container text-on-success-container'
+                            : 'bg-warning-container text-on-warning-container'
                         ]"
                       >
                         <span
                           :class="[
                             'w-1.5 h-1.5 rounded-full',
-                            point.status === '已校验' ? 'bg-emerald-500' : 'bg-amber-500'
+                            point.status === '已校验' ? 'bg-success' : 'bg-warning'
                           ]"
                         ></span>
                         {{ point.status }}
@@ -270,7 +270,7 @@
             </div>
           </div>
 
-          <div class="mt-6 bg-white rounded-xl shadow-sm p-6" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+          <div class="mt-6 bg-surface-container-lowest rounded-xl shadow-sm p-6 bento-shadow">
             <div class="flex items-center gap-2 mb-4">
               <span class="w-1 h-5 bg-primary rounded-full"></span>
               <span class="text-xs font-black tracking-widest text-on-surface-variant uppercase">数据质量预览</span>
@@ -281,11 +281,11 @@
                 <p class="text-[11px] text-on-surface-variant mt-1">已配置点位</p>
               </div>
               <div class="bg-surface-container-low rounded-xl p-4 text-center">
-                <p class="text-2xl font-black text-emerald-600">{{ pointData.filter(p => p.status === '已校验').length }}</p>
+                <p class="text-2xl font-black text-on-success-container">{{ pointData.filter(p => p.status === '已校验').length }}</p>
                 <p class="text-[11px] text-on-surface-variant mt-1">已校验点位</p>
               </div>
               <div class="bg-surface-container-low rounded-xl p-4 text-center">
-                <p class="text-2xl font-black text-amber-600">{{ pointData.filter(p => p.status === '待校验').length }}</p>
+                <p class="text-2xl font-black text-on-warning-container">{{ pointData.filter(p => p.status === '待校验').length }}</p>
                 <p class="text-[11px] text-on-surface-variant mt-1">待校验点位</p>
               </div>
             </div>
@@ -301,14 +301,14 @@
       <div class="flex items-center gap-3">
         <button
           @click="router.push('/tag-management')"
-          class="px-5 py-2 border border-outline-variant/40 text-on-surface-variant rounded-lg text-sm font-medium hover:bg-white hover:border-outline-variant/60 transition-all"
+          class="px-5 py-2 border border-outline-variant/40 text-on-surface-variant rounded-lg text-sm font-medium hover:bg-surface-container-lowest hover:border-outline-variant/60 transition-all"
         >取消</button>
         <button
           :disabled="!form.name || !form.enId"
           :class="[
             'px-6 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2',
             form.name && form.enId
-              ? 'bg-gradient-to-br from-primary to-primary-container text-white shadow-lg shadow-primary/25 hover:opacity-90'
+              ? 'bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-lg shadow-primary/25 hover:opacity-90'
               : 'bg-surface-container-high text-on-surface-variant/40 cursor-not-allowed'
           ]"
         >

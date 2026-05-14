@@ -21,7 +21,7 @@
         </button>
         <button
           @click="router.push(`/tag-management/point/edit/${route.params.id || 1}`)"
-          class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+          class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
         >
           <span class="material-symbols-outlined" style="font-size: 16px">edit</span>
           编辑点位信息
@@ -76,7 +76,7 @@
           <div class="mt-4 h-24 w-full rounded-xl overflow-hidden border border-outline-variant/20 relative group bg-surface-container-low flex items-center justify-center">
             <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 group-hover:opacity-0 transition-opacity"></div>
             <span class="material-symbols-outlined text-primary/30" style="font-size: 56px">map</span>
-            <span class="absolute bottom-2 right-2 bg-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">View Map</span>
+            <span class="absolute bottom-2 right-2 bg-surface-container-lowest px-2 py-1 rounded text-[10px] font-bold shadow-sm">View Map</span>
           </div>
         </div>
       </div>
@@ -134,7 +134,7 @@
         <div class="relative pl-6 border-l border-outline-variant/30 space-y-8">
           <div v-for="log in workLogs" :key="log.id" class="relative">
             <div
-              class="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full border-2 bg-white"
+              class="absolute -left-[31px] top-1 w-2.5 h-2.5 rounded-full border-2 bg-surface-container-lowest"
               :class="log.dotClass"
             ></div>
             <div class="text-xs font-bold text-on-surface mb-1">{{ log.action }}</div>

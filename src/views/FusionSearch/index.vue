@@ -3,10 +3,10 @@
     <!-- 01 Search Center -->
     <section>
       <div class="flex items-center gap-3 mb-6">
-        <span class="bg-primary text-white text-xs font-black px-2 py-1 rounded">01</span>
-        <h2 class="text-xl font-bold tracking-tight text-on-surface">搜索中心 / SEARCH CENTER</h2>
+        <span class="font-display font-num text-2xl italic font-extrabold text-primary/40 tracking-tighter">01</span>
+        <h2 class="font-display text-xl font-extrabold tracking-tight text-on-surface">搜索中心<span class="ml-2 font-num text-[11px] font-bold text-outline uppercase tracking-[0.18em]">SEARCH&nbsp;CENTER</span></h2>
       </div>
-      <div class="bg-white p-6 rounded shadow-sm flex flex-col md:flex-row gap-4 items-stretch border-l-4 border-primary">
+      <div class="bg-surface-container-lowest p-6 rounded shadow-sm flex flex-col md:flex-row gap-4 items-stretch border-l-4 border-primary">
         <div class="relative flex-1 flex items-center bg-surface-container-low rounded border border-transparent focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all">
           <!-- Type Filter Dropdown -->
           <div class="flex items-center px-4 border-r border-outline-variant/30 h-full">
@@ -31,7 +31,7 @@
         </div>
         <button
           @click="handleSearch"
-          class="bg-primary text-white px-10 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-md active:scale-[0.98]"
+          class="bg-primary text-on-primary px-10 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-md active:scale-[0.98]"
         >
           搜索
         </button>
@@ -40,7 +40,7 @@
             @click="viewMode = 'list'"
             :class="[
               'px-4 py-3 rounded flex items-center gap-2 text-sm transition-colors',
-              viewMode === 'list' ? 'bg-white shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
+              viewMode === 'list' ? 'bg-surface-container-lowest shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
             ]"
           >
             <span class="material-symbols-outlined">list</span>
@@ -50,7 +50,7 @@
             @click="viewMode = 'map'"
             :class="[
               'px-4 py-3 rounded flex items-center gap-2 text-sm transition-colors',
-              viewMode === 'map' ? 'bg-white shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
+              viewMode === 'map' ? 'bg-surface-container-lowest shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
             ]"
           >
             <span class="material-symbols-outlined">map</span>
@@ -63,8 +63,8 @@
     <!-- 02 Search Results -->
     <section>
       <div class="flex items-center gap-3 mb-6">
-        <span class="bg-primary text-white text-xs font-black px-2 py-1 rounded">02</span>
-        <h2 class="text-xl font-bold tracking-tight text-on-surface">搜索结果 / SEARCH RESULTS</h2>
+        <span class="font-display font-num text-2xl italic font-extrabold text-primary/40 tracking-tighter">02</span>
+        <h2 class="font-display text-xl font-extrabold tracking-tight text-on-surface">搜索结果<span class="ml-2 font-num text-[11px] font-bold text-outline uppercase tracking-[0.18em]">SEARCH&nbsp;RESULTS</span></h2>
       </div>
 
       <!-- Matched Tags -->
@@ -77,7 +77,7 @@
           <div
             v-for="(t, i) in matchedTags"
             :key="t"
-            class="bg-white px-4 py-2 rounded-full border border-outline-variant/30 flex items-center gap-3 shadow-sm"
+            class="bg-surface-container-lowest px-4 py-2 rounded-full border border-outline-variant/30 flex items-center gap-3 shadow-sm"
           >
             <span class="text-sm font-bold text-on-surface">{{ t }}</span>
             <button @click="matchedTags.splice(i, 1)" class="material-symbols-outlined text-outline cursor-pointer hover:text-error" style="font-size: 16px">close</button>
@@ -87,7 +87,7 @@
       </div>
 
       <!-- Data Points List -->
-      <div class="bg-white rounded overflow-hidden shadow-sm border-l-4 border-primary">
+      <div class="bg-surface-container-lowest rounded overflow-hidden shadow-sm border-l-4 border-primary">
         <table class="w-full text-left border-collapse">
           <thead class="bg-surface-container-low">
             <tr>
@@ -148,13 +148,13 @@
         <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-t border-outline-variant/10">
           <span class="text-sm text-on-surface-variant font-medium">显示 1 到 {{ resultCards.length }} 共 24 条结果</span>
           <div class="flex items-center gap-2">
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-white disabled:opacity-50" disabled>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-surface-container-lowest disabled:opacity-50" disabled>
               <span class="material-symbols-outlined" style="font-size: 18px">chevron_left</span>
             </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold shadow-sm">1</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-white hover:border-primary hover:text-primary transition-all">2</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-white hover:border-primary hover:text-primary transition-all">3</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface hover:bg-white hover:border-primary hover:text-primary transition-all">
+            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold shadow-sm">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">2</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">3</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">
               <span class="material-symbols-outlined" style="font-size: 18px">chevron_right</span>
             </button>
           </div>
@@ -195,8 +195,8 @@ const resultCards = ref([
     org: '北京市大数据管理局',
     location: '北京市朝阳区建国门外大街',
     statusLabel: '正常运行',
-    statusClass: 'bg-emerald-50 text-emerald-700',
-    statusDotClass: 'bg-emerald-500',
+    statusClass: 'bg-success-container text-on-success-container',
+    statusDotClass: 'bg-success',
     updated: '2023-10-24 14:32',
   },
   {
@@ -207,8 +207,8 @@ const resultCards = ref([
     org: '中关村管委会',
     location: '北京市海淀区中关村南大街',
     statusLabel: '维护中',
-    statusClass: 'bg-amber-50 text-amber-700',
-    statusDotClass: 'bg-amber-500',
+    statusClass: 'bg-warning-container text-on-warning-container',
+    statusDotClass: 'bg-warning',
     updated: '2023-10-24 12:15',
   },
   {
@@ -219,8 +219,8 @@ const resultCards = ref([
     org: '通州区政府',
     location: '北京市通州区运河东大街',
     statusLabel: '已发布',
-    statusClass: 'bg-emerald-50 text-emerald-700',
-    statusDotClass: 'bg-emerald-500',
+    statusClass: 'bg-success-container text-on-success-container',
+    statusDotClass: 'bg-success',
     updated: '2023-10-24 09:00',
   },
   {
@@ -231,8 +231,8 @@ const resultCards = ref([
     org: '东城区规划局',
     location: '北京市东城区东华门街道',
     statusLabel: '高风险警报',
-    statusClass: 'bg-red-50 text-red-700',
-    statusDotClass: 'bg-red-500',
+    statusClass: 'bg-danger-container text-on-danger-container',
+    statusDotClass: 'bg-danger',
     updated: '2023-10-24 15:45',
   },
 ])

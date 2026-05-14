@@ -1,22 +1,25 @@
 <template>
   <div>
     <!-- Page Header -->
-    <div class="mb-8 flex justify-between items-end">
+    <div class="mb-8 flex justify-between items-end gap-6 flex-wrap">
       <div>
-        <nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
-          <span>数据中心</span>
+        <nav class="flex items-center gap-1.5 text-[11px] font-num text-outline uppercase tracking-[0.18em] mb-3">
+          <span>DATA</span>
           <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span class="text-primary font-medium">分支主题</span>
+          <span class="text-primary">BRANCH&nbsp;TOPICS</span>
         </nav>
-        <h2 class="text-2xl font-bold tracking-tight text-on-surface">分支主题中心</h2>
-        <p class="text-on-surface-variant mt-1 text-sm">围绕主题构建标签集合，并面向政务内网与跨部门提供数据共享与API接口</p>
+        <h2 class="font-display text-[28px] font-extrabold tracking-tight text-on-surface leading-none">分支主题中心</h2>
+        <p class="text-on-surface-variant mt-2 text-sm">围绕主题构建标签集合，面向政务内网与跨部门提供数据共享与 API 接口。</p>
       </div>
       <div class="flex gap-3">
-        <button class="px-4 py-2 bg-surface-container-high text-primary rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-highest transition-all">
+        <button class="px-4 py-2 bg-surface-container-high/70 text-on-surface rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-highest border border-outline-variant/30 transition-all">
           <span class="material-symbols-outlined" style="font-size: 16px">monitoring</span>
           运行日志
         </button>
-        <button class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all">
+        <button
+          @click="router.push('/branch-topics/collection/create')"
+          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-px transition-all"
+        >
           <span class="material-symbols-outlined" style="font-size: 16px">add</span>
           新建共享
         </button>
@@ -24,68 +27,72 @@
     </div>
 
     <!-- Bento Action Cards -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
       <!-- New Tag Card -->
       <div
         @click="router.push('/tag-management/create')"
-        class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-8 border-l-4 border-primary transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/5 cursor-pointer"
+        class="group relative overflow-hidden bento-card p-7 cursor-pointer transition-all hover:-translate-y-1 border-l-[3px] border-primary"
       >
-        <div class="flex justify-between items-start mb-6">
-          <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary transition-transform group-hover:scale-110">
-            <span class="material-symbols-outlined" style="font-size: 30px">add_circle</span>
+        <div class="flex justify-between items-start mb-5">
+          <div class="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center text-on-primary-fixed-variant transition-transform group-hover:scale-110 group-hover:rotate-3">
+            <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">add_circle</span>
           </div>
-          <span class="text-[10px] font-bold text-primary px-2 py-1 bg-primary/5 rounded">快捷入口</span>
+          <span class="font-num text-[10px] font-bold text-on-primary-fixed-variant px-2 py-1 bg-primary-fixed/70 rounded uppercase tracking-wider">01 · 快捷入口</span>
         </div>
-        <h3 class="text-xl font-bold mb-2 text-on-surface">新建标签</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">基于全域数据源，快速定义语义化标签，支持多维属性配置与血缘追踪。</p>
-        <button class="flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-4 transition-all">
+        <h3 class="font-display text-[19px] font-extrabold mb-2 text-on-surface tracking-tight">新建标签</h3>
+        <p class="text-on-surface-variant text-[13px] leading-relaxed mb-5">基于全域数据源，快速定义语义化标签，支持多维属性配置与血缘追踪。</p>
+        <button class="flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-3 transition-all">
           立即开启
           <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
         </button>
-        <div class="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
-          <span class="material-symbols-outlined text-on-surface" style="font-size: 144px">label</span>
-        </div>
+        <span class="absolute -right-8 -bottom-8 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity pointer-events-none">
+          <span class="material-symbols-outlined text-primary" style="font-size: 144px">label</span>
+        </span>
       </div>
 
-      <!-- New Tag Set Card (TODO: 等 CollectionCreate.vue 就绪后绑定) -->
+      <!-- New Tag Set Card -->
       <div
         @click="router.push('/branch-topics/collection/create')"
-        class="group relative overflow-hidden bg-surface-container-lowest rounded-xl p-8 border-l-4 border-tertiary transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-tertiary/5 cursor-pointer"
+        class="group relative overflow-hidden bento-card p-7 cursor-pointer transition-all hover:-translate-y-1 border-l-[3px] border-tertiary"
       >
-        <div class="flex justify-between items-start mb-6">
-          <div class="w-14 h-14 bg-tertiary/10 rounded-2xl flex items-center justify-center text-tertiary transition-transform group-hover:scale-110">
-            <span class="material-symbols-outlined" style="font-size: 30px">category</span>
+        <div class="flex justify-between items-start mb-5">
+          <div class="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center text-on-tertiary-fixed-variant transition-transform group-hover:scale-110 group-hover:rotate-3">
+            <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">category</span>
           </div>
-          <span class="text-[10px] font-bold text-tertiary px-2 py-1 bg-tertiary/5 rounded">聚合分析</span>
+          <span class="font-num text-[10px] font-bold text-on-tertiary-fixed-variant px-2 py-1 bg-tertiary-fixed/70 rounded uppercase tracking-wider">02 · 聚合分析</span>
         </div>
-        <h3 class="text-xl font-bold mb-2 text-on-surface">新建标签集合</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed mb-6">将关联业务标签进行逻辑分组，构建领域模型，提升跨部门数据共享效率。</p>
-        <button class="flex items-center gap-2 text-tertiary font-bold text-sm group-hover:gap-4 transition-all">
+        <h3 class="font-display text-[19px] font-extrabold mb-2 text-on-surface tracking-tight">新建标签集合</h3>
+        <p class="text-on-surface-variant text-[13px] leading-relaxed mb-5">将关联业务标签进行逻辑分组，构建领域模型，提升跨部门数据共享效率。</p>
+        <button class="flex items-center gap-2 text-tertiary font-bold text-sm group-hover:gap-3 transition-all">
           创建集合
           <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
         </button>
-        <div class="absolute -right-8 -bottom-8 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity pointer-events-none">
-          <span class="material-symbols-outlined text-on-surface" style="font-size: 144px">collections_bookmark</span>
-        </div>
+        <span class="absolute -right-8 -bottom-8 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity pointer-events-none">
+          <span class="material-symbols-outlined text-tertiary" style="font-size: 144px">collections_bookmark</span>
+        </span>
       </div>
 
-      <!-- API Sharing Center Card -->
-      <div class="group relative overflow-hidden bg-gradient-to-br from-primary to-primary-container text-white rounded-xl p-8 shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 cursor-pointer">
-        <div class="flex justify-between items-start mb-6">
-          <div class="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center text-white backdrop-blur-md">
-            <span class="material-symbols-outlined" style="font-size: 30px; font-variation-settings: 'FILL' 1;">hub</span>
+      <!-- API Sharing Center Card (hero) -->
+      <div class="group relative overflow-hidden rounded-[14px] p-7 cursor-pointer transition-all hover:-translate-y-1 bg-gradient-to-br from-primary via-primary to-primary-container text-on-primary shadow-xl shadow-primary/30">
+        <span class="absolute top-0 right-0 w-40 h-40 -mr-12 -mt-12 rounded-full bg-on-primary/10 blur-2xl pointer-events-none"></span>
+        <span class="absolute bottom-0 left-0 w-32 h-32 -ml-8 -mb-8 rounded-full bg-on-primary/5 blur-2xl pointer-events-none"></span>
+        <div class="relative">
+          <div class="flex justify-between items-start mb-5">
+            <div class="w-12 h-12 bg-on-primary/15 backdrop-blur-sm rounded-xl flex items-center justify-center text-on-primary border border-on-primary/20 transition-transform group-hover:scale-110 group-hover:-rotate-3">
+              <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">hub</span>
+            </div>
+            <span class="font-num text-[10px] font-bold text-on-primary/90 px-2 py-1 bg-on-primary/15 backdrop-blur-sm rounded uppercase tracking-wider border border-on-primary/20">03 · 核心服务</span>
           </div>
-          <span class="text-[10px] font-bold text-white/80 px-2 py-1 bg-white/10 rounded">核心服务</span>
+          <h3 class="font-display text-[19px] font-extrabold mb-2 tracking-tight">API 共享中心</h3>
+          <p class="text-on-primary/85 text-[13px] leading-relaxed mb-5">标准化数据接口交付，实时监控调用链路，确保政务数据流通的安全合规。</p>
+          <button class="flex items-center gap-2 text-on-primary font-bold text-sm group-hover:gap-3 transition-all">
+            访问中心
+            <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
+          </button>
         </div>
-        <h3 class="text-xl font-bold mb-2">API共享中心</h3>
-        <p class="text-white/80 text-sm leading-relaxed mb-6">标准化数据接口交付，实时监控调用链路，确保政务数据流通的安全合规。</p>
-        <button class="flex items-center gap-2 text-white font-bold text-sm group-hover:gap-4 transition-all">
-          访问中心
-          <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
-        </button>
-        <div class="absolute -right-4 -bottom-4 opacity-10 pointer-events-none">
+        <span class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
           <span class="material-symbols-outlined" style="font-size: 160px">api</span>
-        </div>
+        </span>
       </div>
     </section>
 
@@ -98,7 +105,7 @@
         </div>
         <div class="flex gap-2">
           <button class="px-4 py-1.5 text-xs font-bold bg-secondary-container text-on-secondary-container rounded hover:bg-surface-container-high transition-colors">导出报表</button>
-          <button class="px-4 py-1.5 text-xs font-bold bg-primary text-white rounded hover:opacity-90 transition-opacity">批量授权</button>
+          <button class="px-4 py-1.5 text-xs font-bold bg-primary text-on-primary rounded hover:opacity-90 transition-opacity">批量授权</button>
         </div>
       </div>
       <div class="overflow-x-auto">
@@ -144,7 +151,7 @@
         <p class="text-xs text-on-surface-variant">显示 1 到 {{ filteredApis.length }} 共 24 条数据</p>
         <div class="flex items-center gap-1">
           <button class="p-1 rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined" style="font-size: 16px">chevron_left</span></button>
-          <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">1</button>
+          <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
           <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs transition-colors">2</button>
           <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs transition-colors">3</button>
           <button class="p-1 rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span></button>
@@ -158,7 +165,7 @@
         <div class="relative z-10">
           <h3 class="text-lg font-bold mb-4 text-on-surface">共享安全看板</h3>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="kpi in kpiCards" :key="kpi.label" class="bg-white/60 backdrop-blur p-4 rounded-lg">
+            <div v-for="kpi in kpiCards" :key="kpi.label" class="bg-surface-container-lowest/60 backdrop-blur p-4 rounded-lg">
               <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{{ kpi.label }}</p>
               <p class="text-2xl font-black" :class="kpi.valueClass">{{ kpi.value }}</p>
             </div>
@@ -168,7 +175,7 @@
           <span class="material-symbols-outlined text-primary" style="font-size: 220px">security</span>
         </div>
       </div>
-      <div class="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-center border border-white/40">
+      <div class="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-center border border-on-primary/40">
         <h4 class="text-sm font-bold mb-2 text-on-surface">帮助中心</h4>
         <p class="text-xs text-on-surface-variant leading-relaxed mb-4">遇到API调用异常或权限申请问题？查看最新的开发者指南或联系技术支持。</p>
         <div class="space-y-2">
@@ -212,22 +219,22 @@ const filteredApis = computed(() =>
 )
 
 const apiStatusClass = (status) => ({
-  '运行中': 'bg-green-50 text-green-700',
+  '运行中': 'bg-success-container text-on-success-container',
   '维护中': 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
-  '已禁用': 'bg-slate-100 text-slate-500',
-}[status] || 'bg-slate-100 text-slate-500')
+  '已禁用': 'bg-surface-container text-on-surface-variant',
+}[status] || 'bg-surface-container text-on-surface-variant')
 
 const apiStatusDotClass = (status) => ({
-  '运行中': 'bg-green-500',
+  '运行中': 'bg-success',
   '维护中': 'bg-tertiary',
-  '已禁用': 'bg-slate-400',
-}[status] || 'bg-slate-400')
+  '已禁用': 'bg-outline-variant',
+}[status] || 'bg-outline-variant')
 
 const kpiCards = [
   { label: '接口告警', value: '0', valueClass: 'text-error' },
   { label: '平均耗时', value: '12ms', valueClass: 'text-primary' },
   { label: '今日流量', value: '1.2GB', valueClass: 'text-on-surface' },
-  { label: '成功率', value: '99.9%', valueClass: 'text-green-600' },
+  { label: '成功率', value: '99.9%', valueClass: 'text-on-success-container' },
 ]
 
 const helpItems = [

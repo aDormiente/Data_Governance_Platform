@@ -16,7 +16,7 @@
           <button class="px-4 py-2 bg-surface-container-high text-primary rounded-lg text-sm font-medium hover:bg-surface-container transition-all active:opacity-80">导出数据</button>
           <button
             @click="router.push(`/tag-management/edit/${route.params.id || 1}`)"
-            class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition-all active:opacity-80 flex items-center gap-2"
+            class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition-all active:opacity-80 flex items-center gap-2"
           >
             <span class="material-symbols-outlined" style="font-size: 16px">edit</span>
             编辑标签
@@ -48,7 +48,7 @@
           <div class="space-y-1">
             <label class="text-xs text-on-surface-variant font-medium uppercase tracking-wider">创建人</label>
             <div class="flex items-center gap-2">
-              <div class="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[10px] text-blue-600 font-bold">管</div>
+              <div class="w-5 h-5 rounded-full bg-primary-fixed flex items-center justify-center text-[10px] text-primary font-bold">管</div>
               <p class="text-on-surface">系统管理员</p>
             </div>
           </div>
@@ -122,7 +122,7 @@
 
       <!-- 03 更改日志 (4 cols) -->
       <section class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
-        <div class="px-6 py-4 border-b border-surface-container-low bg-white flex items-center justify-between">
+        <div class="px-6 py-4 border-b border-surface-container-low bg-surface-container-lowest flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-primary" style="font-size: 20px">history</span>
             <h3 class="font-bold text-on-surface">03 更改日志</h3>
@@ -136,7 +136,7 @@
               class="relative pl-8 group"
             >
               <div
-                class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-white shadow-sm"
+                class="absolute left-0 top-1 w-4 h-4 rounded-full border-4 border-on-primary shadow-sm"
                 :class="log.dotBg"
                 :style="log.id === 1 ? 'box-shadow: 0 0 0 2px rgb(217 226 255)' : ''"
               ></div>
@@ -158,9 +158,9 @@
       </section>
 
       <!-- Data Insights (Full Width Bottom) -->
-      <section class="col-span-12 bg-white rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-8 border-t border-surface-container-low">
+      <section class="col-span-12 bg-surface-container-lowest rounded-xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-8 border-t border-surface-container-low">
         <div class="w-full md:w-1/3 flex flex-col justify-center items-center text-center p-6 bg-surface-container-low rounded-xl">
-          <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-white shadow-lg mb-4">
+          <div class="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center text-on-primary shadow-lg mb-4">
             <span class="material-symbols-outlined" style="font-size: 32px">monitoring</span>
           </div>
           <h4 class="font-bold text-on-surface">标签活跃度</h4>
@@ -198,15 +198,15 @@ const route = useRoute()
 const router = useRouter()
 
 const pointData = ref([
-  { id: 'P-100249', pid: '100249', name: '政务大厅 A1 采集终端', location: '高新区创业大道 188号', status: '正常运行', statusBg: 'bg-emerald-50 text-emerald-600', dotColor: 'bg-emerald-500', updated: '2023-10-25 09:12' },
-  { id: 'P-100255', pid: '100255', name: '智慧社区数据中继点', location: '西湖区曙光路 12号', status: '正常运行', statusBg: 'bg-emerald-50 text-emerald-600', dotColor: 'bg-emerald-500', updated: '2023-10-25 09:10' },
+  { id: 'P-100249', pid: '100249', name: '政务大厅 A1 采集终端', location: '高新区创业大道 188号', status: '正常运行', statusBg: 'bg-success-container text-on-success-container', dotColor: 'bg-success', updated: '2023-10-25 09:12' },
+  { id: 'P-100255', pid: '100255', name: '智慧社区数据中继点', location: '西湖区曙光路 12号', status: '正常运行', statusBg: 'bg-success-container text-on-success-container', dotColor: 'bg-success', updated: '2023-10-25 09:10' },
   { id: 'P-100281', pid: '100281', name: '金融服务中心传感器', location: '滨江区江南大道 300号', status: '维护中', statusBg: 'bg-tertiary-fixed text-on-tertiary-fixed-variant', dotColor: 'bg-tertiary', updated: '2023-10-24 18:45' },
 ])
 
 const logData = ref([
   { id: 1, time: '10 分钟前', tag: '修改', action: '更新了创建理由中的业务逻辑描述', operator: '李瑞康 (安全员)', dotBg: 'bg-primary', tagClass: 'text-primary bg-primary-fixed' },
-  { id: 2, time: '昨天 16:20', tag: '修改', action: '关联了 12 个新增地理点位', operator: '系统管理员', dotBg: 'bg-blue-400', tagClass: 'text-blue-600 bg-blue-50' },
-  { id: 3, time: '2023-10-24 14:30', tag: '新建', action: '初始化标签定义及评分权重设置', operator: '系统管理员', dotBg: 'bg-emerald-400', tagClass: 'text-emerald-600 bg-emerald-50' },
+  { id: 2, time: '昨天 16:20', tag: '修改', action: '关联了 12 个新增地理点位', operator: '系统管理员', dotBg: 'bg-primary-fixed-dim', tagClass: 'text-primary bg-primary-fixed' },
+  { id: 3, time: '2023-10-24 14:30', tag: '新建', action: '初始化标签定义及评分权重设置', operator: '系统管理员', dotBg: 'bg-success/80', tagClass: 'text-on-success-container bg-success-container' },
 ])
 
 const barHeights = ref([18, 22, 30, 28, 20, 35, 55, 72, 88, 95, 85, 78, 90, 100, 92, 80, 70, 60, 50, 45, 38, 30, 25, 20])

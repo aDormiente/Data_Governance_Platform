@@ -1,13 +1,20 @@
 <template>
   <div>
-    <!-- Breadcrumb & Title -->
-    <div class="mb-8">
-      <nav class="flex items-center gap-2 text-on-surface-variant text-xs font-bold mb-2">
-        <span>治理平台</span>
-        <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-        <span class="text-primary">标签治理概览</span>
-      </nav>
-      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">标签治理概览</h1>
+    <!-- Page Header -->
+    <div class="mb-8 flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <nav class="flex items-center gap-1.5 text-[11px] font-num text-outline uppercase tracking-[0.18em] mb-3">
+          <span>GOVERN</span>
+          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
+          <span class="text-primary">OVERVIEW</span>
+        </nav>
+        <h1 class="font-display text-[28px] font-extrabold text-on-surface tracking-tight leading-none">标签治理概览</h1>
+        <p class="text-sm text-on-surface-variant mt-2">实时洞察全域标签的标准化、关联与质量进展。</p>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-on-surface-variant">
+        <span class="status-pill text-success">数据流就绪</span>
+        <span class="font-num text-outline">最近同步 · 14:32</span>
+      </div>
     </div>
 
     <!-- 6 Stat Cards -->
@@ -15,28 +22,31 @@
       <div
         v-for="(card, i) in statCards"
         :key="card.label"
-        class="bg-white rounded-xl p-5 shadow-sm flex flex-col gap-3"
-        :style="i === 0 ? 'box-shadow: 0 8px 24px rgba(0,87,194,0.06); border-left: 3px solid #0057c2' : 'box-shadow: 0 8px 24px rgba(0,87,194,0.06)'"
+        class="kpi-card"
+        :class="i === 0 ? 'border-l-[3px] border-primary' : ''"
       >
-        <div class="flex justify-between items-start">
-          <span class="bg-primary-fixed p-2 rounded-lg text-primary">
-            <span class="material-symbols-outlined" style="font-size: 20px">{{ card.icon }}</span>
+        <div class="flex justify-between items-start mb-3">
+          <span class="w-9 h-9 bg-primary-fixed rounded-lg flex items-center justify-center text-on-primary-fixed-variant">
+            <span class="material-symbols-outlined" style="font-size: 18px; font-variation-settings: 'FILL' 1">{{ card.icon }}</span>
           </span>
-          <span class="text-[10px] font-bold text-on-primary-fixed-variant bg-primary-fixed px-2 py-0.5 rounded">{{ card.percent }}</span>
+          <span class="text-[10px] font-num font-bold text-on-primary-fixed-variant bg-primary-fixed/70 px-2 py-0.5 rounded-md">{{ card.percent }}</span>
         </div>
-        <div>
-          <p class="text-on-surface-variant text-xs mb-1">{{ card.label }}</p>
-          <p class="text-2xl font-bold text-slate-900">{{ card.value.toLocaleString() }} <span class="text-xs font-normal text-on-surface-variant">点位</span></p>
-        </div>
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest mb-1">{{ card.label }}</p>
+        <p class="font-display text-[26px] font-extrabold text-on-surface tabular-nums leading-none tracking-tight">
+          {{ card.value.toLocaleString() }}<span class="text-[11px] font-normal text-on-surface-variant ml-1.5 align-middle">点位</span>
+        </p>
       </div>
     </div>
 
     <!-- Main Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       <!-- Left: Table (8 cols) -->
-      <div class="lg:col-span-8 bg-white rounded-xl shadow-sm p-6" style="box-shadow: 0 8px 24px rgba(0,87,194,0.06)">
+      <div class="lg:col-span-8 bento-card p-6">
         <div class="flex justify-between items-center mb-6">
-          <h3 class="text-base font-bold text-slate-900">子标签明细</h3>
+          <h3 class="flex items-center gap-3 font-display text-base font-bold text-on-surface">
+            <span class="section-num text-xl">01</span>
+            子标签明细
+          </h3>
           <div class="flex gap-2">
             <div class="relative">
               <input
@@ -49,7 +59,7 @@
             </div>
             <button
               @click="router.push('/tag-management/create')"
-              class="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:opacity-90 transition-all"
+              class="bg-primary text-on-primary px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:opacity-90 transition-all"
             >
               <span class="material-symbols-outlined" style="font-size: 16px">add</span>
               新建标签
@@ -68,7 +78,7 @@
                 <th class="px-4 py-3 rounded-r-lg text-right">操作</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-100">
+            <tbody class="divide-y divide-outline-variant/30">
               <tr
                 v-for="row in filteredTableData"
                 :key="row.id"
@@ -78,11 +88,11 @@
                 <td class="px-4 py-4">
                   <div class="flex items-center gap-3">
                     <div class="w-2 h-2 rounded-full flex-shrink-0" :style="{ background: row.color }"></div>
-                    <span class="text-sm font-bold text-slate-900">{{ row.name }}</span>
+                    <span class="text-sm font-bold text-on-surface">{{ row.name }}</span>
                   </div>
                 </td>
                 <td class="px-4 py-4 text-sm text-on-surface-variant">{{ row.category }}</td>
-                <td class="px-4 py-4 text-sm font-bold text-slate-900">{{ row.count }}</td>
+                <td class="px-4 py-4 text-sm font-bold text-on-surface">{{ row.count }}</td>
                 <td class="px-4 py-4">
                   <span
                     class="px-2 py-0.5 rounded text-[10px] font-bold"
@@ -104,7 +114,7 @@
           <span>显示第 1 至 {{ filteredTableData.length }} 条，共 142 条记录</span>
           <div class="flex gap-1">
             <button class="px-2 py-1 rounded border border-outline-variant hover:bg-surface-container-high transition-colors">上一页</button>
-            <button class="px-2 py-1 rounded bg-primary text-white font-bold">1</button>
+            <button class="px-2 py-1 rounded bg-primary text-on-primary font-bold">1</button>
             <button class="px-2 py-1 rounded border border-outline-variant hover:bg-surface-container-high transition-colors">2</button>
             <button class="px-2 py-1 rounded border border-outline-variant hover:bg-surface-container-high transition-colors">3</button>
             <button class="px-2 py-1 rounded border border-outline-variant hover:bg-surface-container-high transition-colors">下一页</button>
@@ -115,42 +125,48 @@
       <!-- Right: Charts (4 cols) -->
       <div class="lg:col-span-4 flex flex-col gap-6">
         <!-- Donut Chart Card -->
-        <div class="bg-white rounded-xl shadow-sm p-6" style="box-shadow: 0 8px 24px rgba(0,87,194,0.06)">
-          <h3 class="text-base font-bold text-slate-900 mb-6">标签分布占比</h3>
+        <div class="bento-card p-6">
+          <h3 class="flex items-center gap-3 font-display text-base font-bold text-on-surface mb-6">
+            <span class="section-num text-xl">02</span>
+            标签分布占比
+          </h3>
           <div class="relative w-48 h-48 mx-auto mb-6">
             <svg class="transform -rotate-90" viewBox="0 0 100 100">
-              <circle cx="50" cy="50" fill="transparent" r="40" stroke="#0057c2" stroke-dasharray="150 251.2" stroke-width="20" />
-              <circle cx="50" cy="50" fill="transparent" r="40" stroke="#006ef2" stroke-dasharray="80 251.2" stroke-dashoffset="-150" stroke-width="20" />
-              <circle cx="50" cy="50" fill="transparent" r="40" stroke="#afc6ff" stroke-dasharray="40 251.2" stroke-dashoffset="-230" stroke-width="20" />
-              <circle cx="50" cy="50" fill="transparent" r="40" stroke="#d6e4ef" stroke-dasharray="21.2 251.2" stroke-dashoffset="-270" stroke-width="20" />
+              <circle class="stroke-primary" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="150 251.2" stroke-width="20" />
+              <circle class="stroke-primary-container" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="80 251.2" stroke-dashoffset="-150" stroke-width="20" />
+              <circle class="stroke-primary-fixed-dim" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="40 251.2" stroke-dashoffset="-230" stroke-width="20" />
+              <circle class="stroke-outline-variant" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="21.2 251.2" stroke-dashoffset="-270" stroke-width="20" />
             </svg>
             <div class="absolute inset-0 flex flex-col items-center justify-center">
-              <p class="text-xs text-on-surface-variant font-bold">总计点位</p>
-              <p class="text-xl font-bold text-slate-900">58,669</p>
+              <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">总计点位</p>
+              <p class="font-display text-2xl font-extrabold text-on-surface tabular-nums tracking-tight">58,669</p>
             </div>
           </div>
           <div class="space-y-3">
             <div v-for="item in legendItems" :key="item.label" class="flex justify-between items-center">
               <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-sm flex-shrink-0" :style="{ background: item.color }"></span>
+                <span class="w-3 h-3 rounded-sm flex-shrink-0" :class="item.swatch"></span>
                 <span class="text-sm text-on-surface-variant">{{ item.label }}</span>
               </div>
-              <span class="text-sm font-bold">{{ item.value }}</span>
+              <span class="text-sm font-bold text-on-surface">{{ item.value }}</span>
             </div>
           </div>
         </div>
 
         <!-- Progress Card -->
-        <div class="bg-white rounded-xl shadow-sm p-6 flex-1" style="box-shadow: 0 8px 24px rgba(0,87,194,0.06)">
-          <h3 class="text-base font-bold text-slate-900 mb-6">治理进展详情</h3>
+        <div class="bento-card p-6 flex-1">
+          <h3 class="flex items-center gap-3 font-display text-base font-bold text-on-surface mb-6">
+            <span class="section-num text-xl">03</span>
+            治理进展详情
+          </h3>
           <div class="space-y-5">
             <div v-for="item in progressItems" :key="item.label">
-              <div class="flex justify-between text-xs mb-2">
-                <span class="text-on-surface-variant">{{ item.label }}</span>
-                <span class="font-bold text-primary">{{ item.value }}%</span>
+              <div class="flex justify-between items-baseline text-xs mb-2">
+                <span class="text-on-surface-variant font-medium">{{ item.label }}</span>
+                <span class="font-num font-bold text-primary tabular-nums">{{ item.value }}<span class="text-[10px] text-outline">%</span></span>
               </div>
               <div class="w-full bg-surface-container-low h-1.5 rounded-full overflow-hidden">
-                <div class="bg-primary h-full rounded-full" :style="{ width: item.value + '%' }"></div>
+                <div class="bg-gradient-to-r from-primary to-primary-container h-full rounded-full transition-all duration-700" :style="{ width: item.value + '%' }"></div>
               </div>
             </div>
           </div>
@@ -198,16 +214,16 @@ const filteredTableData = computed(() =>
 
 const statusClass = (status) => ({
   '治理中': 'bg-primary-fixed text-on-primary-fixed-variant',
-  '已完成': 'bg-green-100 text-green-700',
-  '待审核': 'bg-amber-100 text-amber-700',
-  '已停用': 'bg-slate-100 text-slate-500',
-}[status] || 'bg-slate-100 text-slate-500')
+  '已完成': 'bg-success-container text-on-success-container',
+  '待审核': 'bg-warning-container text-on-warning-container',
+  '已停用': 'bg-surface-container text-on-surface-variant',
+}[status] || 'bg-surface-container text-on-surface-variant')
 
 const legendItems = [
-  { label: '空间地理', value: '41.2%', color: '#0057c2' },
-  { label: '人口基础', value: '21.8%', color: '#006ef2' },
-  { label: '法人单位', value: '14.4%', color: '#afc6ff' },
-  { label: '其他类型', value: '22.6%', color: '#d6e4ef' },
+  { label: '空间地理', value: '41.2%', swatch: 'bg-primary' },
+  { label: '人口基础', value: '21.8%', swatch: 'bg-primary-container' },
+  { label: '法人单位', value: '14.4%', swatch: 'bg-primary-fixed-dim' },
+  { label: '其他类型', value: '22.6%', swatch: 'bg-outline-variant' },
 ]
 
 const progressItems = [

@@ -1,24 +1,24 @@
 <template>
   <div>
     <!-- Page Header -->
-    <div class="mb-8 flex justify-between items-end">
+    <div class="mb-8 flex justify-between items-end gap-6 flex-wrap">
       <div>
-        <nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
-          <span>政务数据治理</span>
+        <nav class="flex items-center gap-1.5 text-[11px] font-num text-outline uppercase tracking-[0.18em] mb-3">
+          <span>DATA</span>
           <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span class="text-primary font-medium">标签管理</span>
+          <span class="text-primary">TAG&nbsp;MANAGEMENT</span>
         </nav>
-        <h2 class="text-2xl font-bold tracking-tight text-slate-900">标签资源体系管理</h2>
-        <p class="text-on-surface-variant mt-1 text-sm">对全域政务数据标签进行生命周期管理及点位映射维护</p>
+        <h2 class="font-display text-[28px] font-extrabold tracking-tight text-on-surface leading-none">标签资源体系管理</h2>
+        <p class="text-on-surface-variant mt-2 text-sm">对全域政务数据标签进行生命周期管理及点位映射维护。</p>
       </div>
       <div class="flex gap-3">
-        <button class="px-4 py-2 bg-surface-container-high text-primary rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-highest transition-all">
+        <button class="px-4 py-2 bg-surface-container-high/70 text-on-surface rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-highest border border-outline-variant/30 transition-all">
           <span class="material-symbols-outlined" style="font-size: 16px">download</span>
           导出数据
         </button>
         <button
           @click="router.push('/tag-management/create')"
-          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-white rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
+          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-px transition-all"
         >
           <span class="material-symbols-outlined" style="font-size: 16px">add</span>
           新建标签
@@ -27,7 +27,7 @@
     </div>
 
     <!-- Tab Structure -->
-    <div class="bg-white rounded-xl shadow-sm overflow-hidden" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+    <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
       <!-- Tabs Header -->
       <div class="flex border-b border-surface-container-low px-6 bg-surface-container-low/30">
         <button
@@ -45,7 +45,7 @@
 
       <!-- ===== TAG LIST TAB ===== -->
       <template v-if="activeTab === 'tags'">
-        <div class="p-6 border-b border-surface-container-low bg-white/50 flex flex-wrap items-end justify-between gap-4">
+        <div class="p-6 border-b border-surface-container-low bg-surface-container-lowest/50 flex flex-wrap items-end justify-between gap-4">
           <div class="flex gap-4">
             <div class="flex flex-col gap-1">
               <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">状态筛选</label>
@@ -90,10 +90,10 @@
               <tr v-for="row in filteredData" :key="row.id" class="hover:bg-surface-container-low/40 transition-colors group cursor-pointer" @click="router.push(`/tag-management/detail/${row.id}`)">
                 <td class="px-6 py-5">
                   <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="row.type === '业务标签' ? 'bg-orange-100 text-tertiary' : 'bg-blue-100 text-primary'">
+                    <div class="w-8 h-8 rounded-lg flex items-center justify-center" :class="row.type === '业务标签' ? 'bg-tertiary-fixed text-tertiary' : 'bg-primary-fixed text-primary'">
                       <span class="material-symbols-outlined" style="font-size: 18px; font-variation-settings: 'FILL' 1">{{ row.type === '业务标签' ? 'pending_actions' : 'sell' }}</span>
                     </div>
-                    <span class="font-semibold text-slate-900">{{ row.name }}</span>
+                    <span class="font-semibold text-on-surface">{{ row.name }}</span>
                   </div>
                 </td>
                 <td class="px-6 py-5">
@@ -126,13 +126,13 @@
             显示 <span class="font-bold">1 - {{ filteredData.length }}</span> / 共 <span class="font-bold">24</span> 条数据
           </div>
           <div class="flex gap-2">
-            <button class="p-2 border border-outline-variant/30 rounded-lg hover:bg-white text-on-surface-variant opacity-50" disabled>
+            <button class="p-2 border border-outline-variant/30 rounded-lg hover:bg-surface-container-lowest text-on-surface-variant opacity-50" disabled>
               <span class="material-symbols-outlined" style="font-size: 16px">chevron_left</span>
             </button>
-            <button class="px-3 py-1 bg-primary text-white rounded-lg text-sm font-bold">1</button>
-            <button class="px-3 py-1 border border-outline-variant/30 rounded-lg text-sm font-medium hover:bg-white">2</button>
-            <button class="px-3 py-1 border border-outline-variant/30 rounded-lg text-sm font-medium hover:bg-white">3</button>
-            <button class="p-2 border border-outline-variant/30 rounded-lg hover:bg-white text-on-surface-variant">
+            <button class="px-3 py-1 bg-primary text-on-primary rounded-lg text-sm font-bold">1</button>
+            <button class="px-3 py-1 border border-outline-variant/30 rounded-lg text-sm font-medium hover:bg-surface-container-lowest">2</button>
+            <button class="px-3 py-1 border border-outline-variant/30 rounded-lg text-sm font-medium hover:bg-surface-container-lowest">3</button>
+            <button class="p-2 border border-outline-variant/30 rounded-lg hover:bg-surface-container-lowest text-on-surface-variant">
               <span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span>
             </button>
           </div>
@@ -173,13 +173,13 @@
             </div>
           </div>
           <button @click="pointSearch = ''; pointTagFilter = ''; pointStatusFilter = '全部'" class="px-3 py-2 text-sm text-on-surface-variant hover:text-primary border border-outline-variant/30 rounded-md transition-colors">重置</button>
-          <button class="w-10 h-10 flex items-center justify-center bg-primary text-white rounded-md hover:bg-primary-container transition-colors">
+          <button class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary rounded-md hover:bg-primary-container transition-colors">
             <span class="material-symbols-outlined">filter_list</span>
           </button>
           <div class="ml-auto">
             <button
               @click="router.push('/tag-management/point/new')"
-              class="px-5 py-2 bg-gradient-to-b from-primary-container to-primary text-white font-bold rounded-lg shadow-lg shadow-primary/10 hover:shadow-primary/20 active:opacity-90 transition-all text-sm flex items-center gap-2"
+              class="px-5 py-2 bg-gradient-to-b from-primary-container to-primary text-on-primary font-bold rounded-lg shadow-lg shadow-primary/10 hover:shadow-primary/20 active:opacity-90 transition-all text-sm flex items-center gap-2"
             >
               <span class="material-symbols-outlined" style="font-size: 18px">add</span>
               新增点位
@@ -279,7 +279,7 @@
             <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high transition-colors">
               <span class="material-symbols-outlined" style="font-size: 18px">chevron_left</span>
             </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-white text-xs font-bold">1</button>
+            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
             <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs font-medium text-on-surface-variant">2</button>
             <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs font-medium text-on-surface-variant">3</button>
             <span class="px-1 text-outline">...</span>
@@ -299,46 +299,46 @@
 
     <!-- Bottom KPI Cards (points tab only) -->
     <div v-if="activeTab === 'points'" class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary">
+      <div class="kpi-card border-l-[3px] border-primary">
         <div class="flex justify-between items-start mb-3">
-          <span class="text-[11px] font-bold text-on-surface-variant uppercase">点位总数</span>
-          <span class="material-symbols-outlined text-primary/40">location_on</span>
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">点位总数</span>
+          <span class="material-symbols-outlined text-primary/50">location_on</span>
         </div>
-        <div class="text-2xl font-bold text-on-surface">1,248</div>
-        <div class="mt-1 text-[10px] text-emerald-600 font-bold flex items-center gap-1">
+        <div class="font-display text-3xl font-extrabold text-on-surface tabular-nums tracking-tight">1,248</div>
+        <div class="mt-2 text-[10px] text-success font-bold flex items-center gap-1 uppercase tracking-wider">
           <span class="material-symbols-outlined" style="font-size: 12px">trending_up</span>
           较昨日 +12
         </div>
       </div>
-      <div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-emerald-500">
+      <div class="kpi-card border-l-[3px] border-success">
         <div class="flex justify-between items-start mb-3">
-          <span class="text-[11px] font-bold text-on-surface-variant uppercase">在线点位</span>
-          <span class="material-symbols-outlined text-emerald-500/40">wifi</span>
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">在线点位</span>
+          <span class="material-symbols-outlined text-success/50">wifi</span>
         </div>
-        <div class="text-2xl font-bold text-on-surface">1,182</div>
-        <div class="mt-1 text-[10px] text-on-surface-variant font-medium">在线率 94.7%</div>
+        <div class="font-display text-3xl font-extrabold text-on-surface tabular-nums tracking-tight">1,182</div>
+        <div class="mt-2 text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">在线率 <span class="text-success font-bold font-num">94.7%</span></div>
       </div>
-      <div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-rose-500">
+      <div class="kpi-card border-l-[3px] border-danger">
         <div class="flex justify-between items-start mb-3">
-          <span class="text-[11px] font-bold text-on-surface-variant uppercase">异常点位</span>
-          <span class="material-symbols-outlined text-rose-500/40">warning</span>
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">异常点位</span>
+          <span class="material-symbols-outlined text-danger/50">warning</span>
         </div>
-        <div class="text-2xl font-bold text-on-surface">24</div>
-        <div class="mt-1 text-[10px] text-rose-600 font-bold flex items-center gap-1">需要立即处理</div>
+        <div class="font-display text-3xl font-extrabold text-on-surface tabular-nums tracking-tight">24</div>
+        <div class="mt-2 text-[10px] text-danger font-bold uppercase tracking-wider">需要立即处理</div>
       </div>
-      <div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-amber-500">
+      <div class="kpi-card border-l-[3px] border-warning">
         <div class="flex justify-between items-start mb-3">
-          <span class="text-[11px] font-bold text-on-surface-variant uppercase">覆盖区域</span>
-          <span class="material-symbols-outlined text-amber-500/40">map</span>
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-widest">覆盖区域</span>
+          <span class="material-symbols-outlined text-warning/50">map</span>
         </div>
-        <div class="text-2xl font-bold text-on-surface">16</div>
-        <div class="mt-1 text-[10px] text-on-surface-variant font-medium">全区主要街道覆盖</div>
+        <div class="font-display text-3xl font-extrabold text-on-surface tabular-nums tracking-tight">16</div>
+        <div class="mt-2 text-[10px] text-on-surface-variant font-medium uppercase tracking-wider">全区主要街道覆盖</div>
       </div>
     </div>
 
     <!-- Bottom Insights (tags tab only) -->
     <div v-if="activeTab === 'tags'" class="mt-8 grid grid-cols-12 gap-6">
-      <div class="col-span-12 lg:col-span-8 bg-white p-6 rounded-xl border border-outline-variant/15" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
+      <div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15 bento-shadow">
         <div class="flex items-center justify-between mb-6">
           <h3 class="font-bold text-lg flex items-center gap-2">
             <span class="w-1 h-5 bg-primary rounded-full"></span>
@@ -359,20 +359,20 @@
       </div>
 
       <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
-        <div class="bg-gradient-to-br from-primary to-primary-container p-6 rounded-xl text-white shadow-lg">
+        <div class="bg-gradient-to-br from-primary to-primary-container p-6 rounded-xl text-on-primary shadow-lg">
           <h3 class="font-bold mb-4 opacity-90">标签覆盖率统计</h3>
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs">政务核心数据覆盖</span>
             <span class="text-xl font-black">94.2%</span>
           </div>
-          <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
-            <div class="bg-white h-full" style="width: 94%"></div>
+          <div class="w-full bg-surface-container-lowest/20 h-2 rounded-full overflow-hidden">
+            <div class="bg-surface-container-lowest h-full" style="width: 94%"></div>
           </div>
           <p class="mt-4 text-[10px] opacity-70 leading-relaxed">相比上月提升了 2.4%，当前共有 1,284 个活跃标签服务于 42 个政府部门。</p>
         </div>
 
-        <div class="bg-white p-6 rounded-xl border border-outline-variant/15 flex-1" style="box-shadow: 0 4px 20px rgba(0,21,41,0.05)">
-          <h3 class="font-bold mb-4 text-slate-900 flex items-center gap-2">
+        <div class="bg-surface-container-lowest p-6 rounded-xl border border-outline-variant/15 flex-1 bento-shadow">
+          <h3 class="font-bold mb-4 text-on-surface flex items-center gap-2">
             <span class="w-1 h-4 bg-tertiary rounded-full"></span>
             待办提醒
           </h3>
@@ -385,7 +385,7 @@
               </div>
             </div>
             <div class="flex items-start gap-3 p-2 hover:bg-surface-container-low rounded-lg transition-colors cursor-pointer">
-              <span class="material-symbols-outlined text-blue-500" style="font-size: 20px">info</span>
+              <span class="material-symbols-outlined text-primary" style="font-size: 20px">info</span>
               <div>
                 <p class="text-sm font-bold">标签审核通过</p>
                 <p class="text-[10px] text-on-surface-variant">"智慧环保-噪声监测"已上线</p>
@@ -450,39 +450,39 @@ const filteredPoints = computed(() =>
 
 const typeClass = (type) => ({
   '算法标签': 'bg-secondary-container text-on-secondary-container',
-  '基础标签': 'bg-blue-100 text-blue-700',
+  '基础标签': 'bg-primary-fixed text-on-primary-fixed-variant',
   '业务标签': 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
-}[type] || 'bg-slate-100 text-slate-600')
+}[type] || 'bg-surface-container text-on-surface-variant')
 
 const statusTextClass = (status) => ({
-  '已发布': 'text-green-600',
+  '已发布': 'text-on-success-container',
   '待审核': 'text-tertiary',
   '草稿': 'text-on-surface-variant',
-  '已禁用': 'text-slate-400',
+  '已禁用': 'text-outline',
 }[status] || 'text-on-surface-variant')
 
 const statusDotClass = (status) => ({
-  '已发布': 'bg-green-600',
+  '已发布': 'bg-success',
   '待审核': 'bg-tertiary',
-  '草稿': 'bg-slate-400',
-  '已禁用': 'bg-slate-300',
-}[status] || 'bg-slate-300')
+  '草稿': 'bg-outline-variant',
+  '已禁用': 'bg-outline-variant',
+}[status] || 'bg-outline-variant')
 
 const pointStatusClass = (s) => ({
-  '在线': 'bg-emerald-50 text-emerald-700 border-emerald-100',
-  '离线': 'bg-slate-100 text-slate-500 border-slate-200',
-  '故障': 'bg-red-50 text-red-600 border-red-100',
-}[s] || 'bg-slate-100 text-slate-500 border-slate-200')
+  '在线': 'bg-success-container text-on-success-container border-success/30',
+  '离线': 'bg-surface-container text-on-surface-variant border-outline-variant/30',
+  '故障': 'bg-danger-container text-danger border-danger/30',
+}[s] || 'bg-surface-container text-on-surface-variant border-outline-variant/30')
 
 const pointStatusDot = (s) => ({
-  '在线': 'bg-emerald-500',
-  '离线': 'bg-slate-400',
-  '故障': 'bg-rose-500',
-}[s] || 'bg-slate-400')
+  '在线': 'bg-success',
+  '离线': 'bg-outline-variant',
+  '故障': 'bg-danger',
+}[s] || 'bg-outline-variant')
 
 const pointStatusText = (s) => ({
-  '在线': 'text-emerald-600',
-  '离线': 'text-slate-500',
-  '故障': 'text-rose-600',
+  '在线': 'text-on-success-container',
+  '离线': 'text-on-surface-variant',
+  '故障': 'text-danger',
 }[s] || 'text-on-surface-variant')
 </script>

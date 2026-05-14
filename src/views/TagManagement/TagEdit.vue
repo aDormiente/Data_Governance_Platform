@@ -17,7 +17,7 @@
 
     <div class="grid grid-cols-1 gap-8">
       <!-- Section 01: Basic Information -->
-      <section class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-primary">
+      <section class="bg-surface-container-lowest rounded-lg p-8 shadow-sm border-l-4 border-primary">
         <div class="flex items-center gap-3 mb-8">
           <span class="text-primary font-bold text-xl leading-none">01</span>
           <h2 class="text-lg font-bold text-on-surface">基本信息编辑</h2>
@@ -77,7 +77,7 @@
       </section>
 
       <!-- Section 02: Point Management -->
-      <section class="bg-white rounded-lg p-8 shadow-sm border-l-4 border-primary">
+      <section class="bg-surface-container-lowest rounded-lg p-8 shadow-sm border-l-4 border-primary">
         <div class="flex justify-between items-center mb-8">
           <div class="flex items-center gap-3">
             <span class="text-primary font-bold text-xl leading-none">02</span>
@@ -90,9 +90,9 @@
             >
               <span class="material-symbols-outlined" style="font-size: 16px">delete</span>
               批量移除
-              <span v-if="selectedPoints.length > 0" class="ml-1 text-xs bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center font-black">{{ selectedPoints.length }}</span>
+              <span v-if="selectedPoints.length > 0" class="ml-1 text-xs bg-primary text-on-primary rounded-full w-5 h-5 flex items-center justify-center font-black">{{ selectedPoints.length }}</span>
             </button>
-            <button class="bg-primary text-white px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-primary-container transition-all">
+            <button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-primary-container transition-all">
               <span class="material-symbols-outlined" style="font-size: 16px">add</span>
               添加点位
             </button>
@@ -139,11 +139,11 @@
                 <td class="px-6 py-4">
                   <span
                     class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                    :class="row.status === '运行中' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700'"
+                    :class="row.status === '运行中' ? 'bg-success-container text-on-success-container' : 'bg-warning-container text-on-warning-container'"
                   >
                     <span
                       class="w-1.5 h-1.5 rounded-full"
-                      :class="row.status === '运行中' ? 'bg-emerald-500' : 'bg-amber-500'"
+                      :class="row.status === '运行中' ? 'bg-success' : 'bg-warning'"
                     ></span>
                     {{ row.status }}
                   </span>
@@ -160,7 +160,7 @@
     </div>
 
     <!-- Sticky Bottom Action Bar -->
-    <div class="fixed bottom-0 right-0 left-64 bg-white shadow-[0_-4px_12px_rgba(0,0,0,0.03)] px-12 py-4 flex justify-end items-center gap-4 z-40">
+    <div class="fixed bottom-0 right-0 left-64 bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,0,0,0.03)] px-12 py-4 flex justify-end items-center gap-4 z-40">
       <button
         @click="cancel"
         class="px-10 py-2.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-semibold transition-all"
@@ -169,7 +169,7 @@
       </button>
       <button
         @click="save"
-        class="px-10 py-2.5 rounded-lg bg-primary text-white hover:bg-primary-container font-semibold shadow-lg shadow-primary/20 transition-all"
+        class="px-10 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-semibold shadow-lg shadow-primary/20 transition-all"
       >
         确认保存
       </button>
