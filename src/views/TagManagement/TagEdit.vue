@@ -1,17 +1,20 @@
 <template>
   <div class="pb-24">
-    <!-- Breadcrumb & Header -->
-    <div class="mb-8">
-      <nav class="flex text-sm text-on-surface-variant mb-2 gap-2 items-center">
-        <span>数据资产</span>
-        <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-        <span>标签管理</span>
-        <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-        <span class="text-on-surface">编辑标签</span>
-      </nav>
-      <div class="flex justify-between items-end">
-        <h1 class="text-2xl font-extrabold text-on-surface tracking-tight">编辑标签 - {{ form.name }}</h1>
-        <div class="text-sm text-outline">最后更新: 2024-05-20 14:30</div>
+    <!-- Page Header -->
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span>数据</span>
+        <span class="opacity-40">/</span>
+        <span class="cursor-pointer hover:text-primary transition-colors">标签管理</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">编辑</span>
+      </div>
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <div>
+          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">编辑标签 · {{ form.name }}</h1>
+          <p class="font-mono text-[11px] text-on-surface-variant tracking-wider mt-2">最后更新 · 2024.05.20 · 14:30</p>
+        </div>
       </div>
     </div>
 

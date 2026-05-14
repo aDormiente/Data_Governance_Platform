@@ -1,163 +1,161 @@
 <template>
-  <div class="max-w-6xl mx-auto space-y-10">
-    <!-- 01 Search Center -->
-    <section>
-      <div class="flex items-center gap-3 mb-6">
-        <span class="font-display font-num text-2xl italic font-extrabold text-primary/40 tracking-tighter">01</span>
-        <h2 class="font-display text-xl font-extrabold tracking-tight text-on-surface">搜索中心<span class="ml-2 font-num text-[11px] font-bold text-outline uppercase tracking-[0.18em]">SEARCH&nbsp;CENTER</span></h2>
+  <div class="max-w-6xl mx-auto">
+    <!-- Page Header -->
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span>工作台</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">融合搜索</span>
+        <span class="opacity-40">/</span>
+        <span class="opacity-60">检索</span>
       </div>
-      <div class="bg-surface-container-lowest p-6 rounded shadow-sm flex flex-col md:flex-row gap-4 items-stretch border-l-4 border-primary">
-        <div class="relative flex-1 flex items-center bg-surface-container-low rounded border border-transparent focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-          <!-- Type Filter Dropdown -->
-          <div class="flex items-center px-4 border-r border-outline-variant/30 h-full">
-            <select v-model="searchCategory" class="bg-transparent border-none text-sm font-bold text-on-surface focus:ring-0 cursor-pointer pr-8 py-4">
-              <option value="">全部类别</option>
-              <option value="tag">标签</option>
-              <option value="point">点位</option>
-              <option value="安全">公共安全</option>
-              <option value="政务">政务服务</option>
-            </select>
-          </div>
-          <div class="relative flex-1">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline">search</span>
-            <input
-              v-model="searchInput"
-              class="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-0 rounded font-medium text-on-surface placeholder:text-outline-variant"
-              placeholder="输入关键词、单位名称或地理编码..."
-              type="text"
-              @keyup.enter="handleSearch"
-            />
-          </div>
+      <h1 class="font-display text-[34px] font-semibold tracking-tight text-on-surface leading-[1.05]">融合搜索</h1>
+      <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">输入关键词、单位名称或地理编码，跨标签库与点位库进行联合检索。</p>
+    </div>
+
+    <!-- 01 Search Center -->
+    <div class="tt-rule mb-3">
+      <span>01&nbsp;&nbsp;搜索中心</span>
+      <span class="tt-rule-sub">检索入口</span>
+    </div>
+    <section class="border border-outline-variant bg-surface-container-lowest mb-8">
+      <div class="flex flex-col md:flex-row items-stretch">
+        <!-- Type filter -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b md:border-b-0 md:border-r border-outline-variant">
+          <span class="font-mono text-[10px] tracking-wider text-on-surface-variant">范围</span>
+          <select v-model="searchCategory" class="bg-transparent border-0 text-[12px] text-on-surface focus:outline-none cursor-pointer">
+            <option value="">全部</option>
+            <option value="tag">标签</option>
+            <option value="point">点位</option>
+            <option value="安全">公共安全</option>
+            <option value="政务">政务服务</option>
+          </select>
         </div>
+        <!-- Input -->
+        <div class="flex items-center gap-2 px-4 py-3 flex-1 border-b md:border-b-0 md:border-r border-outline-variant focus-within:bg-surface-container-low transition-colors">
+          <span class="font-mono text-[12px] text-primary">&gt;</span>
+          <input
+            v-model="searchInput"
+            class="flex-1 bg-transparent border-0 text-[13px] text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-0"
+            placeholder="输入关键词、单位名称或地理编码..."
+            type="text"
+            @keyup.enter="handleSearch"
+          />
+          <kbd class="tt-kbd">回车</kbd>
+        </div>
+        <!-- Submit -->
         <button
           @click="handleSearch"
-          class="bg-primary text-on-primary px-10 py-4 rounded font-bold flex items-center justify-center gap-2 hover:bg-primary-container transition-colors shadow-md active:scale-[0.98]"
-        >
-          搜索
-        </button>
-        <div class="flex items-center bg-surface-container-low p-1 rounded">
+          class="text-[12px] tracking-wider px-6 bg-primary text-on-primary font-semibold hover:opacity-90 transition-opacity"
+        >执行搜索</button>
+        <!-- View mode -->
+        <div class="flex border-t md:border-t-0 md:border-l border-outline-variant">
           <button
             @click="viewMode = 'list'"
             :class="[
-              'px-4 py-3 rounded flex items-center gap-2 text-sm transition-colors',
-              viewMode === 'list' ? 'bg-surface-container-lowest shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
+              'flex items-center gap-1.5 px-4 py-3 text-[12px] transition-colors border-r border-outline-variant',
+              viewMode === 'list' ? 'bg-primary text-on-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
             ]"
           >
-            <span class="material-symbols-outlined">list</span>
-            列表模式
+            <span class="material-symbols-outlined" style="font-size: 14px">list</span>
+            列表
           </button>
           <button
             @click="viewMode = 'map'"
             :class="[
-              'px-4 py-3 rounded flex items-center gap-2 text-sm transition-colors',
-              viewMode === 'map' ? 'bg-surface-container-lowest shadow-sm text-primary font-bold' : 'text-on-surface-variant font-medium hover:text-primary'
+              'flex items-center gap-1.5 px-4 py-3 text-[12px] transition-colors',
+              viewMode === 'map' ? 'bg-primary text-on-primary font-semibold' : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
             ]"
           >
-            <span class="material-symbols-outlined">map</span>
-            地图模式
+            <span class="material-symbols-outlined" style="font-size: 14px">map</span>
+            地图
           </button>
         </div>
       </div>
     </section>
 
-    <!-- 02 Search Results -->
-    <section>
-      <div class="flex items-center gap-3 mb-6">
-        <span class="font-display font-num text-2xl italic font-extrabold text-primary/40 tracking-tighter">02</span>
-        <h2 class="font-display text-xl font-extrabold tracking-tight text-on-surface">搜索结果<span class="ml-2 font-num text-[11px] font-bold text-outline uppercase tracking-[0.18em]">SEARCH&nbsp;RESULTS</span></h2>
+    <!-- 02 Matched Tags -->
+    <div class="tt-rule mb-3">
+      <span>02&nbsp;&nbsp;匹配标签</span>
+      <span class="tt-rule-sub">共 {{ matchedTags.length }} 个</span>
+    </div>
+    <section class="border border-outline-variant bg-surface-container-lowest p-4 mb-8">
+      <div class="flex items-center justify-between mb-3">
+        <span class="font-mono text-[11px] tracking-wider text-on-surface-variant">已匹配 {{ matchedTags.length }} 个标签</span>
+        <button @click="matchedTags = []" class="text-[12px] text-primary hover:underline">全部清除</button>
       </div>
-
-      <!-- Matched Tags -->
-      <div class="bg-surface-container-low p-6 rounded-lg mb-6">
-        <div class="flex items-center justify-between mb-4">
-          <span class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">匹配标签 / MATCHED TAGS</span>
-          <button @click="matchedTags = []" class="text-xs text-primary font-bold hover:underline">清除全部</button>
+      <div class="flex flex-wrap gap-2">
+        <div
+          v-for="(t, i) in matchedTags"
+          :key="t"
+          class="flex items-center gap-2 px-2.5 py-1 border border-outline-variant bg-surface-container-low"
+        >
+          <span class="text-[12px] text-on-surface">{{ t }}</span>
+          <button @click="matchedTags.splice(i, 1)" class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-danger transition-colors" style="font-size: 13px">close</button>
         </div>
-        <div class="flex flex-wrap gap-3">
-          <div
-            v-for="(t, i) in matchedTags"
-            :key="t"
-            class="bg-surface-container-lowest px-4 py-2 rounded-full border border-outline-variant/30 flex items-center gap-3 shadow-sm"
+        <span v-if="matchedTags.length === 0" class="text-[12px] text-on-surface-variant tracking-wider">暂无匹配，请提交检索</span>
+      </div>
+    </section>
+
+    <!-- 03 Results -->
+    <div class="tt-rule mb-3">
+      <span>03&nbsp;&nbsp;搜索结果</span>
+      <span class="tt-rule-sub">{{ resultCards.length }} / 共 24 条</span>
+    </div>
+    <section class="border border-outline-variant bg-surface-container-lowest overflow-hidden">
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-outline-variant">
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">编号</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">名称</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">所属机构</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">坐标</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">状态</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">更新时间</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold text-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="row in resultCards"
+            :key="row.id"
+            @click="goResult(row)"
+            class="tt-row border-b border-outline-variant/60 cursor-pointer group"
           >
-            <span class="text-sm font-bold text-on-surface">{{ t }}</span>
-            <button @click="matchedTags.splice(i, 1)" class="material-symbols-outlined text-outline cursor-pointer hover:text-error" style="font-size: 16px">close</button>
-          </div>
-          <span v-if="matchedTags.length === 0" class="text-xs text-on-surface-variant italic">暂无匹配标签</span>
-        </div>
-      </div>
-
-      <!-- Data Points List -->
-      <div class="bg-surface-container-lowest rounded overflow-hidden shadow-sm border-l-4 border-primary">
-        <table class="w-full text-left border-collapse">
-          <thead class="bg-surface-container-low">
-            <tr>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">点位/标签名称</th>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">所属机构</th>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">地理位置</th>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">当前状态</th>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider">更新时间</th>
-              <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">操作</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-surface-container-low">
-            <tr
-              v-for="row in resultCards"
-              :key="row.id"
-              @click="goResult(row)"
-              class="hover:bg-surface-container-low transition-colors group cursor-pointer"
-            >
-              <td class="px-6 py-4">
-                <div class="flex items-center gap-3">
-                  <span class="p-2 rounded-lg" :class="row.type === '点位' ? 'bg-tertiary-fixed text-tertiary' : 'bg-primary-fixed text-primary'">
-                    <span class="material-symbols-outlined" style="font-size: 18px">{{ row.type === '点位' ? 'location_on' : 'label' }}</span>
-                  </span>
-                  <div>
-                    <p class="font-bold text-on-surface">{{ row.title }}</p>
-                    <p class="text-[11px] text-on-surface-variant">{{ row.subtitle }}</p>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 text-on-surface-variant">{{ row.org }}</td>
-              <td class="px-6 py-4 text-on-surface-variant text-sm">{{ row.location }}</td>
-              <td class="px-6 py-4">
-                <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded text-xs font-bold" :class="row.statusClass">
-                  <span class="w-1.5 h-1.5 rounded-full" :class="row.statusDotClass"></span>
-                  {{ row.statusLabel }}
+            <td class="px-4 py-3.5 font-mono text-[11px] text-on-surface-variant tracking-wider">{{ row.subtitle }}</td>
+            <td class="px-4 py-3.5">
+              <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined" :class="row.type === '点位' ? 'text-tertiary' : 'text-primary'" style="font-size: 16px">
+                  {{ row.type === '点位' ? 'location_on' : 'sell' }}
                 </span>
-              </td>
-              <td class="px-6 py-4 text-outline text-sm">{{ row.updated }}</td>
-              <td class="px-6 py-4 text-right" @click.stop>
-                <div class="flex items-center justify-end gap-4">
-                  <button
-                    @click="goResult(row)"
-                    class="text-primary hover:text-primary-container font-semibold text-sm transition-colors"
-                  >查看详情</button>
-                  <span class="w-px h-3 bg-outline-variant"></span>
-                  <button
-                    @click="goResult(row)"
-                    class="text-primary hover:text-primary-container font-semibold text-sm flex items-center gap-1 transition-colors"
-                  >
-                    <span class="material-symbols-outlined" style="font-size: 18px">{{ row.type === '点位' ? 'location_on' : 'open_in_new' }}</span>
-                    {{ row.type === '点位' ? '地图查看' : '打开标签' }}
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="bg-surface-container-low px-6 py-4 flex items-center justify-between border-t border-outline-variant/10">
-          <span class="text-sm text-on-surface-variant font-medium">显示 1 到 {{ resultCards.length }} 共 24 条结果</span>
-          <div class="flex items-center gap-2">
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-outline hover:bg-surface-container-lowest disabled:opacity-50" disabled>
-              <span class="material-symbols-outlined" style="font-size: 18px">chevron_left</span>
-            </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold shadow-sm">1</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">2</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface text-xs font-bold hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">3</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded border border-outline-variant/30 text-on-surface hover:bg-surface-container-lowest hover:border-primary hover:text-primary transition-all">
-              <span class="material-symbols-outlined" style="font-size: 18px">chevron_right</span>
-            </button>
-          </div>
+                <span class="text-[13px] font-semibold text-on-surface">{{ row.title }}</span>
+                <span class="tt-tag" :class="row.type === '点位' ? 'tt-tag-warning' : 'tt-tag-primary'">{{ row.type }}</span>
+              </div>
+            </td>
+            <td class="px-4 py-3.5 text-[12px] text-on-surface-variant">{{ row.org }}</td>
+            <td class="px-4 py-3.5 font-mono text-[11px] text-on-surface-variant tracking-wider">{{ row.location }}</td>
+            <td class="px-4 py-3.5">
+              <span class="status-pill" :class="row.statusColor">{{ row.statusLabel }}</span>
+            </td>
+            <td class="px-4 py-3.5 font-mono text-[11px] text-on-surface-variant tabular-nums tracking-wider">{{ row.updated.replace(/-/g, '.') }}</td>
+            <td class="px-4 py-3.5 text-right" @click.stop>
+              <div class="flex justify-end gap-3 text-[12px] tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                <button @click="goResult(row)" class="text-primary hover:underline">详情</button>
+                <button @click="goResult(row)" class="text-on-surface-variant hover:text-primary">{{ row.type === '点位' ? '地图' : '编辑' }}</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="border-t border-outline-variant px-4 py-2.5 flex justify-between items-center font-mono text-[11px] text-on-surface-variant tracking-wider">
+        <span>显示 01-{{ String(resultCards.length).padStart(2, '0') }} / 共 24 条</span>
+        <div class="flex items-center gap-1">
+          <button class="tt-kbd opacity-50" disabled>←</button>
+          <span class="px-2 text-on-surface">1</span>
+          <button class="tt-kbd hover:border-primary hover:text-primary">2</button>
+          <button class="tt-kbd hover:border-primary hover:text-primary">3</button>
+          <button class="tt-kbd hover:border-primary hover:text-primary">→</button>
         </div>
       </div>
     </section>
@@ -188,51 +186,31 @@ const goResult = (result) => {
 
 const resultCards = ref([
   {
-    id: 1,
-    type: '点位',
-    title: '朝阳区核心枢纽 A1',
-    subtitle: 'ID: P-100249',
-    org: '北京市大数据管理局',
-    location: '北京市朝阳区建国门外大街',
-    statusLabel: '正常运行',
-    statusClass: 'bg-success-container text-on-success-container',
-    statusDotClass: 'bg-success',
+    id: 1, type: '点位',
+    title: '朝阳区核心枢纽 A1', subtitle: 'P-100249',
+    org: '北京市大数据管理局', location: '116.480, 39.910',
+    statusLabel: '在线', statusColor: 'text-success',
     updated: '2023-10-24 14:32',
   },
   {
-    id: 2,
-    type: '点位',
-    title: '海淀科技园监控点 B04',
-    subtitle: 'ID: P-100255',
-    org: '中关村管委会',
-    location: '北京市海淀区中关村南大街',
-    statusLabel: '维护中',
-    statusClass: 'bg-warning-container text-on-warning-container',
-    statusDotClass: 'bg-warning',
+    id: 2, type: '点位',
+    title: '海淀科技园监控点 B04', subtitle: 'P-100255',
+    org: '中关村管委会', location: '116.310, 39.984',
+    statusLabel: '维护中', statusColor: 'text-warning',
     updated: '2023-10-24 12:15',
   },
   {
-    id: 3,
-    type: '标签',
-    title: '企业信用等级',
-    subtitle: 'ENTERPRISE_CREDIT',
-    org: '通州区政府',
-    location: '北京市通州区运河东大街',
-    statusLabel: '已发布',
-    statusClass: 'bg-success-container text-on-success-container',
-    statusDotClass: 'bg-success',
+    id: 3, type: '标签',
+    title: '企业信用等级', subtitle: 'T-100312',
+    org: '通州区政府', location: '——',
+    statusLabel: '已发布', statusColor: 'text-success',
     updated: '2023-10-24 09:00',
   },
   {
-    id: 4,
-    type: '点位',
-    title: '东城区历史风貌保护区 Z1',
-    subtitle: 'ID: P-100312',
-    org: '东城区规划局',
-    location: '北京市东城区东华门街道',
-    statusLabel: '高风险警报',
-    statusClass: 'bg-danger-container text-on-danger-container',
-    statusDotClass: 'bg-danger',
+    id: 4, type: '点位',
+    title: '东城区历史风貌保护区 Z1', subtitle: 'P-100388',
+    org: '东城区规划局', location: '116.420, 39.918',
+    statusLabel: '告警', statusColor: 'text-danger',
     updated: '2023-10-24 15:45',
   },
 ])

@@ -1,16 +1,17 @@
 <template>
   <div class="pb-24">
-    <!-- Breadcrumb & Header -->
-    <div class="mb-8">
-      <nav class="flex items-center space-x-2 text-sm mb-3">
-        <span class="text-on-surface-variant">数据中心</span>
-        <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 14px">chevron_right</span>
-        <span class="text-on-surface-variant">分支主题</span>
-        <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 14px">chevron_right</span>
-        <span class="text-primary font-medium">新建标签集合</span>
-      </nav>
-      <h2 class="text-2xl font-bold text-on-surface tracking-tight">新建标签集合</h2>
-      <p class="text-on-surface-variant mt-1 text-sm">创建并配置数据标签的共享属性与使用权限</p>
+    <!-- Page Header -->
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span>数据</span>
+        <span class="opacity-40">/</span>
+        <span class="cursor-pointer hover:text-primary transition-colors">分支主题</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">新建集合</span>
+      </div>
+      <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">新建标签集合</h1>
+      <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">创建并配置数据标签的共享属性与使用权限。</p>
     </div>
 
     <form class="space-y-8 max-w-5xl">

@@ -1,33 +1,36 @@
 <template>
   <div>
     <!-- Page Header -->
-    <div class="mb-8 flex justify-between items-end">
-      <div>
-        <nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
-          <span>标签管理</span>
-          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span>点位列表</span>
-          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span class="text-primary font-medium">编辑点位</span>
-        </nav>
-        <h2 class="text-2xl font-bold tracking-tight text-on-surface">编辑点位 - {{ form.name }}</h2>
-        <p class="text-on-surface-variant mt-1 text-sm">编辑点位基本信息及调整关联标签</p>
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span class="cursor-pointer hover:text-primary transition-colors">标签管理</span>
+        <span class="opacity-40">/</span>
+        <span>点位</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">编辑</span>
       </div>
-      <div class="flex gap-3">
-        <button
-          @click="cancel"
-          class="px-5 py-2 bg-surface-container-lowest border border-outline-variant text-on-surface-variant rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-low transition-all"
-        >
-          <span class="material-symbols-outlined" style="font-size: 16px">close</span>
-          取消
-        </button>
-        <button
-          @click="save"
-          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-medium text-sm flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
-        >
-          <span class="material-symbols-outlined" style="font-size: 16px">check</span>
-          确认保存
-        </button>
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <div>
+          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">编辑点位 · {{ form.name }}</h1>
+          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">编辑点位基本信息及调整关联标签。</p>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button
+            @click="cancel"
+            class="text-[12px] px-3 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex items-center gap-1.5"
+          >
+            <span class="material-symbols-outlined" style="font-size: 14px">close</span>
+            取消
+          </button>
+          <button
+            @click="save"
+            class="text-[12px] px-3 py-2 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          >
+            <span class="material-symbols-outlined" style="font-size: 14px">check</span>
+            保存
+          </button>
+        </div>
       </div>
     </div>
 

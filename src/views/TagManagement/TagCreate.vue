@@ -1,13 +1,14 @@
 <template>
   <div class="min-h-screen bg-surface flex flex-col">
     <div class="flex-1 px-8 pt-8 pb-32">
-      <nav class="flex items-center gap-2 text-xs text-on-surface-variant mb-2">
-        <span>标签管理</span>
-        <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-        <span class="text-primary font-medium">新建标签</span>
-      </nav>
-      <h2 class="text-2xl font-bold tracking-tight text-on-surface">新建标签</h2>
-      <p class="text-on-surface-variant mt-1 text-sm">通过定义基本属性与物理映射规则来创建新的治理标签</p>
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span class="cursor-pointer hover:text-primary transition-colors">标签管理</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">新建</span>
+      </div>
+      <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">新建标签</h1>
+      <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">通过定义基本属性与物理映射规则来创建新的治理标签。</p>
 
       <div class="mt-8 grid grid-cols-12 gap-6">
         <div class="col-span-12 lg:col-span-5 flex flex-col gap-6">

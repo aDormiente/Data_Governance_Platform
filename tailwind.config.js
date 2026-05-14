@@ -8,9 +8,26 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Noto Sans SC', 'Microsoft YaHei', 'PingFang SC', 'system-ui', 'sans-serif'],
-        display: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Cascadia Code', 'SF Mono', 'ui-monospace', 'monospace'],
+        sans: ['IBM Plex Sans', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+        display: ['IBM Plex Sans Condensed', 'IBM Plex Sans', 'Noto Sans SC', 'system-ui', 'sans-serif'],
+        mono: ['IBM Plex Mono', 'JetBrains Mono', 'SF Mono', 'ui-monospace', 'Consolas', 'monospace'],
+      },
+      borderRadius: {
+        none: '0',
+        DEFAULT: '0',
+        sm: '0',
+        md: '2px',
+        lg: '2px',
+        xl: '3px',
+        '2xl': '4px',
+        '3xl': '6px',
+        full: '9999px',
+      },
+      letterSpacing: {
+        tightest: '-0.04em',
+        tighter: '-0.02em',
+        widest: '0.18em',
+        widestest: '0.24em',
       },
       colors: {
         'primary': 'rgb(var(--color-primary) / <alpha-value>)',
@@ -59,7 +76,6 @@ export default {
         'inverse-surface': 'rgb(var(--color-inverse-surface) / <alpha-value>)',
         'inverse-on-surface': 'rgb(var(--color-inverse-on-surface) / <alpha-value>)',
         'inverse-primary': 'rgb(var(--color-inverse-primary) / <alpha-value>)',
-        // Semantic status tokens (theme-aware)
         'success': 'rgb(var(--color-success) / <alpha-value>)',
         'success-container': 'rgb(var(--color-success-container) / <alpha-value>)',
         'on-success-container': 'rgb(var(--color-on-success-container) / <alpha-value>)',

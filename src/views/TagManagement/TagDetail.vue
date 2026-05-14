@@ -1,24 +1,27 @@
 <template>
   <div>
-    <!-- Breadcrumb & Title -->
-    <div class="space-y-2 mb-6">
-      <nav class="flex items-center gap-2 text-sm text-on-surface-variant">
-        <span class="hover:text-primary cursor-pointer transition-colors">标签管理</span>
-        <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-        <span class="text-on-surface font-medium">标签详情</span>
-      </nav>
-      <div class="flex justify-between items-end">
+    <!-- Page Header -->
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span class="cursor-pointer hover:text-primary transition-colors" @click="router.push('/tag-management')">标签管理</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">详情</span>
+        <span class="opacity-40">/</span>
+        <span class="text-primary">T-100312</span>
+      </div>
+      <div class="flex items-end justify-between gap-6 flex-wrap">
         <div>
-          <h2 class="text-2xl font-bold text-on-surface tracking-tight">标签详情 - 企业信用等级</h2>
-          <p class="text-sm text-on-surface-variant mt-1">查看及管理企业信用评价维度的标签定义与关联点位</p>
+          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">企业信用等级</h1>
+          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">企业信用评价维度的标签定义与关联点位。整合工商、税务、司法多维数据。</p>
         </div>
-        <div class="flex gap-3">
-          <button class="px-4 py-2 bg-surface-container-high text-primary rounded-lg text-sm font-medium hover:bg-surface-container transition-all active:opacity-80">导出数据</button>
+        <div class="flex gap-2 items-center">
+          <button class="text-[12px] px-3 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">导出数据</button>
           <button
             @click="router.push(`/tag-management/edit/${route.params.id || 1}`)"
-            class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg text-sm font-medium shadow-sm hover:opacity-90 transition-all active:opacity-80 flex items-center gap-2"
+            class="text-[12px] px-3 py-2 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
           >
-            <span class="material-symbols-outlined" style="font-size: 16px">edit</span>
+            <span class="material-symbols-outlined" style="font-size: 14px">edit</span>
             编辑标签
           </button>
         </div>
@@ -28,7 +31,7 @@
     <!-- Bento Grid -->
     <div class="grid grid-cols-12 gap-6">
       <!-- 01 基本信息 (Full Width) -->
-      <section class="col-span-12 bg-surface-container-lowest rounded-xl shadow-sm border-l-4 border-primary">
+      <section class="col-span-12 bg-surface-container-lowest border border-outline-variant border-l-4 border-primary">
         <div class="px-6 py-4 border-b border-surface-container-low flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-primary" style="font-size: 20px">info</span>
@@ -64,7 +67,7 @@
       </section>
 
       <!-- 02 下属点位 (8 cols) -->
-      <section class="col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-xl shadow-sm">
+      <section class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant">
         <div class="px-6 py-4 border-b border-surface-container-low flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-primary" style="font-size: 20px">hub</span>
@@ -121,7 +124,7 @@
       </section>
 
       <!-- 03 更改日志 (4 cols) -->
-      <section class="col-span-12 lg:col-span-4 bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden flex flex-col">
+      <section class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant overflow-hidden flex flex-col">
         <div class="px-6 py-4 border-b border-surface-container-low bg-surface-container-lowest flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-primary" style="font-size: 20px">history</span>

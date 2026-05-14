@@ -1,193 +1,195 @@
 <template>
   <div>
     <!-- Page Header -->
-    <div class="mb-8 flex justify-between items-end gap-6 flex-wrap">
-      <div>
-        <nav class="flex items-center gap-1.5 text-[11px] font-num text-outline uppercase tracking-[0.18em] mb-3">
-          <span>DATA</span>
-          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span class="text-primary">BRANCH&nbsp;TOPICS</span>
-        </nav>
-        <h2 class="font-display text-[28px] font-extrabold tracking-tight text-on-surface leading-none">分支主题中心</h2>
-        <p class="text-on-surface-variant mt-2 text-sm">围绕主题构建标签集合，面向政务内网与跨部门提供数据共享与 API 接口。</p>
+    <div class="mb-6">
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span>数据</span>
+        <span class="opacity-40">/</span>
+        <span class="text-on-surface">分支主题</span>
+        <span class="opacity-40">/</span>
+        <span class="opacity-60">索引</span>
       </div>
-      <div class="flex gap-3">
-        <button class="px-4 py-2 bg-surface-container-high/70 text-on-surface rounded-lg font-medium text-sm flex items-center gap-2 hover:bg-surface-container-highest border border-outline-variant/30 transition-all">
-          <span class="material-symbols-outlined" style="font-size: 16px">monitoring</span>
-          运行日志
-        </button>
-        <button
-          @click="router.push('/branch-topics/collection/create')"
-          class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg font-bold text-sm flex items-center gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-px transition-all"
-        >
-          <span class="material-symbols-outlined" style="font-size: 16px">add</span>
-          新建共享
-        </button>
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <div>
+          <h1 class="font-display text-[34px] font-semibold tracking-tight text-on-surface leading-[1.05]">分支主题中心</h1>
+          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">围绕主题构建标签集合，面向政务内网与跨部门提供数据共享与 API 接口。</p>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button class="text-[12px] px-3 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex items-center gap-1.5">
+            <span class="material-symbols-outlined" style="font-size: 14px">monitoring</span>
+            运行日志
+          </button>
+          <button
+            @click="router.push('/branch-topics/collection/create')"
+            class="text-[12px] px-3 py-2 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          >
+            <span class="material-symbols-outlined" style="font-size: 14px">add</span>
+            新建共享
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Bento Action Cards -->
-    <section class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-      <!-- New Tag Card -->
+    <!-- 3 Action Cards -->
+    <div class="tt-rule mb-3">
+      <span>01&nbsp;&nbsp;操作入口</span>
+      <span class="tt-rule-sub">快捷动作</span>
+    </div>
+    <section class="grid grid-cols-1 md:grid-cols-3 border border-outline-variant divide-x divide-outline-variant bg-surface-container-lowest mb-8">
+      <!-- New Tag -->
       <div
         @click="router.push('/tag-management/create')"
-        class="group relative overflow-hidden bento-card p-7 cursor-pointer transition-all hover:-translate-y-1 border-l-[3px] border-primary"
+        class="group relative p-6 cursor-pointer tt-card-hover transition-colors border-l-[3px] border-primary"
       >
-        <div class="flex justify-between items-start mb-5">
-          <div class="w-12 h-12 bg-primary-fixed rounded-xl flex items-center justify-center text-on-primary-fixed-variant transition-transform group-hover:scale-110 group-hover:rotate-3">
-            <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">add_circle</span>
-          </div>
-          <span class="font-num text-[10px] font-bold text-on-primary-fixed-variant px-2 py-1 bg-primary-fixed/70 rounded uppercase tracking-wider">01 · 快捷入口</span>
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-[10px] tracking-wider text-on-surface-variant">A · 快捷入口</span>
+          <span class="material-symbols-outlined text-primary opacity-70" style="font-size: 18px">add_circle</span>
         </div>
-        <h3 class="font-display text-[19px] font-extrabold mb-2 text-on-surface tracking-tight">新建标签</h3>
-        <p class="text-on-surface-variant text-[13px] leading-relaxed mb-5">基于全域数据源，快速定义语义化标签，支持多维属性配置与血缘追踪。</p>
-        <button class="flex items-center gap-2 text-primary font-bold text-sm group-hover:gap-3 transition-all">
+        <h3 class="font-display text-[18px] font-semibold mb-2 text-on-surface tracking-tight">新建标签</h3>
+        <p class="text-on-surface-variant text-[12px] leading-relaxed mb-5">基于全域数据源，快速定义语义化标签，支持多维属性配置与血缘追踪。</p>
+        <div class="text-[12px] tracking-wider text-primary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
           立即开启
-          <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
-        </button>
-        <span class="absolute -right-8 -bottom-8 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity pointer-events-none">
-          <span class="material-symbols-outlined text-primary" style="font-size: 144px">label</span>
-        </span>
+          <span class="material-symbols-outlined" style="font-size: 14px">arrow_forward</span>
+        </div>
       </div>
 
-      <!-- New Tag Set Card -->
+      <!-- New Tag Set -->
       <div
         @click="router.push('/branch-topics/collection/create')"
-        class="group relative overflow-hidden bento-card p-7 cursor-pointer transition-all hover:-translate-y-1 border-l-[3px] border-tertiary"
+        class="group relative p-6 cursor-pointer tt-card-hover transition-colors border-l-[3px] border-tertiary"
       >
-        <div class="flex justify-between items-start mb-5">
-          <div class="w-12 h-12 bg-tertiary-fixed rounded-xl flex items-center justify-center text-on-tertiary-fixed-variant transition-transform group-hover:scale-110 group-hover:rotate-3">
-            <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">category</span>
-          </div>
-          <span class="font-num text-[10px] font-bold text-on-tertiary-fixed-variant px-2 py-1 bg-tertiary-fixed/70 rounded uppercase tracking-wider">02 · 聚合分析</span>
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-[10px] tracking-wider text-on-surface-variant">B · 聚合分析</span>
+          <span class="material-symbols-outlined text-tertiary opacity-70" style="font-size: 18px">category</span>
         </div>
-        <h3 class="font-display text-[19px] font-extrabold mb-2 text-on-surface tracking-tight">新建标签集合</h3>
-        <p class="text-on-surface-variant text-[13px] leading-relaxed mb-5">将关联业务标签进行逻辑分组，构建领域模型，提升跨部门数据共享效率。</p>
-        <button class="flex items-center gap-2 text-tertiary font-bold text-sm group-hover:gap-3 transition-all">
+        <h3 class="font-display text-[18px] font-semibold mb-2 text-on-surface tracking-tight">新建标签集合</h3>
+        <p class="text-on-surface-variant text-[12px] leading-relaxed mb-5">将关联业务标签进行逻辑分组，构建领域模型，提升跨部门数据共享效率。</p>
+        <div class="text-[12px] tracking-wider text-tertiary flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
           创建集合
-          <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
-        </button>
-        <span class="absolute -right-8 -bottom-8 opacity-[0.04] group-hover:opacity-[0.10] transition-opacity pointer-events-none">
-          <span class="material-symbols-outlined text-tertiary" style="font-size: 144px">collections_bookmark</span>
-        </span>
+          <span class="material-symbols-outlined" style="font-size: 14px">arrow_forward</span>
+        </div>
       </div>
 
-      <!-- API Sharing Center Card (hero) -->
-      <div class="group relative overflow-hidden rounded-[14px] p-7 cursor-pointer transition-all hover:-translate-y-1 bg-gradient-to-br from-primary via-primary to-primary-container text-on-primary shadow-xl shadow-primary/30">
-        <span class="absolute top-0 right-0 w-40 h-40 -mr-12 -mt-12 rounded-full bg-on-primary/10 blur-2xl pointer-events-none"></span>
-        <span class="absolute bottom-0 left-0 w-32 h-32 -ml-8 -mb-8 rounded-full bg-on-primary/5 blur-2xl pointer-events-none"></span>
-        <div class="relative">
-          <div class="flex justify-between items-start mb-5">
-            <div class="w-12 h-12 bg-on-primary/15 backdrop-blur-sm rounded-xl flex items-center justify-center text-on-primary border border-on-primary/20 transition-transform group-hover:scale-110 group-hover:-rotate-3">
-              <span class="material-symbols-outlined" style="font-size: 26px; font-variation-settings: 'FILL' 1">hub</span>
-            </div>
-            <span class="font-num text-[10px] font-bold text-on-primary/90 px-2 py-1 bg-on-primary/15 backdrop-blur-sm rounded uppercase tracking-wider border border-on-primary/20">03 · 核心服务</span>
-          </div>
-          <h3 class="font-display text-[19px] font-extrabold mb-2 tracking-tight">API 共享中心</h3>
-          <p class="text-on-primary/85 text-[13px] leading-relaxed mb-5">标准化数据接口交付，实时监控调用链路，确保政务数据流通的安全合规。</p>
-          <button class="flex items-center gap-2 text-on-primary font-bold text-sm group-hover:gap-3 transition-all">
-            访问中心
-            <span class="material-symbols-outlined" style="font-size: 16px">arrow_forward</span>
-          </button>
+      <!-- API Hub (hero, inverted) -->
+      <div class="group relative p-6 cursor-pointer bg-primary text-on-primary border-l-[3px] border-on-primary/40 transition-opacity hover:opacity-95">
+        <div class="flex items-center justify-between mb-5">
+          <span class="font-mono text-[10px] tracking-wider opacity-80">C · 核心服务</span>
+          <span class="material-symbols-outlined opacity-90" style="font-size: 18px">hub</span>
         </div>
-        <span class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
-          <span class="material-symbols-outlined" style="font-size: 160px">api</span>
-        </span>
+        <h3 class="font-display text-[18px] font-semibold mb-2 tracking-tight">API 共享中心</h3>
+        <p class="text-on-primary/85 text-[12px] leading-relaxed mb-5">标准化数据接口交付，实时监控调用链路，确保政务数据流通的安全合规。</p>
+        <div class="text-[12px] tracking-wider flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+          访问中心
+          <span class="material-symbols-outlined" style="font-size: 14px">arrow_forward</span>
+        </div>
       </div>
     </section>
 
-    <!-- API List Table Section -->
-    <section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm mb-8">
-      <div class="flex justify-between items-center mb-8">
-        <div class="flex items-center gap-3">
-          <div class="w-1 bg-primary h-6 rounded-full"></div>
-          <h2 class="text-lg font-bold text-on-surface">活跃API服务列表</h2>
+    <!-- API Table -->
+    <div class="tt-rule mb-3">
+      <span>02&nbsp;&nbsp;活跃 API 服务</span>
+      <span class="tt-rule-sub">在线接口</span>
+    </div>
+    <section class="border border-outline-variant bg-surface-container-lowest mb-8">
+      <div class="px-4 py-3 border-b border-outline-variant flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-1">
+          <span class="font-mono text-[11px] text-primary">&gt;</span>
+          <input
+            v-model="searchText"
+            class="flex-1 bg-transparent border-0 text-[12px] text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-0"
+            placeholder="按接口名称筛选..."
+            type="text"
+          />
+          <span class="font-mono text-[10px] text-on-surface-variant tracking-wider">{{ filteredApis.length }}/24</span>
         </div>
-        <div class="flex gap-2">
-          <button class="px-4 py-1.5 text-xs font-bold bg-secondary-container text-on-secondary-container rounded hover:bg-surface-container-high transition-colors">导出报表</button>
-          <button class="px-4 py-1.5 text-xs font-bold bg-primary text-on-primary rounded hover:opacity-90 transition-opacity">批量授权</button>
+        <div class="flex items-center gap-2">
+          <button class="text-[12px] px-3 py-1.5 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">导出报表</button>
+          <button class="text-[12px] px-3 py-1.5 bg-primary text-on-primary hover:opacity-90 transition-opacity">批量授权</button>
         </div>
       </div>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left">
-          <thead>
-            <tr class="text-on-surface-variant border-b border-outline-variant/10">
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider pl-4">接口名称</th>
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider">所属分类</th>
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider text-right">累计调用次数</th>
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider text-center">当前状态</th>
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider">最后更新</th>
-              <th class="pb-4 font-bold text-xs uppercase tracking-wider pr-4 text-right">操作</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-surface-container-low">
-            <tr v-for="row in filteredApis" :key="row.id" class="hover:bg-surface-container-low transition-colors group">
-              <td class="py-5 pl-4">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded bg-primary/5 flex items-center justify-center text-primary">
-                    <span class="material-symbols-outlined" style="font-size: 18px">{{ row.icon }}</span>
-                  </div>
-                  <span class="font-bold text-sm text-on-surface">{{ row.name }}</span>
-                </div>
-              </td>
-              <td class="py-5 text-sm text-on-surface-variant">{{ row.category }}</td>
-              <td class="py-5 text-right font-mono font-bold text-sm">{{ row.calls }}</td>
-              <td class="py-5 text-center">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold" :class="apiStatusClass(row.status)">
-                  <span class="w-1.5 h-1.5 rounded-full" :class="apiStatusDotClass(row.status)"></span>
-                  {{ row.status }}
-                </span>
-              </td>
-              <td class="py-5 text-xs text-on-surface-variant">{{ row.updated }}</td>
-              <td class="py-5 pr-4 text-right">
-                <button class="text-primary hover:underline text-xs font-bold">详情</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- Pagination -->
-      <div class="mt-8 flex justify-between items-center px-2">
-        <p class="text-xs text-on-surface-variant">显示 1 到 {{ filteredApis.length }} 共 24 条数据</p>
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-outline-variant">
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">接口名称</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">所属分类</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold text-right">累计调用</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">状态</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">最后更新</th>
+            <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold text-right"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="row in filteredApis" :key="row.id" class="tt-row border-b border-outline-variant/60 cursor-pointer">
+            <td class="px-4 py-3.5">
+              <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-primary" style="font-size: 14px">{{ row.icon }}</span>
+                <span class="font-mono text-[12px] font-semibold text-on-surface">{{ row.name }}</span>
+              </div>
+            </td>
+            <td class="px-4 py-3.5 text-[12px] text-on-surface-variant">{{ row.category }}</td>
+            <td class="px-4 py-3.5 text-right font-mono text-[12px] font-semibold tabular-nums text-on-surface">{{ row.calls }}</td>
+            <td class="px-4 py-3.5">
+              <span class="status-pill" :class="apiStatusColor(row.status)">{{ row.status }}</span>
+            </td>
+            <td class="px-4 py-3.5 font-mono text-[11px] text-on-surface-variant tabular-nums tracking-wider">{{ row.updated.replace(/-/g, '.').slice(0, 16) }}</td>
+            <td class="px-4 py-3.5 text-right">
+              <button class="text-[12px] text-primary hover:underline tracking-wider">详情 ›</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="px-4 py-2.5 border-t border-outline-variant flex justify-between items-center font-mono text-[11px] text-on-surface-variant tracking-wider">
+        <span>显示 01-{{ String(filteredApis.length).padStart(2, '0') }} / 共 24 个接口</span>
         <div class="flex items-center gap-1">
-          <button class="p-1 rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined" style="font-size: 16px">chevron_left</span></button>
-          <button class="w-8 h-8 flex items-center justify-center rounded bg-primary text-on-primary text-xs font-bold">1</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs transition-colors">2</button>
-          <button class="w-8 h-8 flex items-center justify-center rounded hover:bg-surface-container-high text-xs transition-colors">3</button>
-          <button class="p-1 rounded hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span></button>
+          <button class="tt-kbd opacity-50">←</button>
+          <span class="px-2 text-on-surface">1</span>
+          <button class="tt-kbd hover:border-primary hover:text-primary">2</button>
+          <button class="tt-kbd hover:border-primary hover:text-primary">3</button>
+          <button class="tt-kbd hover:border-primary hover:text-primary">→</button>
         </div>
       </div>
     </section>
 
-    <!-- Bottom Asymmetric Insight: 安全看板 + 帮助中心 -->
+    <!-- Bottom -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div class="md:col-span-2 bg-surface-container-low rounded-xl p-8 relative overflow-hidden group">
-        <div class="relative z-10">
-          <h3 class="text-lg font-bold mb-4 text-on-surface">共享安全看板</h3>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div v-for="kpi in kpiCards" :key="kpi.label" class="bg-surface-container-lowest/60 backdrop-blur p-4 rounded-lg">
-              <p class="text-[10px] text-on-surface-variant uppercase tracking-widest font-bold">{{ kpi.label }}</p>
-              <p class="text-2xl font-black" :class="kpi.valueClass">{{ kpi.value }}</p>
+      <div class="md:col-span-2">
+        <div class="tt-rule mb-3">
+          <span>03&nbsp;&nbsp;共享安全看板</span>
+          <span class="tt-rule-sub">运行指标</span>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest">
+          <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-outline-variant">
+            <div v-for="kpi in kpiCards" :key="kpi.label" class="relative px-5 py-5">
+              <span class="absolute left-0 top-0 bottom-0 w-[3px]" :class="kpi.barClass"></span>
+              <p class="font-mono text-[11px] tracking-wider text-on-surface-variant mb-2">{{ kpi.label }}</p>
+              <p class="font-mono text-[26px] font-semibold tabular-nums leading-none tracking-tight" :class="kpi.valueClass">{{ kpi.value }}</p>
+              <p class="mt-2 font-mono text-[11px] text-on-surface-variant tracking-wider">{{ kpi.sub }}</p>
             </div>
           </div>
         </div>
-        <div class="absolute top-0 right-0 h-full w-1/2 opacity-10 group-hover:scale-105 transition-transform duration-700 pointer-events-none flex items-center justify-end">
-          <span class="material-symbols-outlined text-primary" style="font-size: 220px">security</span>
-        </div>
       </div>
-      <div class="bg-surface-container-highest rounded-xl p-8 flex flex-col justify-center border border-on-primary/40">
-        <h4 class="text-sm font-bold mb-2 text-on-surface">帮助中心</h4>
-        <p class="text-xs text-on-surface-variant leading-relaxed mb-4">遇到API调用异常或权限申请问题？查看最新的开发者指南或联系技术支持。</p>
-        <div class="space-y-2">
-          <a
-            v-for="item in helpItems"
-            :key="item.title"
-            class="flex items-center gap-2 text-xs font-bold text-primary group cursor-pointer"
-          >
-            <span class="material-symbols-outlined" style="font-size: 16px">{{ item.icon }}</span>
-            {{ item.title }}
-            <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity" style="font-size: 12px">open_in_new</span>
-          </a>
+
+      <div>
+        <div class="tt-rule mb-3">
+          <span>04&nbsp;&nbsp;帮助中心</span>
+          <span class="tt-rule-sub">支持</span>
+        </div>
+        <div class="border border-outline-variant bg-surface-container-lowest p-5">
+          <p class="text-[12px] text-on-surface-variant leading-relaxed mb-4">
+            遇到 API 调用异常或权限申请问题？查看最新开发者指南或联系技术支持。
+          </p>
+          <div class="space-y-0 border-t border-outline-variant">
+            <a
+              v-for="item in helpItems"
+              :key="item.title"
+              class="flex items-center gap-2.5 py-2.5 border-b border-outline-variant text-on-surface group cursor-pointer hover:text-primary transition-colors"
+            >
+              <span class="material-symbols-outlined" style="font-size: 16px">{{ item.icon }}</span>
+              <span class="text-[12px] tracking-wider flex-1">{{ item.title }}</span>
+              <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity" style="font-size: 14px">open_in_new</span>
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -203,42 +205,37 @@ const searchText = ref('')
 const filterStatus = ref('')
 
 const apiData = ref([
-  { id: 1, name: 'GetResidentProfileByTag_V1', icon: 'code', category: '人口基础库', calls: '128,492', status: '运行中', updated: '2023-11-24 14:20' },
-  { id: 2, name: 'EnterpriseRiskScore_Query', icon: 'api', category: '营商环境', calls: '45,012', status: '运行中', updated: '2023-11-25 09:15' },
-  { id: 3, name: 'UrbanTrafficDensity_Stream', icon: 'webhook', category: '智慧城市', calls: '2,104,855', status: '维护中', updated: '2023-11-23 23:45' },
-  { id: 4, name: 'LandUseCertificate_Verify', icon: 'terminal', category: '自然资源', calls: '8,331', status: '运行中', updated: '2023-11-25 11:02' },
-  { id: 5, name: 'SocialSecurityStatus_Batch', icon: 'safety_check', category: '社会保障', calls: '0', status: '已禁用', updated: '2023-11-20 16:30' },
+  { id: 1, name: 'GetResidentProfileByTag_V1',    icon: 'code',         category: '人口基础库', calls: '128,492',  status: '运行中', updated: '2023-11-24 14:20' },
+  { id: 2, name: 'EnterpriseRiskScore_Query',      icon: 'api',          category: '营商环境',   calls: '45,012',   status: '运行中', updated: '2023-11-25 09:15' },
+  { id: 3, name: 'UrbanTrafficDensity_Stream',     icon: 'webhook',      category: '智慧城市',   calls: '2,104,855',status: '维护中', updated: '2023-11-23 23:45' },
+  { id: 4, name: 'LandUseCertificate_Verify',      icon: 'terminal',     category: '自然资源',   calls: '8,331',    status: '运行中', updated: '2023-11-25 11:02' },
+  { id: 5, name: 'SocialSecurityStatus_Batch',     icon: 'safety_check', category: '社会保障',   calls: '0',        status: '已禁用', updated: '2023-11-20 16:30' },
 ])
 
 const filteredApis = computed(() =>
   apiData.value.filter(item => {
-    const matchSearch = !searchText.value || item.name.includes(searchText.value)
+    const matchSearch = !searchText.value || item.name.toLowerCase().includes(searchText.value.toLowerCase())
     const matchStatus = !filterStatus.value || item.status === filterStatus.value
     return matchSearch && matchStatus
   })
 )
 
-const apiStatusClass = (status) => ({
-  '运行中': 'bg-success-container text-on-success-container',
-  '维护中': 'bg-tertiary-fixed text-on-tertiary-fixed-variant',
-  '已禁用': 'bg-surface-container text-on-surface-variant',
-}[status] || 'bg-surface-container text-on-surface-variant')
-
-const apiStatusDotClass = (status) => ({
-  '运行中': 'bg-success',
-  '维护中': 'bg-tertiary',
-  '已禁用': 'bg-outline-variant',
-}[status] || 'bg-outline-variant')
+const apiStatusColor = (status) => ({
+  '运行中': 'text-success',
+  '维护中': 'text-warning',
+  '已禁用': 'text-on-surface-variant',
+}[status] || 'text-on-surface-variant')
 
 const kpiCards = [
-  { label: '接口告警', value: '0', valueClass: 'text-error' },
-  { label: '平均耗时', value: '12ms', valueClass: 'text-primary' },
-  { label: '今日流量', value: '1.2GB', valueClass: 'text-on-surface' },
-  { label: '成功率', value: '99.9%', valueClass: 'text-on-success-container' },
+  { label: '接口告警', value: '0',     sub: '近 24 小时',     valueClass: 'text-success',   barClass: 'bg-success' },
+  { label: '平均耗时', value: '12ms',  sub: '近 1 小时 P50',  valueClass: 'text-on-surface',barClass: 'bg-primary' },
+  { label: '今日流量', value: '1.2GB', sub: '较 7 日均值 +8%', valueClass: 'text-on-surface',barClass: 'bg-primary' },
+  { label: '成功率',   value: '99.9%', sub: '▲ 较上周 +0.1pt', valueClass: 'text-success',  barClass: 'bg-success' },
 ]
 
 const helpItems = [
   { title: '开发文档', icon: 'description' },
   { title: '联调支持', icon: 'support_agent' },
+  { title: '故障申报', icon: 'report' },
 ]
 </script>

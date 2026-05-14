@@ -1,36 +1,35 @@
 <template>
   <div class="space-y-8">
-    <!-- Page Header & Breadcrumbs -->
-    <div class="flex items-end justify-between">
-      <div>
-        <nav class="flex items-center text-xs text-on-surface-variant mb-2 space-x-2">
-          <span>数据中心</span>
-          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span>点位管理</span>
-          <span class="material-symbols-outlined" style="font-size: 12px">chevron_right</span>
-          <span class="text-primary font-medium">点位详情</span>
-        </nav>
-        <h1 class="text-2xl font-extrabold text-on-surface tracking-tight">
-          点位详情
-          <span class="ml-2 text-sm font-normal text-on-surface-variant tracking-normal">Point Specification Details</span>
-        </h1>
+    <!-- Page Header -->
+    <div>
+      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
+        <span class="text-primary">»</span>
+        <span class="cursor-pointer hover:text-primary transition-colors" @click="router.push('/tag-management')">标签管理</span>
+        <span class="opacity-40">/</span>
+        <span>点位</span>
+        <span class="opacity-40">/</span>
+        <span class="text-primary">P-100249</span>
       </div>
-      <div class="flex space-x-3">
-        <button class="px-4 py-2 bg-surface-container-high text-primary rounded-lg text-sm font-semibold hover:brightness-95 transition-all">
-          导出报告
-        </button>
-        <button
-          @click="router.push(`/tag-management/point/edit/${route.params.id || 1}`)"
-          class="px-4 py-2 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-lg text-sm font-semibold flex items-center gap-2 shadow-lg shadow-primary/20 hover:opacity-90 transition-all"
-        >
-          <span class="material-symbols-outlined" style="font-size: 16px">edit</span>
-          编辑点位信息
-        </button>
+      <div class="flex items-end justify-between gap-6 flex-wrap">
+        <div>
+          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">朝阳区大屯路南口视频感知点</h1>
+          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">视频感知点位详情 · 查看运行状态与关联标签。</p>
+        </div>
+        <div class="flex gap-2 items-center">
+          <button class="text-[12px] px-3 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors">导出报告</button>
+          <button
+            @click="router.push(`/tag-management/point/edit/${route.params.id || 1}`)"
+            class="text-[12px] px-3 py-2 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+          >
+            <span class="material-symbols-outlined" style="font-size: 14px">edit</span>
+            编辑点位
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Section 01: 基本信息 -->
-    <section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm relative overflow-hidden">
+    <section class="bg-surface-container-lowest border border-outline-variant p-6 relative overflow-hidden">
       <div class="absolute left-0 top-6 w-1 h-6 bg-primary rounded-r-full"></div>
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold text-on-surface flex items-center pl-4">
@@ -84,7 +83,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       <!-- Section 02: 关联标签 -->
-      <section class="lg:col-span-2 bg-surface-container-lowest rounded-xl p-6 shadow-sm relative h-full">
+      <section class="lg:col-span-2 bg-surface-container-lowest border border-outline-variant p-6 relative h-full">
         <div class="absolute left-0 top-6 w-1 h-6 bg-primary rounded-r-full"></div>
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-lg font-bold text-on-surface flex items-center pl-4">
@@ -125,7 +124,7 @@
       </section>
 
       <!-- Section 03: 工作日志 -->
-      <section class="bg-surface-container-lowest rounded-xl p-6 shadow-sm relative h-full">
+      <section class="bg-surface-container-lowest border border-outline-variant p-6 relative h-full">
         <div class="absolute left-0 top-6 w-1 h-6 bg-primary rounded-r-full"></div>
         <h2 class="text-lg font-bold text-on-surface flex items-center pl-4 mb-6">
           03 工作日志
