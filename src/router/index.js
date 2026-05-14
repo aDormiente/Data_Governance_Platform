@@ -15,9 +15,11 @@ const router = createRouter({
         { path: 'tag-management/detail/:id', component: () => import('../views/TagManagement/TagDetail.vue') },
         { path: 'tag-management/edit/:id', component: () => import('../views/TagManagement/TagEdit.vue') },
         { path: 'tag-management/point/:id', component: () => import('../views/TagManagement/PointDetail.vue') },
+        { path: 'tag-management/point/edit/:id', component: () => import('../views/TagManagement/PointEdit.vue') },
         { path: 'fusion-search', component: () => import('../views/FusionSearch/index.vue') },
         { path: 'my-approvals', component: () => import('../views/MyApprovals/index.vue') },
-        { path: 'tag-sharing', component: () => import('../views/TagSharing/index.vue') },
+        { path: 'branch-topics', component: () => import('../views/BranchTopics/index.vue') },
+        { path: 'branch-topics/collection/create', component: () => import('../views/BranchTopics/CollectionCreate.vue') },
       ]
     }
   ]

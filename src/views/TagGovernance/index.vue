@@ -47,9 +47,12 @@
               />
               <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" style="font-size: 16px">search</span>
             </div>
-            <button class="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:opacity-90 transition-all">
+            <button
+              @click="router.push('/tag-management/create')"
+              class="bg-primary text-white px-4 py-1.5 rounded-lg text-sm font-bold flex items-center gap-1 hover:opacity-90 transition-all"
+            >
               <span class="material-symbols-outlined" style="font-size: 16px">add</span>
-              新增标签
+              新建标签
             </button>
           </div>
         </div>
@@ -70,6 +73,7 @@
                 v-for="row in filteredTableData"
                 :key="row.id"
                 class="hover:bg-surface-container-low transition-colors cursor-pointer"
+                @click="router.push(`/tag-management/detail/${row.id}`)"
               >
                 <td class="px-4 py-4">
                   <div class="flex items-center gap-3">
@@ -85,8 +89,11 @@
                     :class="statusClass(row.status)"
                   >{{ row.status }}</span>
                 </td>
-                <td class="px-4 py-4 text-right">
-                  <button class="text-primary hover:underline text-sm font-bold">详情</button>
+                <td class="px-4 py-4 text-right" @click.stop>
+                  <button
+                    @click="router.push(`/tag-management/detail/${row.id}`)"
+                    class="text-primary hover:underline text-sm font-bold"
+                  >详情</button>
                 </td>
               </tr>
             </tbody>
@@ -163,7 +170,9 @@
 
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const searchText = ref('')
 
 const statCards = [
