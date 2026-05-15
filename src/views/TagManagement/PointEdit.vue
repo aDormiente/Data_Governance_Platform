@@ -116,8 +116,8 @@
               >
                 <template #bodyCell="{ column, record }">
                   <template v-if="column.key === 'name'">
-                    <a-space :size="10">
-                      <a-avatar shape="square" :size="28" class="tag-avatar">
+                    <a-space :size="12">
+                      <a-avatar shape="square" :size="32" class="tag-avatar">
                         <template #icon><TagOutlined /></template>
                       </a-avatar>
                       <a-typography-text strong>{{ record.name }}</a-typography-text>
@@ -127,10 +127,7 @@
                     <a-tag color="blue" :bordered="false">{{ record.category }}</a-tag>
                   </template>
                   <template v-else-if="column.key === 'linkedAt'">
-                    <a-typography-text
-                      type="secondary"
-                      :style="{ fontFamily: 'IBM Plex Mono, monospace' }"
-                    >
+                    <a-typography-text type="secondary" :style="{ fontSize: '12px' }">
                       {{ record.linkedAt }}
                     </a-typography-text>
                   </template>

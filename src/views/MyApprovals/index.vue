@@ -18,20 +18,22 @@
         </a-typography-text>
       </div>
 
-      <a-space :size="10" wrap>
-        <a-radio-group v-model:value="activeTab" button-style="solid">
-          <a-radio-button v-for="tab in tabs" :key="tab.key" :value="tab.key">
-            {{ tab.label }}
-          </a-radio-button>
-        </a-radio-group>
-        <a-button v-if="activeTab === 'apply'" type="primary">
-          <template #icon><PlusOutlined /></template>
-          发起申请
-        </a-button>
-      </a-space>
+      <a-button v-if="activeTab === 'apply'" type="primary">
+        <template #icon><PlusOutlined /></template>
+        发起申请
+      </a-button>
     </div>
 
-    <template v-if="activeTab === 'mine'">
+    <div class="tab-switcher">
+      <a-segmented
+        v-model:value="activeTab"
+        :options="approvalTabOptions"
+        size="large"
+      />
+    </div>
+
+    <Transition name="tab-fade" mode="out-in">
+    <div v-if="activeTab === 'mine'" key="mine" class="tab-pane">
       <a-row :gutter="[16, 16]">
         <a-col :xs="24" :lg="16">
           <a-card title="审批效率" :body-style="{ padding: '20px' }">
@@ -111,48 +113,41 @@
         <a-table
           :columns="mineColumns"
           :data-source="filteredMineRows"
-          :pagination="false"
+          :pagination="minePagination"
           :row-key="row => row.id"
           size="middle"
           class="content-table mine-table"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'title'">
-              <a-typography-text strong>{{ record.title }}</a-typography-text>
+              <a-typography-text strong :style="{ display: 'block' }">{{ record.title }}</a-typography-text>
               <a-typography-text type="secondary" class="record-id">
                 {{ record.id }}
               </a-typography-text>
             </template>
             <template v-else-if="column.key === 'name'">
-              <a-space :size="8">
-                <a-avatar shape="square" :size="24">{{ record.name[0] }}</a-avatar>
+              <a-space :size="12">
+                <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17, 56, 224, 0.08)', color: '#1138e0' }">{{ record.name[0] }}</a-avatar>
                 <a-typography-text>{{ record.name }}</a-typography-text>
               </a-space>
             </template>
             <template v-else-if="column.key === 'time'">
-              <a-typography-text type="secondary" class="mono-text">
-                {{ record.time.replace(/-/g, '.') }}
+              <a-typography-text type="secondary" :style="{ fontSize: '12px' }">
+                {{ record.time }}
               </a-typography-text>
             </template>
             <template v-else-if="column.key === 'status'">
-              <a-tag :color="mineStatusColor(record.status)">{{ record.status }}</a-tag>
+              <a-badge :status="mineStatusBadge(record.status)" :text="record.status" />
             </template>
             <template v-else-if="column.key === 'action'">
               <a-button type="link" size="small" class="row-actions">查看详情</a-button>
             </template>
           </template>
         </a-table>
-
-        <div class="table-footer">
-          <a-typography-text type="secondary">
-            显示 01-{{ String(filteredMineRows.length).padStart(2, '0') }} / 共 148 条
-          </a-typography-text>
-          <a-pagination size="small" :current="1" :page-size="10" :total="148" />
-        </div>
       </a-card>
-    </template>
+    </div>
 
-    <template v-else>
+    <div v-else key="apply" class="tab-pane">
       <a-row :gutter="[12, 12]" class="apply-kpis">
         <a-col v-for="kpi in applyKpis" :key="kpi.label" :xs="12" :md="6">
           <a-card :body-style="{ padding: '16px 20px' }" class="apply-kpi-card">
@@ -170,8 +165,15 @@
         </a-col>
       </a-row>
 
-      <a-card :body-style="{ padding: '16px 20px' }">
-        <a-form layout="inline" class="apply-filter">
+      <a-divider orientation="left" class="section-divider">
+        <a-space :size="8">
+          <span>02 申请记录</span>
+          <a-tag :bordered="false">我发起的</a-tag>
+        </a-space>
+      </a-divider>
+
+      <a-card :body-style="{ padding: 0 }" class="table-card">
+        <a-form layout="inline" class="filter-bar">
           <a-form-item label="关键字">
             <a-input
               v-model:value="applyKeyword"
@@ -190,27 +192,18 @@
           <a-form-item label="时间">
             <a-date-picker v-model:value="applyDate" style="width: 160px" />
           </a-form-item>
-          <a-form-item>
+          <a-form-item class="filter-actions">
             <a-space :size="8">
               <a-button type="primary">查询</a-button>
               <a-button @click="resetApplyFilters">重置</a-button>
             </a-space>
           </a-form-item>
         </a-form>
-      </a-card>
 
-      <a-divider orientation="left" class="section-divider">
-        <a-space :size="8">
-          <span>02 申请记录</span>
-          <a-tag :bordered="false">我发起的</a-tag>
-        </a-space>
-      </a-divider>
-
-      <a-card :body-style="{ padding: 0 }" class="table-card">
         <a-table
           :columns="applyColumns"
           :data-source="filteredApplyRows"
-          :pagination="false"
+          :pagination="applyPagination"
           :row-key="row => row.reqId"
           size="middle"
           class="content-table apply-table"
@@ -226,12 +219,12 @@
               <a-tag color="blue" :bordered="false">{{ record.type }}</a-tag>
             </template>
             <template v-else-if="column.key === 'time'">
-              <a-typography-text type="secondary" class="mono-text">
-                {{ record.time.replace(/-/g, '.') }}
+              <a-typography-text type="secondary" :style="{ fontSize: '12px' }">
+                {{ record.time }}
               </a-typography-text>
             </template>
             <template v-else-if="column.key === 'status'">
-              <a-tag :color="applyStatusColor(record.status)">{{ record.statusShort }}</a-tag>
+              <a-badge :status="applyStatusBadge(record.status)" :text="record.statusShort" />
               <a-typography-text type="secondary" class="status-sub">
                 {{ record.statusLabel }}
               </a-typography-text>
@@ -245,19 +238,6 @@
             </template>
           </template>
         </a-table>
-
-        <div class="table-footer">
-          <a-typography-text type="secondary">
-            显示 01-{{ String(filteredApplyRows.length).padStart(2, '0') }} / 共 163 条
-          </a-typography-text>
-          <a-pagination
-            size="small"
-            :current="1"
-            :page-size="10"
-            :total="163"
-            :show-quick-jumper="true"
-          />
-        </div>
       </a-card>
 
       <a-row :gutter="[24, 16]">
@@ -278,7 +258,8 @@
           />
         </a-col>
       </a-row>
-    </template>
+    </div>
+    </Transition>
   </div>
 </template>
 
@@ -313,9 +294,9 @@ const successStatisticStyle = {
   color: 'rgb(var(--color-success))',
 }
 
-const tabs = [
-  { key: 'mine', label: '我的审批' },
-  { key: 'apply', label: '我的申请' },
+const approvalTabOptions = [
+  { value: 'mine',  label: '我的审批 24' },
+  { value: 'apply', label: '我的申请 163' },
 ]
 
 const mineStatusOptions = [
@@ -392,10 +373,10 @@ const filteredMineRows = computed(() =>
   mineData.value.filter(row => !filterStatus.value || row.status === filterStatus.value)
 )
 
-const mineStatusColor = (status) => ({
-  审批中: 'blue',
-  通过: 'green',
-  驳回: 'red',
+const mineStatusBadge = (status) => ({
+  审批中: 'processing',
+  通过: 'success',
+  驳回: 'error',
 }[status] || 'default')
 
 const applyData = ref([
@@ -475,11 +456,27 @@ const filteredApplyRows = computed(() =>
   })
 )
 
-const applyStatusColor = (status) => ({
-  pending: 'orange',
-  approved: 'green',
-  rejected: 'red',
+const applyStatusBadge = (status) => ({
+  pending: 'processing',
+  approved: 'success',
+  rejected: 'error',
 }[status] || 'default')
+
+const minePagination = {
+  pageSize: 10,
+  total: 148,
+  showSizeChanger: false,
+  showQuickJumper: true,
+  showTotal: t => `共 ${t} 条`,
+}
+
+const applyPagination = {
+  pageSize: 10,
+  total: 163,
+  showSizeChanger: false,
+  showQuickJumper: true,
+  showTotal: t => `共 ${t} 条`,
+}
 
 const applyKpis = [
   {
@@ -536,6 +533,57 @@ const resetApplyFilters = () => {
 
 .page-title {
   margin: 0 0 4px !important;
+}
+
+/* Segmented tab switcher */
+.tab-switcher {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tab-switcher :deep(.ant-segmented) {
+  padding: 4px;
+}
+
+/* Tab pane wrapper (Transition single-root requirement) */
+.tab-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Tab fade transition */
+.tab-fade-enter-active,
+.tab-fade-leave-active {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.tab-fade-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tab-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.tab-switcher :deep(.ant-segmented-item) {
+  padding: 0 4px;
+  min-width: 140px;
+  text-align: center;
+}
+
+.tab-switcher :deep(.ant-segmented-item-label) {
+  font-weight: 500;
+}
+
+.tab-switcher :deep(.ant-segmented-item-selected) {
+  box-shadow: 0 2px 8px rgba(17, 56, 224, 0.12);
+}
+
+:global(.dark) .tab-switcher :deep(.ant-segmented-item-selected) {
+  box-shadow: 0 2px 8px rgba(91, 141, 239, 0.18);
 }
 
 .export-col {
@@ -647,7 +695,6 @@ const resetApplyFilters = () => {
   font-size: 11px;
 }
 
-.mono-text,
 .record-id,
 .req-id {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
@@ -659,18 +706,9 @@ const resetApplyFilters = () => {
   font-size: 12px;
 }
 
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 20px;
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-:global(.dark) .table-footer {
-  border-top-color: rgba(255, 255, 255, 0.08);
+.content-table :deep(.ant-table-pagination) {
+  padding: 16px 20px;
+  margin: 0;
 }
 
 .apply-kpi-card {
@@ -682,8 +720,19 @@ const resetApplyFilters = () => {
   opacity: 0.82;
 }
 
-.apply-filter {
+.filter-bar {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   row-gap: 12px;
+}
+
+:global(.dark) .filter-bar {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.filter-actions {
+  margin-left: auto;
+  margin-right: 0 !important;
 }
 
 @media (max-width: 768px) {
@@ -691,14 +740,14 @@ const resetApplyFilters = () => {
     justify-content: flex-start;
   }
 
-  .apply-filter :deep(.ant-form-item) {
+  .filter-bar :deep(.ant-form-item) {
     width: 100%;
   }
 
-  .apply-filter :deep(.ant-form-item-control),
-  .apply-filter :deep(.ant-picker),
-  .apply-filter :deep(.ant-input),
-  .apply-filter :deep(.ant-select) {
+  .filter-bar :deep(.ant-form-item-control),
+  .filter-bar :deep(.ant-picker),
+  .filter-bar :deep(.ant-input),
+  .filter-bar :deep(.ant-select) {
     width: 100% !important;
   }
 }

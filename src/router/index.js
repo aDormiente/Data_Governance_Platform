@@ -14,6 +14,7 @@ const router = createRouter({
         { path: 'tag-management/create', component: () => import('../views/TagManagement/TagCreate.vue') },
         { path: 'tag-management/detail/:id', component: () => import('../views/TagManagement/TagDetail.vue') },
         { path: 'tag-management/edit/:id', component: () => import('../views/TagManagement/TagEdit.vue') },
+        { path: 'tag-management/point/create', component: () => import('../views/TagManagement/PointCreate.vue') },
         { path: 'tag-management/point/:id', component: () => import('../views/TagManagement/PointDetail.vue') },
         { path: 'tag-management/point/edit/:id', component: () => import('../views/TagManagement/PointEdit.vue') },
         { path: 'fusion-search', component: () => import('../views/FusionSearch/index.vue') },

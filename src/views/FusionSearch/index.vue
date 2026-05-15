@@ -51,7 +51,7 @@
         <div class="result-head">
           <a-space :size="8">
             <a-typography-text strong>检索结果</a-typography-text>
-            <a-typography-text type="secondary">({{ resultCards.length }} 条)</a-typography-text>
+            <a-typography-text type="secondary">(共 30 条)</a-typography-text>
           </a-space>
           <a-radio-group v-model:value="sortMode" size="small" button-style="solid">
             <a-radio-button value="relevance">按相关度</a-radio-button>
@@ -120,7 +120,14 @@
         </a-space>
 
         <div class="pagination-wrap">
-          <a-pagination simple :current="1" :page-size="10" :total="30" />
+          <a-pagination
+            :current="1"
+            :page-size="10"
+            :total="30"
+            :show-total="t => `共 ${t} 条`"
+            :show-quick-jumper="true"
+            :show-size-changer="false"
+          />
         </div>
       </a-col>
 
@@ -294,6 +301,33 @@ const resultCards = ref([
     meta: '已核验',
     updated: '2023-11-20',
   },
+  {
+    id: 4,
+    type: '点位',
+    title: '中心商圈智能感知节点',
+    subtitle: '地理坐标：114.06, 22.55 | 运维部门：智慧城市办',
+    desc: '位于市中心商圈的人流、车流综合监测节点，覆盖工作日早晚高峰及周末客流变化分析，是商业业态分布研究的关键数据源。',
+    meta: '关联数据源：6个',
+    updated: '2023-11-19',
+  },
+  {
+    id: 5,
+    type: '标签',
+    title: '老旧小区改造覆盖率',
+    subtitle: '所属分类：住房城乡 / 社区治理',
+    desc: '综合住建局、街道办及业委会的项目台账数据，按行政区划统计老旧小区改造完成度，支撑年度民生工程考核与跨部门协调。',
+    meta: '4.8k 次引用',
+    updated: '2023-11-18',
+  },
+  {
+    id: 6,
+    type: '标签',
+    title: '产业用地集约利用指数',
+    subtitle: '所属分类：自然资源 / 产业经济',
+    desc: '综合工业用地容积率、亩均税收、产值密度等多维指标加权计算，用于识别低效用地及规划再开发优先级，是国土空间规划的重要决策依据。',
+    meta: '已核验',
+    updated: '2023-11-16',
+  },
 ])
 </script>
 
@@ -426,7 +460,7 @@ const resultCards = ref([
 
 .pagination-wrap {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   padding-top: 16px;
 }
 

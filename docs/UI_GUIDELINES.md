@@ -285,9 +285,50 @@
 
 #### 5.2.6 分页
 
-- 嵌入式：`:pagination="{ pageSize: 10, total: N, showSizeChanger: false, showTotal: t => '共 ' + t + ' 条' }"`
-- 大数据集可加 `showQuickJumper: true`
-- 分页区 padding 由 `.content-table :deep(.ant-table-pagination)` 兜底（详见样板页）
+**统一配置（嵌入式 a-table 用）**
+
+```js
+const xxxPagination = {
+  pageSize: 10,                // 或 8、根据业务
+  total: N,                    // 总条数
+  showSizeChanger: false,      // 关闭「10 条/页」选择器
+  showQuickJumper: true,       // 开启「跳至 X 页」
+  showTotal: t => `共 ${t} 条`, // 左下角统计文案
+}
+```
+
+绑到表上：`:pagination="xxxPagination"`。多张表共存（如 tags / points）各自维护一个 pagination 对象。
+
+**外置分页（卡片列表等非 a-table 场景，如 FusionSearch）**
+
+```vue
+<div class="pagination-wrap">
+  <a-pagination
+    :current="1"
+    :page-size="10"
+    :total="N"
+    :show-total="t => `共 ${t} 条`"
+    :show-quick-jumper="true"
+    :show-size-changer="false"
+  />
+</div>
+```
+
+```css
+.pagination-wrap {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+```
+
+不要用 `simple` 紧凑模式（`< 1 / N >`），与表格分页样式脱节。
+
+**通用约定**
+
+- 三件套必须配齐：`showTotal` + `showQuickJumper: true` + `showSizeChanger: false`
+- 分页区 padding 由 `.content-table :deep(.ant-table-pagination) { padding: 16px 20px; margin: 0; }` 兜底
+- 不要自己写 `<div class="table-footer">` + 外置 `<a-pagination>` + `<a-typography-text>显示 01-NN / 共 N 条</a-typography-text>` 这种自定义页脚（参考 5.2.7 禁止项）
 
 #### 5.2.7 禁止项
 
@@ -298,6 +339,9 @@
 - ❌ 时间列不要用 mono（除非该列内容本质是 ID / 坐标）
 - ❌ filter-bar 不要加灰底背景
 - ❌ 同一类操作按钮不要在不同表里混用 `type="link"` 文字 / `type="text"` icon-only，统一文字 link
+- ❌ 分页不要自己写 `<div class="table-footer">显示 01-NN / 共 N 条</div>` 这种 padStart `01-04` 自定义页脚（属于 2.3 `[01] Mono 编号`），统一用 antd `showTotal` 配置
+- ❌ 分页不要用 `simple` 紧凑模式（`< 1 / N >`），与统一的数字分页样式脱节
+- ❌ 不要省略 `showQuickJumper`，所有分页一律开启「跳至 X 页」，无论 total 大小
 
 ### 5.3 表单
 

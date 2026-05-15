@@ -18,16 +18,24 @@
           <template #icon><DownloadOutlined /></template>
           导出数据
         </a-button>
-        <a-button type="primary" @click="router.push('/tag-management/create')">
+        <a-button type="primary" @click="router.push(createButton.route)">
           <template #icon><PlusOutlined /></template>
-          新建标签
+          {{ createButton.label }}
         </a-button>
       </a-space>
     </div>
 
-    <a-card :body-style="{ padding: 0 }" class="main-card">
-      <a-tabs v-model:active-key="activeTab" class="tag-tabs">
-        <a-tab-pane key="tags" tab="标签列表">
+    <div class="tab-switcher">
+      <a-segmented
+        v-model:value="activeTab"
+        :options="tabOptions"
+        size="large"
+      />
+    </div>
+
+    <Transition name="tab-fade" mode="out-in">
+      <div v-if="activeTab === 'tags'" key="tags-card">
+        <a-card :body-style="{ padding: 0 }" class="main-card">
           <a-form layout="inline" class="filter-bar">
             <a-form-item label="状态筛选">
               <a-select
@@ -109,9 +117,11 @@
               </template>
             </template>
           </a-table>
-        </a-tab-pane>
+        </a-card>
+      </div>
 
-        <a-tab-pane key="points" tab="点位列表">
+      <div v-else key="points-card">
+        <a-card :body-style="{ padding: 0 }" class="main-card">
           <a-form layout="inline" class="filter-bar">
             <a-form-item label="搜索点位">
               <a-input
@@ -198,12 +208,13 @@
               </template>
             </template>
           </a-table>
-        </a-tab-pane>
-      </a-tabs>
-    </a-card>
+        </a-card>
+      </div>
+    </Transition>
 
-    <!-- ===== Insights for TAGS tab ===== -->
-    <a-row v-if="activeTab === 'tags'" :gutter="16" class="insights">
+    <Transition name="tab-fade" mode="out-in">
+      <!-- ===== Insights for TAGS tab ===== -->
+      <a-row v-if="activeTab === 'tags'" key="tags-insights" :gutter="16" class="insights">
       <a-col :xs="24" :lg="16">
         <a-card title="数据采集趋势" :body-style="{ padding: '16px 20px 20px' }">
           <template #extra>
@@ -300,9 +311,9 @@
       </a-col>
     </a-row>
 
-    <!-- ===== Bento KPI for POINTS tab ===== -->
-    <a-row v-if="activeTab === 'points'" :gutter="16" class="insights">
-      <a-col v-for="kpi in pointKpis" :key="kpi.label" :xs="12" :md="6">
+      <!-- ===== Bento KPI for POINTS tab ===== -->
+      <a-row v-else key="points-insights" :gutter="16" class="insights">
+        <a-col v-for="kpi in pointKpis" :key="kpi.label" :xs="12" :md="6">
         <a-card :body-style="{ padding: '20px' }" class="kpi-card">
           <a-statistic
             :title="kpi.label"
@@ -322,8 +333,9 @@
             {{ kpi.delta }}
           </a-typography-text>
         </a-card>
-      </a-col>
-    </a-row>
+        </a-col>
+      </a-row>
+    </Transition>
   </div>
 </template>
 
@@ -362,6 +374,17 @@ const pointStatusFilter = ref('全部')
 const trendRange = ref('7')
 const selectedTagKeys = ref([])
 const selectedPointKeys = ref([])
+
+const tabOptions = [
+  { value: 'tags',   label: '标签列表 24' },
+  { value: 'points', label: '点位列表 1,248' },
+]
+
+const createButton = computed(() =>
+  activeTab.value === 'tags'
+    ? { label: '新建标签', route: '/tag-management/create' }
+    : { label: '新建点位', route: '/tag-management/point/create' }
+)
 
 const pointStates = ['全部', '在线', '离线', '故障']
 
@@ -414,6 +437,7 @@ const tagPagination = {
   pageSize: 10,
   total: 24,
   showSizeChanger: false,
+  showQuickJumper: true,
   showTotal: t => `共 ${t} 条`,
 }
 
@@ -538,10 +562,48 @@ const todos = [
   margin: 0 0 4px !important;
 }
 
-/* Tabs nav padding */
-.main-card :deep(.ant-tabs-nav) {
-  margin: 0;
-  padding: 0 24px;
+/* Segmented tab switcher */
+.tab-switcher {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.tab-switcher :deep(.ant-segmented) {
+  padding: 4px;
+}
+
+/* Tab fade transition */
+.tab-fade-enter-active,
+.tab-fade-leave-active {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.tab-fade-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.tab-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.tab-switcher :deep(.ant-segmented-item) {
+  padding: 0 4px;
+  min-width: 140px;
+  text-align: center;
+}
+
+.tab-switcher :deep(.ant-segmented-item-label) {
+  font-weight: 500;
+}
+
+.tab-switcher :deep(.ant-segmented-item-selected) {
+  box-shadow: 0 2px 8px rgba(17, 56, 224, 0.12);
+}
+
+:global(.dark) .tab-switcher :deep(.ant-segmented-item-selected) {
+  box-shadow: 0 2px 8px rgba(91, 141, 239, 0.18);
 }
 
 /* Filter bar inside tab */

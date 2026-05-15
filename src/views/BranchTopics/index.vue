@@ -122,30 +122,32 @@
       <a-table
         :columns="apiColumns"
         :data-source="filteredApis"
-        :pagination="false"
+        :pagination="apiPagination"
         :row-key="record => record.id"
         size="middle"
         class="content-table"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <a-space :size="10">
-              <component :is="apiIcon(record.icon)" class="api-row-icon" />
-              <a-typography-text code class="mono-code">{{ record.name }}</a-typography-text>
+            <a-space :size="12">
+              <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17, 56, 224, 0.08)', color: '#1138e0' }">
+                <template #icon><component :is="apiIcon(record.icon)" /></template>
+              </a-avatar>
+              <a-typography-text strong class="mono-code">{{ record.name }}</a-typography-text>
             </a-space>
           </template>
           <template v-else-if="column.key === 'category'">
-            <a-typography-text>{{ record.category }}</a-typography-text>
+            <a-tag color="blue" :bordered="false">{{ record.category }}</a-tag>
           </template>
           <template v-else-if="column.key === 'calls'">
-            <a-typography-text class="mono-text">{{ record.calls }}</a-typography-text>
+            <a-typography-text>{{ record.calls }}</a-typography-text>
           </template>
           <template v-else-if="column.key === 'status'">
             <a-badge :status="apiStatusBadge(record.status)" :text="record.status" />
           </template>
           <template v-else-if="column.key === 'updated'">
-            <a-typography-text type="secondary" class="mono-text">
-              {{ record.updated.replace(/-/g, '.').slice(0, 16) }}
+            <a-typography-text type="secondary" :style="{ fontSize: '12px' }">
+              {{ record.updated }}
             </a-typography-text>
           </template>
           <template v-else-if="column.key === 'action'">
@@ -153,13 +155,6 @@
           </template>
         </template>
       </a-table>
-
-      <div class="table-footer">
-        <a-typography-text type="secondary">
-          显示 01-{{ String(filteredApis.length).padStart(2, '0') }} / 共 24 个接口
-        </a-typography-text>
-        <a-pagination v-model:current="currentPage" simple :page-size="8" :total="24" size="small" />
-      </div>
     </a-card>
 
     <a-row :gutter="24">
@@ -241,7 +236,6 @@ import {
 const router = useRouter()
 const searchText = ref('')
 const filterStatus = ref('')
-const currentPage = ref(1)
 
 const apiData = ref([
   { id: 1, name: 'GetResidentProfileByTag_V1',    icon: 'code',         category: '人口基础库', calls: '128,492',  status: '运行中', updated: '2023-11-24 14:20' },
@@ -281,6 +275,14 @@ const apiStatusBadge = (status) => ({
   '维护中': 'warning',
   '已禁用': 'default',
 }[status] || 'default')
+
+const apiPagination = {
+  pageSize: 8,
+  total: 24,
+  showSizeChanger: false,
+  showQuickJumper: true,
+  showTotal: t => `共 ${t} 条`,
+}
 
 const kpiCards = [
   { label: '接口告警', value: '0',     sub: '近 24 小时',     valueStyle: { color: 'var(--metric-success)' } },
@@ -477,26 +479,15 @@ const helpIcon = (icon) => ({
   opacity: 1;
 }
 
-.api-row-icon {
-  color: var(--primary-color);
-  font-size: 15px;
-}
-
-.mono-code,
-.mono-text {
+.mono-code {
   font-family: 'IBM Plex Mono', ui-monospace, monospace;
   font-size: 12px;
   font-variant-numeric: tabular-nums;
 }
 
-.table-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
-  padding: 12px 20px;
-  border-top: 1px solid var(--border-soft);
+.content-table :deep(.ant-table-pagination) {
+  padding: 16px 20px;
+  margin: 0;
 }
 
 .kpi-cell {

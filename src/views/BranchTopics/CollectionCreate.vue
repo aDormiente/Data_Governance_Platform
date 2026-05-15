@@ -22,14 +22,16 @@
       </a-space>
     </div>
 
-    <a-form
-      ref="formRef"
-      layout="vertical"
-      :model="form"
-      :rules="rules"
-      class="collection-form"
-    >
-      <a-card title="01 基本信息" class="section-card" :body-style="{ padding: '20px' }">
+    <a-row :gutter="16" align="top">
+      <a-col :xs="24" :lg="16">
+        <a-form
+          ref="formRef"
+          layout="vertical"
+          :model="form"
+          :rules="rules"
+          class="collection-form"
+        >
+          <a-card title="01 基本信息" class="section-card" :body-style="{ padding: '20px' }">
         <a-form-item label="标签集合名称" name="name" class="field-main">
           <a-input
             v-model:value="form.name"
@@ -110,14 +112,73 @@
           </a-radio-group>
         </a-form-item>
       </a-card>
-    </a-form>
+        </a-form>
+      </a-col>
+
+      <a-col :xs="24" :lg="8">
+        <a-card title="操作指南" class="guide-card" :body-style="{ padding: '20px' }">
+          <a-space direction="vertical" :size="16" style="width:100%">
+            <div class="guide-item">
+              <a-avatar shape="square" :size="32" class="guide-avatar guide-avatar-primary">
+                <template #icon><InfoCircleOutlined /></template>
+              </a-avatar>
+              <a-typography-paragraph class="guide-text">
+                标签集合支持跨业务系统的共享，创建后可在<a-typography-text strong>「共享列表」</a-typography-text>中查看申请进度。
+              </a-typography-paragraph>
+            </div>
+
+            <div class="guide-item">
+              <a-avatar shape="square" :size="32" class="guide-avatar guide-avatar-warning">
+                <template #icon><SafetyCertificateOutlined /></template>
+              </a-avatar>
+              <a-typography-paragraph class="guide-text">
+                权限配置一旦保存，修改需经过本部门<a-typography-text strong>二级审批流程</a-typography-text>。
+              </a-typography-paragraph>
+            </div>
+
+            <div class="guide-item">
+              <a-avatar shape="square" :size="32" class="guide-avatar guide-avatar-secondary">
+                <template #icon><ClockCircleOutlined /></template>
+              </a-avatar>
+              <a-typography-paragraph class="guide-text">
+                新建集合默认进入<a-typography-text strong>草稿</a-typography-text>状态，提交审批后方可对外可见。
+              </a-typography-paragraph>
+            </div>
+
+            <a-divider style="margin: 0" />
+
+            <div>
+              <a-statistic
+                title="本月新增集合"
+                :value="12"
+                :value-style="{ fontSize: '26px', fontWeight: 600, color: '#1138e0', letterSpacing: '-0.02em' }"
+              />
+              <a-typography-text type="secondary" class="guide-stat-sub">
+                较上月 +35%，建议提前规划共享范围。
+              </a-typography-text>
+            </div>
+
+            <a-typography-link class="guide-link">
+              查看完整使用文档
+              <ArrowRightOutlined />
+            </a-typography-link>
+          </a-space>
+        </a-card>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { CheckCircleOutlined } from '@ant-design/icons-vue'
+import {
+  CheckCircleOutlined,
+  InfoCircleOutlined,
+  SafetyCertificateOutlined,
+  ClockCircleOutlined,
+  ArrowRightOutlined,
+} from '@ant-design/icons-vue'
 
 const router = useRouter()
 
@@ -210,7 +271,6 @@ const cancel = () => router.push('/branch-topics')
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 960px;
 }
 
 .section-card :deep(.ant-card-head-title) {
@@ -260,5 +320,60 @@ const cancel = () => router.push('/branch-topics')
   color: var(--usage-desc-color);
   font-size: 12px;
   line-height: 1.7;
+}
+
+/* Guide card */
+.guide-card {
+  position: sticky;
+  top: 16px;
+}
+
+.guide-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.guide-avatar {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.guide-avatar-primary {
+  background: rgba(17, 56, 224, 0.08);
+  color: #1138e0;
+}
+
+.guide-avatar-warning {
+  background: rgba(250, 173, 20, 0.12);
+  color: #faad14;
+}
+
+.guide-avatar-secondary {
+  background: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+:global(.dark) .guide-avatar-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.guide-text {
+  margin: 0 !important;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.guide-stat-sub {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.guide-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 </style>

@@ -155,15 +155,15 @@
             >
               <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'name'">
-                  <a-space :size="10">
+                  <a-space :size="12">
                     <a-avatar
                       shape="square"
-                      :size="28"
+                      :size="32"
                       :style="{ background: 'rgba(17, 56, 224, 0.08)', color: '#1138e0' }"
                     >
                       <template #icon><EnvironmentOutlined /></template>
                     </a-avatar>
-                    <a-typography-text strong :style="{ fontSize: '13px' }">{{ record.name }}</a-typography-text>
+                    <a-typography-text strong>{{ record.name }}</a-typography-text>
                   </a-space>
                 </template>
                 <template v-else-if="column.key === 'field'">

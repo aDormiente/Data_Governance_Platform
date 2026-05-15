@@ -94,10 +94,15 @@
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'name'">
-                <div class="point-name">
-                  <a-typography-text strong>{{ record.name }}</a-typography-text>
-                  <a-typography-text type="secondary" class="code-text">ID: {{ record.id }}</a-typography-text>
-                </div>
+                <a-space :size="12">
+                  <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17, 56, 224, 0.08)', color: '#1138e0' }">
+                    <template #icon><EnvironmentOutlined /></template>
+                  </a-avatar>
+                  <div>
+                    <a-typography-text strong :style="{ display: 'block' }">{{ record.name }}</a-typography-text>
+                    <a-typography-text type="secondary" :style="{ fontSize: '11px', fontFamily: 'IBM Plex Mono, ui-monospace, monospace' }">{{ record.id }}</a-typography-text>
+                  </div>
+                </a-space>
               </template>
               <template v-else-if="column.key === 'location'">
                 <a-typography-text type="secondary">{{ record.location }}</a-typography-text>
@@ -182,7 +187,7 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { EditOutlined, ReloadOutlined } from '@ant-design/icons-vue'
+import { EditOutlined, ReloadOutlined, EnvironmentOutlined } from '@ant-design/icons-vue'
 
 const route = useRoute()
 const router = useRouter()

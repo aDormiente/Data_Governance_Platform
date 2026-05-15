@@ -87,11 +87,14 @@
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
-            <a-space :size="10">
+            <a-space :size="12">
               <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17,56,224,0.08)', color: '#1138e0' }">
                 <template #icon><ApiOutlined /></template>
               </a-avatar>
-              <a-typography-text strong>{{ record.name }}</a-typography-text>
+              <div>
+                <a-typography-text strong :style="{ display: 'block' }">{{ record.name }}</a-typography-text>
+                <a-typography-text type="secondary" :style="{ fontSize: '11px', fontFamily: 'IBM Plex Mono, ui-monospace, monospace' }">{{ record.id }}</a-typography-text>
+              </div>
             </a-space>
           </template>
           <template v-else-if="column.key === 'location'">

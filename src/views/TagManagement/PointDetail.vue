@@ -87,7 +87,7 @@
                 <a-tag :color="record.tagColor" :bordered="false">{{ record.name }}</a-tag>
               </template>
               <template v-else-if="column.key === 'taggedAt'">
-                <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '12px' }">
+                <a-typography-text type="secondary" :style="{ fontSize: '12px' }">
                   {{ record.taggedAt }}
                 </a-typography-text>
               </template>

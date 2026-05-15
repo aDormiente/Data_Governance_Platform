@@ -80,7 +80,7 @@
           <a-table
             :columns="columns"
             :data-source="filteredTableData"
-            :pagination="{ pageSize: 10, total: 142, showSizeChanger: false, showTotal: t => `共 ${t} 条` }"
+            :pagination="{ pageSize: 10, total: 142, showSizeChanger: false, showQuickJumper: true, showTotal: t => `共 ${t} 条` }"
             :row-key="r => r.id"
             :custom-row="rowClickHandler"
             size="middle"
@@ -94,18 +94,18 @@
                 <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '12px' }">T-{{ String(100200 + record.id).padStart(6, '0') }}</a-typography-text>
               </template>
               <template v-else-if="column.key === 'name'">
-                <a-space :size="8">
-                  <a-badge :color="record.color" />
+                <a-space :size="12">
+                  <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17, 56, 224, 0.08)', color: '#1138e0' }">
+                    <template #icon><TagOutlined /></template>
+                  </a-avatar>
                   <a-typography-text strong>{{ record.name }}</a-typography-text>
                 </a-space>
               </template>
               <template v-else-if="column.key === 'status'">
-                <a-tag :color="statusColor(record.status)">{{ record.status }}</a-tag>
+                <a-badge :status="statusBadge(record.status)" :text="record.status" />
               </template>
               <template v-else-if="column.key === 'action'">
-                <a-button type="link" size="small" class="row-actions" @click.stop="router.push(`/tag-management/detail/${record.id}`)">
-                  详情 <RightOutlined />
-                </a-button>
+                <a-button type="link" size="small" class="row-actions" @click.stop="router.push(`/tag-management/detail/${record.id}`)">详情</a-button>
               </template>
             </template>
           </a-table>
@@ -179,7 +179,7 @@ import {
   SearchOutlined,
   PlusOutlined,
   DownloadOutlined,
-  RightOutlined,
+  TagOutlined,
   UserOutlined,
   BankOutlined,
   EnvironmentOutlined,
@@ -232,10 +232,10 @@ const rowClickHandler = (record) => ({
   style: 'cursor: pointer',
 })
 
-const statusColor = (status) => ({
-  '治理中': 'blue',
-  '已完成': 'green',
-  '待审核': 'orange',
+const statusBadge = (status) => ({
+  '治理中': 'processing',
+  '已完成': 'success',
+  '待审核': 'warning',
   '已停用': 'default',
 }[status] || 'default')
 
