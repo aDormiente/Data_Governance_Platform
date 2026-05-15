@@ -31,7 +31,7 @@
     <!-- Bento Grid -->
     <div class="grid grid-cols-12 gap-6">
       <!-- 01 基本信息 (Full Width) -->
-      <section class="col-span-12 bg-surface-container-lowest border border-outline-variant border-l-4 border-primary">
+      <section class="col-span-12 bg-surface-container-lowest border border-outline-variant relative" style="border-left: 4px solid rgb(var(--color-primary))">
         <div class="px-6 py-4 border-b border-surface-container-low flex items-center justify-between">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-primary" style="font-size: 20px">info</span>

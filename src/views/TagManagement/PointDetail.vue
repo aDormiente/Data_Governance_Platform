@@ -34,27 +34,26 @@
       <div class="flex items-center justify-between mb-6">
         <h2 class="text-lg font-bold text-on-surface flex items-center pl-4">
           01 基本信息
-          <span class="ml-2 text-[10px] text-on-surface-variant font-medium bg-secondary-container px-2 py-0.5 rounded-full uppercase">Basic Info</span>
         </h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="space-y-6">
           <div class="flex flex-col">
-            <label class="text-xs font-medium text-on-surface-variant mb-1">点位名称 (Display Name)</label>
+            <label class="text-xs font-medium text-on-surface-variant mb-1">点位名称</label>
             <div class="text-base font-bold text-on-surface">朝阳区大屯路南口视频感知点</div>
           </div>
           <div class="flex flex-col">
-            <label class="text-xs font-medium text-on-surface-variant mb-1">资源编号 (Resource ID)</label>
+            <label class="text-xs font-medium text-on-surface-variant mb-1">资源编号</label>
             <div class="text-sm font-mono text-primary bg-primary-fixed/30 px-2 py-1 rounded inline-block w-fit">RES-ZH-2023-08942</div>
           </div>
         </div>
         <div class="space-y-6">
           <div class="flex flex-col">
-            <label class="text-xs font-medium text-on-surface-variant mb-1">所属组织 (Organization)</label>
+            <label class="text-xs font-medium text-on-surface-variant mb-1">所属组织</label>
             <div class="text-sm font-semibold text-on-surface">北京市公安局 / 朝阳分局 / 治安支队</div>
           </div>
           <div class="flex flex-col">
-            <label class="text-xs font-medium text-on-surface-variant mb-1">经纬度 (Coordinates)</label>
+            <label class="text-xs font-medium text-on-surface-variant mb-1">经纬度</label>
             <div class="flex items-center text-sm font-bold text-on-surface">
               <span class="material-symbols-outlined text-primary mr-1" style="font-size: 18px">location_on</span>
               116.418, 40.002
@@ -63,7 +62,7 @@
         </div>
         <div class="flex flex-col h-full justify-between">
           <div class="flex flex-col">
-            <label class="text-xs font-medium text-on-surface-variant mb-2">能力 (Capabilities)</label>
+            <label class="text-xs font-medium text-on-surface-variant mb-2">能力</label>
             <div class="flex flex-wrap gap-2">
               <span
                 v-for="cap in capabilities"
@@ -75,7 +74,7 @@
           <div class="mt-4 h-24 w-full rounded-xl overflow-hidden border border-outline-variant/20 relative group bg-surface-container-low flex items-center justify-center">
             <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-primary/5 group-hover:opacity-0 transition-opacity"></div>
             <span class="material-symbols-outlined text-primary/30" style="font-size: 56px">map</span>
-            <span class="absolute bottom-2 right-2 bg-surface-container-lowest px-2 py-1 rounded text-[10px] font-bold shadow-sm">View Map</span>
+            <span class="absolute bottom-2 right-2 bg-surface-container-lowest px-2 py-1 rounded text-[10px] font-bold shadow-sm">查看地图</span>
           </div>
         </div>
       </div>
@@ -88,7 +87,6 @@
         <div class="flex items-center justify-between mb-6">
           <h2 class="text-lg font-bold text-on-surface flex items-center pl-4">
             02 关联标签
-            <span class="ml-2 text-[10px] text-on-surface-variant font-medium bg-secondary-container px-2 py-0.5 rounded-full uppercase">Associated Tags</span>
           </h2>
           <button class="text-xs font-bold text-primary flex items-center hover:underline">
             <span class="material-symbols-outlined mr-1" style="font-size: 16px">add_circle</span>
@@ -128,7 +126,6 @@
         <div class="absolute left-0 top-6 w-1 h-6 bg-primary rounded-r-full"></div>
         <h2 class="text-lg font-bold text-on-surface flex items-center pl-4 mb-6">
           03 工作日志
-          <span class="ml-2 text-[10px] text-on-surface-variant font-medium bg-secondary-container px-2 py-0.5 rounded-full uppercase">Work Log</span>
         </h2>
         <div class="relative pl-6 border-l border-outline-variant/30 space-y-8">
           <div v-for="log in workLogs" :key="log.id" class="relative">
@@ -155,20 +152,20 @@
     <!-- Auxiliary Data Overview (Bento Style) -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <div class="p-4 bg-surface-container rounded-xl">
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">在线率 (Uptime)</div>
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">在线率</div>
         <div class="text-xl font-black text-primary">99.8%</div>
       </div>
       <div class="p-4 bg-surface-container rounded-xl">
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">预警频次 (Alerts)</div>
-        <div class="text-xl font-black text-tertiary">14 <span class="text-xs font-medium">/ 30d</span></div>
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">预警频次</div>
+        <div class="text-xl font-black text-tertiary">14 <span class="text-xs font-medium">/ 30天</span></div>
       </div>
       <div class="p-4 bg-surface-container rounded-xl">
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">维护记录 (Maintenance)</div>
-        <div class="text-xl font-black text-on-surface">3 <span class="text-xs font-medium text-on-surface-variant">Times</span></div>
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">维护记录</div>
+        <div class="text-xl font-black text-on-surface">3 <span class="text-xs font-medium text-on-surface-variant">次</span></div>
       </div>
       <div class="p-4 bg-surface-container rounded-xl">
-        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">关联工单 (Work Orders)</div>
-        <div class="text-xl font-black text-on-surface">0 <span class="text-xs font-medium text-on-surface-variant">Active</span></div>
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">关联工单</div>
+        <div class="text-xl font-black text-on-surface">0 <span class="text-xs font-medium text-on-surface-variant">活跃</span></div>
       </div>
     </div>
   </div>
@@ -184,15 +181,15 @@ const router = useRouter()
 const capabilities = ['4K视频流', '人脸识别', '车辆结构化', '热力感知']
 
 const associatedTags = ref([
-  { id: 1, name: '高危重点区域', chipClass: 'bg-tertiary-fixed text-on-tertiary-fixed-variant', taggedBy: '张建国 (Zhang J.)', taggedAt: '2023-11-20 14:30' },
-  { id: 2, name: '交通枢纽核心', chipClass: 'bg-primary-fixed text-on-primary-fixed-variant', taggedBy: '李明华 (Li M.)', taggedAt: '2023-11-18 09:12' },
-  { id: 3, name: '三级常态化监控', chipClass: 'bg-secondary-fixed text-on-secondary-fixed-variant', taggedBy: '系统自动 (System)', taggedAt: '2023-10-01 00:00' },
+  { id: 1, name: '高危重点区域', chipClass: 'bg-tertiary-fixed text-on-tertiary-fixed-variant', taggedBy: '张建国', taggedAt: '2023-11-20 14:30' },
+  { id: 2, name: '交通枢纽核心', chipClass: 'bg-primary-fixed text-on-primary-fixed-variant', taggedBy: '李明华', taggedAt: '2023-11-18 09:12' },
+  { id: 3, name: '三级常态化监控', chipClass: 'bg-secondary-fixed text-on-secondary-fixed-variant', taggedBy: '系统自动', taggedAt: '2023-10-01 00:00' },
 ])
 
 const workLogs = ref([
-  { id: 1, action: '打标签 (Tag Applied)', operator: '张建国 (Zhang J.)', time: '2023-11-20 14:30:21', dotClass: 'border-primary', note: 'Added high-risk area tag based on Q4 assessment.' },
-  { id: 2, action: '删除标签 (Tag Removed)', operator: '王晓伟 (Wang X.)', time: '2023-11-19 16:45:00', dotClass: 'border-outline-variant' },
-  { id: 3, action: '打标签 (Tag Applied)', operator: '李明华 (Li M.)', time: '2023-11-18 09:12:44', dotClass: 'border-primary' },
-  { id: 4, action: '点位初始化 (Point Init)', operator: '系统管理员 (SuperAdmin)', time: '2023-10-01 00:00:00', dotClass: 'border-primary' },
+  { id: 1, action: '打标签', operator: '张建国', time: '2023-11-20 14:30:21', dotClass: 'border-primary', note: '基于Q4评估结果打标高危区域标签。' },
+  { id: 2, action: '删除标签', operator: '王晓伟', time: '2023-11-19 16:45:00', dotClass: 'border-outline-variant' },
+  { id: 3, action: '打标签', operator: '李明华', time: '2023-11-18 09:12:44', dotClass: 'border-primary' },
+  { id: 4, action: '点位初始化', operator: '系统管理员', time: '2023-10-01 00:00:00', dotClass: 'border-primary' },
 ])
 </script>
