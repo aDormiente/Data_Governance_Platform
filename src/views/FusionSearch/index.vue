@@ -1,211 +1,257 @@
 <template>
-  <div>
-    <!-- Page Header -->
-    <div class="mb-8">
-      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
-        <span class="text-primary">»</span>
-        <span>工作台</span>
-        <span class="opacity-40">/</span>
-        <span class="text-on-surface">融合检索</span>
-      </div>
-    </div>
+  <div class="page fusion-page">
+    <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>工作台</a-breadcrumb-item>
+      <a-breadcrumb-item>融合检索</a-breadcrumb-item>
+    </a-breadcrumb>
 
-    <!-- Hero Search Section -->
-    <section class="mb-10">
-      <div class="text-center mb-8">
-        <h2 class="font-display text-[34px] font-semibold tracking-tight text-on-surface leading-[1.05] mb-2">融合检索中心</h2>
-        <p class="text-[13px] text-on-surface-variant">跨源、跨域、全维度的政务数据智能化搜索</p>
+    <section class="hero-section">
+      <div class="hero-copy">
+        <a-typography-title :level="2" class="hero-title">融合检索中心</a-typography-title>
+        <a-typography-text type="secondary">
+          跨源、跨域、全维度的政务数据智能化搜索
+        </a-typography-text>
       </div>
 
-      <!-- Search Bar -->
-      <div class="relative bg-surface-container-lowest p-2 rounded-2xl border border-outline-variant flex items-center gap-2">
-        <div class="flex items-center bg-surface-container-low rounded-xl px-4 py-2.5 ml-1">
-          <select v-model="searchCategory" class="bg-transparent border-none text-sm font-bold text-primary focus:ring-0 cursor-pointer focus:outline-none">
-            <option value="">全类别</option>
-            <option value="tag">标签</option>
-            <option value="point">点位</option>
-          </select>
-        </div>
-        <div class="flex-1 flex items-center px-4">
-          <span class="material-symbols-outlined text-outline mr-3" style="font-size: 20px">search</span>
-          <input
-            v-model="searchInput"
-            class="w-full bg-transparent border-none text-on-surface placeholder:text-on-surface-variant/60 text-[15px] focus:outline-none focus:ring-0"
-            placeholder="输入关键字，如：民生保障、网格编码、高新产业园..."
-            type="text"
-            @keyup.enter="handleSearch"
-          />
-        </div>
-        <button
-          @click="handleSearch"
-          class="bg-primary text-on-primary px-8 py-3 rounded-xl font-bold text-sm hover:opacity-90 transition-opacity"
-        >检索</button>
-      </div>
+      <a-input-group compact class="search-group">
+        <a-select
+          v-model:value="searchCategory"
+          :options="categoryOptions"
+          class="search-category"
+        />
+        <a-input
+          v-model:value="searchInput"
+          class="search-input"
+          placeholder="输入关键字，如：民生保障、网格编码、高新产业园..."
+          @press-enter="handleSearch"
+        >
+          <template #prefix><SearchOutlined /></template>
+        </a-input>
+        <a-button type="primary" class="search-button" @click="handleSearch">检索</a-button>
+      </a-input-group>
 
-      <!-- Hot Tags -->
-      <div class="mt-4 flex flex-wrap gap-2 justify-center">
-        <span class="text-xs text-on-surface-variant mr-2 flex items-center">热门搜索:</span>
-        <button
+      <a-space class="hot-searches" :size="8" wrap>
+        <a-typography-text type="secondary">热门搜索:</a-typography-text>
+        <a-tag
           v-for="tag in hotTags"
           :key="tag"
+          color="blue"
+          :bordered="false"
+          class="hot-tag"
           @click="searchInput = tag"
-          class="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs hover:bg-surface-container-high transition-colors"
-        >{{ tag }}</button>
-      </div>
+        >
+          {{ tag }}
+        </a-tag>
+      </a-space>
     </section>
 
-    <!-- Results Layout -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-      <!-- Left: Result Cards -->
-      <div class="lg:col-span-8 space-y-4">
-        <div class="flex items-center justify-between mb-2">
-          <h3 class="text-base font-bold flex items-center gap-2">
-            <span class="w-1 h-5 bg-primary rounded-full inline-block"></span>
-            检索结果
-            <span class="text-sm font-normal text-on-surface-variant">({{ resultCards.length }} 条)</span>
-          </h3>
-          <div class="flex gap-4 text-xs font-medium text-on-surface-variant">
-            <button class="hover:text-primary underline decoration-primary/30">按相关度</button>
-            <button class="hover:text-primary">按时间</button>
-          </div>
+    <a-row :gutter="[24, 16]">
+      <a-col :xs="24" :lg="16">
+        <div class="result-head">
+          <a-space :size="8">
+            <a-typography-text strong>检索结果</a-typography-text>
+            <a-typography-text type="secondary">({{ resultCards.length }} 条)</a-typography-text>
+          </a-space>
+          <a-radio-group v-model:value="sortMode" size="small" button-style="solid">
+            <a-radio-button value="relevance">按相关度</a-radio-button>
+            <a-radio-button value="time">按时间</a-radio-button>
+          </a-radio-group>
         </div>
 
-        <div
-          v-for="row in resultCards"
-          :key="row.id"
-          class="group bg-surface-container-lowest p-6 rounded-xl hover:bg-surface-container-low transition-all duration-300 border border-outline-variant cursor-pointer"
-          @click="goResult(row)"
-        >
-          <div class="flex justify-between items-start mb-3">
-            <div class="flex items-center gap-3">
-              <span
-                class="p-2 rounded-lg flex-shrink-0"
-                :class="row.type === '点位' ? 'bg-tertiary-fixed text-tertiary' : 'bg-primary-fixed text-primary'"
-              >
-                <span class="material-symbols-outlined" style="font-size: 20px">{{ row.type === '点位' ? 'location_on' : 'label' }}</span>
-              </span>
-              <div>
-                <h4 class="text-base font-bold group-hover:text-primary transition-colors">{{ row.title }}</h4>
-                <p class="text-xs text-on-surface-variant mt-0.5">{{ row.subtitle }}</p>
-              </div>
+        <a-space direction="vertical" :size="12" class="result-list">
+          <a-card
+            v-for="row in resultCards"
+            :key="row.id"
+            hoverable
+            :body-style="{ padding: '18px 20px' }"
+            class="result-card"
+            @click="goResult(row)"
+          >
+            <div class="result-card-head">
+              <a-space :size="12" align="start">
+                <a-avatar
+                  shape="square"
+                  :size="40"
+                  :class="row.type === '点位' ? 'point-avatar' : 'tag-avatar'"
+                >
+                  <template #icon>
+                    <EnvironmentOutlined v-if="row.type === '点位'" />
+                    <TagOutlined v-else />
+                  </template>
+                </a-avatar>
+                <div>
+                  <a-typography-text strong class="result-title">{{ row.title }}</a-typography-text>
+                  <a-typography-text type="secondary" class="result-subtitle">
+                    {{ row.subtitle }}
+                  </a-typography-text>
+                </div>
+              </a-space>
+              <a-tag :color="row.type === '点位' ? 'orange' : 'blue'" :bordered="false">
+                {{ row.type }}
+              </a-tag>
             </div>
-            <span
-              class="px-2 py-1 text-[10px] font-bold rounded uppercase flex-shrink-0 ml-4"
-              :class="row.type === '点位' ? 'bg-tertiary-fixed text-on-tertiary-fixed-variant' : 'bg-primary-fixed text-on-primary-fixed-variant'"
-            >{{ row.type }}</span>
-          </div>
-          <p class="text-sm text-on-surface-variant leading-relaxed mb-4">{{ row.desc }}</p>
-          <div class="flex items-center justify-between">
-            <div class="flex gap-4">
-              <span class="flex items-center text-[11px] text-outline gap-1">
-                <span class="material-symbols-outlined" style="font-size: 14px">update</span>
-                {{ row.updated }}
-              </span>
-              <span class="flex items-center text-[11px] text-outline gap-1">
-                <span class="material-symbols-outlined" style="font-size: 14px">{{ row.type === '点位' ? 'link' : 'visibility' }}</span>
-                {{ row.meta }}
-              </span>
-            </div>
-            <button class="text-primary text-xs font-bold flex items-center gap-0.5 hover:gap-1.5 transition-all" @click.stop="goResult(row)">
-              {{ row.type === '点位' ? '地图追踪' : '详情入口' }}
-              <span class="material-symbols-outlined" style="font-size: 14px">{{ row.type === '点位' ? 'map' : 'chevron_right' }}</span>
-            </button>
-          </div>
-        </div>
 
-        <!-- Pagination -->
-        <div class="flex justify-center pt-4">
-          <nav class="flex gap-2">
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
-              <span class="material-symbols-outlined" style="font-size: 16px">chevron_left</span>
-            </button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary text-on-primary font-bold text-sm">1</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary text-sm">2</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary text-sm">3</button>
-            <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
-              <span class="material-symbols-outlined" style="font-size: 16px">chevron_right</span>
-            </button>
-          </nav>
-        </div>
-      </div>
+            <a-typography-paragraph class="result-desc">
+              {{ row.desc }}
+            </a-typography-paragraph>
 
-      <!-- Right: Insights & Stats -->
-      <div class="lg:col-span-4 space-y-6">
-        <!-- Search Insights -->
-        <div class="bg-surface-container-high p-6 rounded-2xl border-l-4 border-primary">
-          <h5 class="font-bold text-on-surface mb-4 flex items-center gap-2">
-            <span class="material-symbols-outlined text-primary" style="font-size: 20px">lightbulb</span>
-            检索洞察
-          </h5>
-          <p class="text-xs text-on-surface-variant leading-relaxed mb-4">基于您近期的搜索记录，为您推荐关联性较高的点位及标签资产。</p>
-          <div class="space-y-3">
-            <div
-              v-for="rec in recommendations"
-              :key="rec"
-              class="flex items-center justify-between p-3 bg-surface-container-lowest rounded-xl hover:bg-surface-container-low transition-colors cursor-pointer group"
-            >
-              <span class="text-xs font-medium">{{ rec }}</span>
-              <span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" style="font-size: 14px">open_in_new</span>
+            <div class="result-foot">
+              <a-space :size="16" wrap>
+                <a-typography-text type="secondary" class="meta-text">
+                  <CalendarOutlined />
+                  {{ row.updated }}
+                </a-typography-text>
+                <a-typography-text type="secondary" class="meta-text">
+                  <LinkOutlined v-if="row.type === '点位'" />
+                  <EyeOutlined v-else />
+                  {{ row.meta }}
+                </a-typography-text>
+              </a-space>
+              <a-button type="link" size="small" @click.stop="goResult(row)">
+                {{ row.type === '点位' ? '地图追踪' : '详情入口' }}
+                <template #icon>
+                  <CompassOutlined v-if="row.type === '点位'" />
+                  <ArrowRightOutlined v-else />
+                </template>
+              </a-button>
             </div>
-          </div>
-        </div>
+          </a-card>
+        </a-space>
 
-        <!-- Stats Overview -->
-        <div class="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant">
-          <h5 class="font-bold text-on-surface mb-5">全域数据概览</h5>
-          <div class="grid grid-cols-2 gap-4">
-            <div class="text-center p-4 bg-surface-container-low rounded-xl">
-              <p class="text-xs text-on-surface-variant mb-1">标签总数</p>
-              <p class="text-xl font-black text-primary">15,920</p>
-            </div>
-            <div class="text-center p-4 bg-surface-container-low rounded-xl">
-              <p class="text-xs text-on-surface-variant mb-1">活跃点位</p>
-              <p class="text-xl font-black text-tertiary">8,432</p>
-            </div>
-          </div>
-          <div class="mt-5">
-            <p class="text-[10px] text-on-surface-variant mb-2 text-center tracking-wider">近7日检索趋势</p>
-            <div class="flex items-end gap-1 h-20">
-              <div
-                v-for="(h, i) in barHeights"
-                :key="i"
-                class="flex-1 rounded-t transition-all hover:opacity-80"
-                :style="{ height: h + '%', backgroundColor: `rgba(0,87,194,${0.25 + (h / 100) * 0.75})` }"
-              ></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-on-surface-variant mt-1">
-              <span>周一</span><span>周三</span><span>周五</span><span>今日</span>
-            </div>
-          </div>
+        <div class="pagination-wrap">
+          <a-pagination simple :current="1" :page-size="10" :total="30" />
         </div>
+      </a-col>
 
-        <!-- GIS Map Placeholder -->
-        <div class="bg-surface-container-lowest rounded-2xl border border-outline-variant overflow-hidden cursor-pointer group">
-          <div class="h-48 bg-gradient-to-br from-primary/10 via-surface-container-low to-tertiary/10 flex items-center justify-center relative">
-            <span class="material-symbols-outlined text-primary/20" style="font-size: 80px">map</span>
-            <div class="absolute inset-0 bg-gradient-to-t from-on-surface/60 to-transparent flex flex-col justify-end p-4">
-              <p class="text-on-primary text-xs font-bold">查看地理信息系统 (GIS)</p>
-              <p class="text-on-primary/70 text-[10px]">实时覆盖 52 个街道，1,204 个网格</p>
+      <a-col :xs="24" :lg="8">
+        <a-space direction="vertical" :size="16" class="side-stack">
+          <a-card :body-style="{ padding: '16px 20px 20px' }">
+            <template #title>
+              <a-space :size="8">
+                <BulbOutlined />
+                <span>检索洞察</span>
+              </a-space>
+            </template>
+            <a-typography-paragraph type="secondary" class="insight-copy">
+              基于您近期的搜索记录，为您推荐关联性较高的点位及标签资产。
+            </a-typography-paragraph>
+            <a-list :data-source="recommendations" :split="false" size="small">
+              <template #renderItem="{ item }">
+                <a-list-item class="recommendation-item">
+                  <a-typography-text>{{ item }}</a-typography-text>
+                  <template #extra>
+                    <a-button type="link" size="small">
+                      <template #icon><ArrowRightOutlined /></template>
+                    </a-button>
+                  </template>
+                </a-list-item>
+              </template>
+            </a-list>
+          </a-card>
+
+          <a-card title="全域数据概览" :body-style="{ padding: '16px 20px 20px' }">
+            <a-row :gutter="16">
+              <a-col :span="12">
+                <a-statistic
+                  title="标签总数"
+                  :value="15920"
+                  :value-style="statisticPrimaryStyle"
+                />
+              </a-col>
+              <a-col :span="12">
+                <a-statistic
+                  title="活跃点位"
+                  :value="8432"
+                  :value-style="statisticTertiaryStyle"
+                />
+              </a-col>
+            </a-row>
+
+            <a-divider class="trend-divider" />
+            <a-typography-text strong>近7日检索趋势</a-typography-text>
+            <a-list :data-source="trendData" :split="false" size="small" class="trend-list">
+              <template #renderItem="{ item }">
+                <a-list-item class="trend-item">
+                  <a-typography-text type="secondary" class="trend-day">{{ item.day }}</a-typography-text>
+                  <div class="trend-progress">
+                    <a-progress
+                      :percent="item.value"
+                      :show-info="false"
+                      size="small"
+                      stroke-color="rgb(var(--color-primary))"
+                    />
+                  </div>
+                  <a-typography-text class="trend-value">{{ item.value }}%</a-typography-text>
+                </a-list-item>
+              </template>
+            </a-list>
+          </a-card>
+
+          <a-card hoverable class="gis-card" :body-style="{ padding: '28px 20px' }" @click="openGis">
+            <div class="gis-content">
+              <EnvironmentOutlined class="gis-icon" />
+              <a-typography-text strong class="gis-title">查看地理信息系统 (GIS)</a-typography-text>
+              <a-typography-text type="secondary">
+                实时覆盖 52 街道，1,204 个网格
+              </a-typography-text>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </a-card>
+        </a-space>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import {
+  ArrowRightOutlined,
+  BulbOutlined,
+  CalendarOutlined,
+  CompassOutlined,
+  EnvironmentOutlined,
+  EyeOutlined,
+  LinkOutlined,
+  SearchOutlined,
+  TagOutlined,
+} from '@ant-design/icons-vue'
 
 const router = useRouter()
 
 const searchInput = ref('')
 const searchCategory = ref('')
+const sortMode = ref('relevance')
+
+const categoryOptions = [
+  { label: '全类别', value: '' },
+  { label: '标签', value: 'tag' },
+  { label: '点位', value: 'point' },
+]
 
 const hotTags = ['智慧交通', '人口老龄化', '社区服务', '营商环境']
 const recommendations = ['营商环境监测大屏', '全市应急广播分布']
 const barHeights = ref([45, 60, 50, 75, 90, 70, 100])
+
+const trendData = computed(() => {
+  const days = ['周一', '周二', '周三', '周四', '周五', '周六', '今日']
+  return barHeights.value.map((value, index) => ({
+    day: days[index],
+    value,
+  }))
+})
+
+const statisticPrimaryStyle = {
+  fontSize: '24px',
+  fontWeight: 600,
+  color: 'rgb(var(--color-primary))',
+}
+
+const statisticTertiaryStyle = {
+  fontSize: '24px',
+  fontWeight: 600,
+  color: 'rgb(var(--color-tertiary))',
+}
 
 const handleSearch = () => {}
 
@@ -217,9 +263,12 @@ const goResult = (result) => {
   }
 }
 
+const openGis = () => {}
+
 const resultCards = ref([
   {
-    id: 1, type: '标签',
+    id: 1,
+    type: '标签',
     title: '民生保障关键绩效指标',
     subtitle: '所属分类：社会管理 / 民生服务',
     desc: '该标签融合了全市民政局、社保局及街道办的动态数据，用于评估特定网格内的民生兜底保障覆盖率及执行效率，支持年度、季度多维分析。',
@@ -227,15 +276,17 @@ const resultCards = ref([
     updated: '2023-11-24',
   },
   {
-    id: 2, type: '点位',
+    id: 2,
+    type: '点位',
     title: '高新南区人才公寓（试点点位）',
     subtitle: '地理坐标：114.05, 22.54 | 运维部门：市住建局',
-    desc: '位于科技园中心地带的保障性租赁住房示范点，集成了物联网感应器及智能通行标签，是城市治理中"人房匹配"的核心观测点。',
+    desc: '位于科技园中心地带的保障性租赁住房示范点，集成了物联网感应器及智能通行标签，是城市治理中“人房匹配”的核心观测点。',
     meta: '关联数据源：4个',
     updated: '2023-11-22',
   },
   {
-    id: 3, type: '标签',
+    id: 3,
+    type: '标签',
     title: '企业信用等级综合评价',
     subtitle: '所属分类：产业发展 / 市场监管',
     desc: '根据税务、工商、环保及司法执行等多维度数据实时加权计算生成的企业画像标签，用于信贷评估与政府补贴筛选。',
@@ -244,3 +295,222 @@ const resultCards = ref([
   },
 ])
 </script>
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crumb {
+  font-size: 12px;
+}
+
+.hero-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 0 8px;
+}
+
+.hero-copy {
+  text-align: center;
+}
+
+.hero-title {
+  margin: 0 0 4px !important;
+}
+
+.search-group {
+  display: flex !important;
+  width: min(100%, 860px);
+}
+
+.search-category {
+  width: 128px;
+  flex: 0 0 128px;
+}
+
+.search-input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.search-button {
+  width: 96px;
+  flex: 0 0 96px;
+}
+
+.hot-searches {
+  justify-content: center;
+}
+
+.hot-tag {
+  cursor: pointer;
+}
+
+.result-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.result-list,
+.side-stack {
+  width: 100%;
+}
+
+.result-card {
+  cursor: pointer;
+}
+
+.result-card-head,
+.result-foot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.result-title {
+  display: block;
+  font-size: 15px;
+}
+
+.result-subtitle {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.result-desc {
+  margin: 14px 0 16px !important;
+  color: rgba(0, 0, 0, 0.64);
+  line-height: 1.7;
+}
+
+:global(.dark) .result-desc {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.meta-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.tag-avatar {
+  background: rgba(17, 56, 224, 0.08);
+  color: rgb(var(--color-primary));
+}
+
+.point-avatar {
+  background: rgba(250, 140, 22, 0.12);
+  color: rgb(var(--color-tertiary));
+}
+
+:global(.dark) .tag-avatar {
+  background: rgba(91, 141, 239, 0.18);
+}
+
+:global(.dark) .point-avatar {
+  background: rgba(250, 162, 110, 0.18);
+}
+
+.pagination-wrap {
+  display: flex;
+  justify-content: center;
+  padding-top: 16px;
+}
+
+.insight-copy {
+  margin-bottom: 8px !important;
+}
+
+.recommendation-item {
+  padding: 8px 0 !important;
+}
+
+.trend-divider {
+  margin: 16px 0 12px;
+}
+
+.trend-list {
+  margin-top: 8px;
+}
+
+.trend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 5px 0 !important;
+}
+
+.trend-day {
+  width: 40px;
+  flex: 0 0 40px;
+  font-size: 12px;
+}
+
+.trend-progress {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.trend-progress :deep(.ant-progress) {
+  margin: 0;
+  line-height: 1;
+}
+
+.trend-value {
+  width: 42px;
+  flex: 0 0 42px;
+  text-align: right;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gis-card {
+  cursor: pointer;
+}
+
+.gis-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.gis-icon {
+  color: rgb(var(--color-primary));
+  font-size: 80px;
+  opacity: 0.24;
+}
+
+.gis-title {
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .search-group {
+    flex-wrap: wrap;
+  }
+
+  .search-category,
+  .search-button {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+
+  .search-input {
+    flex-basis: 100%;
+  }
+}
+</style>

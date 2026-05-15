@@ -1,188 +1,124 @@
 <template>
-  <div class="pb-24">
-    <!-- Page Header -->
-    <div class="mb-6">
-      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
-        <span class="text-primary">»</span>
-        <span>数据</span>
-        <span class="opacity-40">/</span>
-        <span class="cursor-pointer hover:text-primary transition-colors">标签管理</span>
-        <span class="opacity-40">/</span>
-        <span class="text-on-surface">编辑</span>
+  <div class="page">
+    <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
+      <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
+      <a-breadcrumb-item>编辑</a-breadcrumb-item>
+    </a-breadcrumb>
+
+    <div class="page-head">
+      <div>
+        <a-typography-title :level="3" class="page-title">编辑标签 · {{ form.name }}</a-typography-title>
+        <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, monospace', fontSize: '11px' }">
+          最后更新 · 2024.05.20 · 14:30
+        </a-typography-text>
       </div>
-      <div class="flex items-end justify-between gap-6 flex-wrap">
-        <div>
-          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">编辑标签 · {{ form.name }}</h1>
-          <p class="font-mono text-[11px] text-on-surface-variant tracking-wider mt-2">最后更新 · 2024.05.20 · 14:30</p>
-        </div>
-      </div>
+      <a-space :size="8">
+        <a-button @click="cancel">取消</a-button>
+        <a-button type="primary" @click="save">确认保存</a-button>
+      </a-space>
     </div>
 
-    <div class="grid grid-cols-1 gap-8">
-      <!-- Section 01: Basic Information -->
-      <section class="bg-surface-container-lowest rounded-lg p-8 shadow-sm border-l-4 border-primary">
-        <div class="flex items-center gap-3 mb-8">
-          <span class="text-primary font-bold text-xl leading-none">01</span>
-          <h2 class="text-lg font-bold text-on-surface">基本信息编辑</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-on-surface-variant">标签名称 <span class="text-error">*</span></label>
-            <input
-              v-model="form.name"
-              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary transition-all"
-              placeholder="请输入标签名称"
-              type="text"
+    <!-- Section 01: 基本信息编辑 -->
+    <a-card title="01 基本信息编辑" :body-style="{ padding: '20px 24px 4px' }">
+      <a-form layout="vertical" :model="form">
+        <a-row :gutter="48">
+          <a-col :xs="24" :md="12">
+            <a-form-item label="标签名称" required>
+              <a-input v-model:value="form.name" placeholder="请输入标签名称" />
+            </a-form-item>
+          </a-col>
+          <a-col :xs="24" :md="12">
+            <a-form-item label="创建人">
+              <a-input value="系统管理员 (Admin)" disabled />
+            </a-form-item>
+          </a-col>
+          <a-col :xs="24" :md="12">
+            <a-form-item label="更新周期" required>
+              <a-select v-model:value="form.cycle" :options="cycleOptions" />
+            </a-form-item>
+          </a-col>
+          <a-col :xs="24" :md="12">
+            <a-form-item label="标签分类">
+              <a-select v-model:value="form.category" :options="categoryOptions" />
+            </a-form-item>
+          </a-col>
+          <a-col :span="24">
+            <a-form-item label="创建理由" required>
+              <a-textarea
+                v-model:value="form.reason"
+                :rows="3"
+                placeholder="描述该标签的应用场景与业务价值..."
+              />
+            </a-form-item>
+          </a-col>
+        </a-row>
+      </a-form>
+    </a-card>
+
+    <!-- Section 02: 下属点位管理 -->
+    <a-card title="02 下属点位管理" :body-style="{ padding: '16px 24px 20px' }">
+      <template #extra>
+        <a-space :size="8">
+          <a-button :disabled="!selectedPoints.length">
+            <template #icon><DeleteOutlined /></template>
+            批量移除
+            <a-badge
+              v-if="selectedPoints.length"
+              :count="selectedPoints.length"
+              :number-style="{ backgroundColor: '#1138e0', marginLeft: '4px' }"
             />
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-on-surface-variant">创建人</label>
-            <input
-              class="w-full bg-surface-container-low/60 border-none rounded-lg px-4 py-3 text-outline cursor-not-allowed"
-              disabled
-              type="text"
-              value="系统管理员 (Admin)"
-            />
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-on-surface-variant">更新周期 <span class="text-error">*</span></label>
-            <select
-              v-model="form.cycle"
-              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary appearance-none transition-all"
-            >
-              <option value="每日更新">每日更新</option>
-              <option value="每周更新">每周更新</option>
-              <option value="每月更新">每月更新</option>
-              <option value="实时触发">实时触发</option>
-            </select>
-          </div>
-          <div class="space-y-2">
-            <label class="block text-sm font-semibold text-on-surface-variant">标签分类</label>
-            <select
-              v-model="form.category"
-              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary appearance-none transition-all"
-            >
-              <option value="基础画像">基础画像</option>
-              <option value="信用评估">信用评估</option>
-              <option value="风险监控">风险监控</option>
-            </select>
-          </div>
-          <div class="md:col-span-2 space-y-2">
-            <label class="block text-sm font-semibold text-on-surface-variant">创建理由 <span class="text-error">*</span></label>
-            <textarea
-              v-model="form.reason"
-              class="w-full bg-surface-container-low border-none rounded-lg px-4 py-3 text-on-surface focus:ring-2 focus:ring-primary transition-all"
-              placeholder="描述该标签的应用场景与业务价值..."
-              rows="3"
-            ></textarea>
-          </div>
-        </div>
-      </section>
+          </a-button>
+          <a-button type="primary">
+            <template #icon><PlusOutlined /></template>
+            添加点位
+          </a-button>
+        </a-space>
+      </template>
 
-      <!-- Section 02: Point Management -->
-      <section class="bg-surface-container-lowest rounded-lg p-8 shadow-sm border-l-4 border-primary">
-        <div class="flex justify-between items-center mb-8">
-          <div class="flex items-center gap-3">
-            <span class="text-primary font-bold text-xl leading-none">02</span>
-            <h2 class="text-lg font-bold text-on-surface">下属点位管理</h2>
-          </div>
-          <div class="flex gap-3">
-            <button
-              :disabled="selectedPoints.length === 0"
-              class="bg-secondary-container text-primary px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <span class="material-symbols-outlined" style="font-size: 16px">delete</span>
-              批量移除
-              <span v-if="selectedPoints.length > 0" class="ml-1 text-xs bg-primary text-on-primary rounded-full w-5 h-5 flex items-center justify-center font-black">{{ selectedPoints.length }}</span>
-            </button>
-            <button class="bg-primary text-on-primary px-6 py-2 rounded-lg font-semibold flex items-center gap-2 hover:bg-primary-container transition-all">
-              <span class="material-symbols-outlined" style="font-size: 16px">add</span>
-              添加点位
-            </button>
-          </div>
-        </div>
-        <div class="overflow-hidden rounded-lg">
-          <table class="w-full text-left">
-            <thead class="bg-surface-container-low text-on-surface-variant font-semibold text-sm">
-              <tr>
-                <th class="px-6 py-4">
-                  <input
-                    type="checkbox"
-                    class="rounded border-outline-variant text-primary focus:ring-primary"
-                    :checked="selectedPoints.length === pointData.length && pointData.length > 0"
-                    @change="toggleAll"
-                  />
-                </th>
-                <th class="px-6 py-4">点位名称</th>
-                <th class="px-6 py-4">地理位置</th>
-                <th class="px-6 py-4">运行状态</th>
-                <th class="px-6 py-4">更新时间</th>
-                <th class="px-6 py-4 text-right">操作</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-surface-container-low">
-              <tr v-for="row in pointData" :key="row.id" class="hover:bg-surface-container-low/50 transition-colors group">
-                <td class="px-6 py-4">
-                  <input
-                    type="checkbox"
-                    class="rounded border-outline-variant text-primary focus:ring-primary"
-                    :value="row.id"
-                    v-model="selectedPoints"
-                  />
-                </td>
-                <td class="px-6 py-4">
-                  <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded bg-primary-fixed flex items-center justify-center text-primary">
-                      <span class="material-symbols-outlined" style="font-size: 16px">lan</span>
-                    </div>
-                    <span class="font-medium text-on-surface">{{ row.name }}</span>
-                  </div>
-                </td>
-                <td class="px-6 py-4 text-on-surface-variant">{{ row.location }}</td>
-                <td class="px-6 py-4">
-                  <span
-                    class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                    :class="row.status === '运行中' ? 'bg-success-container text-on-success-container' : 'bg-warning-container text-on-warning-container'"
-                  >
-                    <span
-                      class="w-1.5 h-1.5 rounded-full"
-                      :class="row.status === '运行中' ? 'bg-success' : 'bg-warning'"
-                    ></span>
-                    {{ row.status }}
-                  </span>
-                </td>
-                <td class="px-6 py-4 text-outline">{{ row.updated }}</td>
-                <td class="px-6 py-4 text-right">
-                  <button class="text-error hover:underline text-sm font-medium">移除</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-
-    <!-- Sticky Bottom Action Bar -->
-    <div class="fixed bottom-0 right-0 left-64 bg-surface-container-lowest shadow-[0_-4px_12px_rgba(0,0,0,0.03)] px-12 py-4 flex justify-end items-center gap-4 z-40">
-      <button
-        @click="cancel"
-        class="px-10 py-2.5 rounded-lg border border-outline-variant text-on-surface hover:bg-surface-container-low font-semibold transition-all"
+      <a-table
+        :columns="pointColumns"
+        :data-source="pointData"
+        :pagination="false"
+        :row-key="r => r.id"
+        :row-selection="{ selectedRowKeys: selectedPoints, onChange: keys => (selectedPoints = keys) }"
+        size="middle"
       >
-        取消
-      </button>
-      <button
-        @click="save"
-        class="px-10 py-2.5 rounded-lg bg-primary text-on-primary hover:bg-primary-container font-semibold shadow-lg shadow-primary/20 transition-all"
-      >
-        确认保存
-      </button>
-    </div>
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'name'">
+            <a-space :size="10">
+              <a-avatar shape="square" :size="32" :style="{ background: 'rgba(17,56,224,0.08)', color: '#1138e0' }">
+                <template #icon><ApiOutlined /></template>
+              </a-avatar>
+              <a-typography-text strong>{{ record.name }}</a-typography-text>
+            </a-space>
+          </template>
+          <template v-else-if="column.key === 'location'">
+            <a-typography-text type="secondary">{{ record.location }}</a-typography-text>
+          </template>
+          <template v-else-if="column.key === 'status'">
+            <a-badge :status="record.status === '运行中' ? 'success' : 'warning'" :text="record.status" />
+          </template>
+          <template v-else-if="column.key === 'updated'">
+            <a-typography-text type="secondary">{{ record.updated }}</a-typography-text>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <a-button type="link" size="small" danger>移除</a-button>
+          </template>
+        </template>
+      </a-table>
+    </a-card>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import {
+  DeleteOutlined,
+  PlusOutlined,
+  ApiOutlined,
+} from '@ant-design/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -194,6 +130,19 @@ const form = ref({
   reason: '为实现企业分级分类监管，根据纳税、社保、诉讼等多维度数据，构建企业信用综合评价体系，提升审批效率。',
 })
 
+const cycleOptions = [
+  { label: '每日更新', value: '每日更新' },
+  { label: '每周更新', value: '每周更新' },
+  { label: '每月更新', value: '每月更新' },
+  { label: '实时触发', value: '实时触发' },
+]
+
+const categoryOptions = [
+  { label: '基础画像', value: '基础画像' },
+  { label: '信用评估', value: '信用评估' },
+  { label: '风险监控', value: '风险监控' },
+]
+
 const selectedPoints = ref([])
 
 const pointData = ref([
@@ -202,10 +151,48 @@ const pointData = ref([
   { id: 'P-100281', name: '工商司法风险点位', location: '广州市/越秀区/政务大数据平台', status: '维护中', updated: '2024-05-18 16:40' },
 ])
 
-const toggleAll = (e) => {
-  selectedPoints.value = e.target.checked ? pointData.value.map(p => p.id) : []
-}
+const pointColumns = [
+  { key: 'name', title: '点位名称', minWidth: 240 },
+  { key: 'location', title: '地理位置' },
+  { key: 'status', title: '运行状态', width: 110 },
+  { key: 'updated', title: '更新时间', width: 150 },
+  { key: 'action', title: '操作', width: 80, align: 'right' },
+]
 
 const save = () => router.push(`/tag-management/detail/${route.params.id || 1}`)
 const cancel = () => router.push(`/tag-management/detail/${route.params.id || 1}`)
 </script>
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crumb {
+  font-size: 12px;
+}
+
+.crumb a {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.crumb a:hover {
+  color: #1138e0;
+  opacity: 1;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  margin: 0 0 4px !important;
+}
+</style>

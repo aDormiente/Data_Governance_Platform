@@ -1,52 +1,59 @@
 <template>
-  <header class="fixed top-0 right-0 left-64 h-14 bg-surface border-b border-outline-variant flex justify-between items-center px-6 z-40">
+  <div class="header-root">
     <!-- Zone path -->
-    <div class="flex items-center gap-5">
-      <div class="flex items-center gap-2">
-        <span class="text-primary font-mono text-[14px] font-semibold leading-none">▎</span>
-        <span class="font-display text-[14px] font-semibold tracking-tight text-on-surface">{{ zone }}</span>
-        <span v-if="subzone" class="font-mono text-[11px] text-on-surface-variant tracking-wider">/&nbsp;{{ subzone }}</span>
-      </div>
-      <span class="font-mono text-[11px] text-on-surface-variant tracking-wider">{{ nowStr }}</span>
+    <div class="header-left">
+      <span class="zone-bar"></span>
+      <span class="zone-name">{{ zone }}</span>
+      <a-divider type="vertical" />
+      <span v-if="subzone" class="zone-sub">{{ subzone }}</span>
+      <span class="zone-time">{{ nowStr }}</span>
     </div>
 
     <!-- Right cluster -->
-    <div class="flex items-center gap-2">
-      <div class="relative">
-        <span class="absolute left-2.5 top-1/2 -translate-y-1/2 font-mono text-[12px] text-primary leading-none pointer-events-none">&gt;</span>
-        <input
-          class="pl-7 pr-12 py-1.5 bg-surface-container-lowest border border-outline-variant text-[12px] w-72 text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:border-primary transition-colors"
-          placeholder="全域搜索..."
-          type="text"
-        />
-        <kbd class="tt-kbd absolute right-2 top-1/2 -translate-y-1/2 hidden md:inline-flex">/</kbd>
-      </div>
+    <div class="header-right">
+      <a-input-search
+        v-model:value="searchValue"
+        placeholder="全域搜索…"
+        style="width: 280px"
+        allow-clear
+      />
 
-      <div class="flex items-center pl-3 ml-1 border-l border-outline-variant gap-1">
-        <button class="relative w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" title="通知">
-          <span class="material-symbols-outlined" style="font-size: 19px">notifications</span>
-          <span class="absolute top-1.5 right-1.5 w-1.5 h-1.5 bg-danger"></span>
-        </button>
-        <button class="w-9 h-9 flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors" title="帮助">
-          <span class="material-symbols-outlined" style="font-size: 19px">help_outline</span>
-        </button>
-      </div>
+      <a-divider type="vertical" style="height: 24px; margin: 0 4px" />
+
+      <a-tooltip placement="bottom" title="通知">
+        <a-badge dot>
+          <a-button type="text" shape="circle">
+            <template #icon><BellOutlined /></template>
+          </a-button>
+        </a-badge>
+      </a-tooltip>
+
+      <a-tooltip placement="bottom" title="帮助">
+        <a-button type="text" shape="circle">
+          <template #icon><QuestionCircleOutlined /></template>
+        </a-button>
+      </a-tooltip>
     </div>
-  </header>
+  </div>
 </template>
 
 <script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
+import {
+  BellOutlined,
+  QuestionCircleOutlined,
+} from '@ant-design/icons-vue'
 
 const route = useRoute()
+const searchValue = ref('')
 
 const zoneMap = {
   '/tag-governance': { zone: '标签治理', subzone: '总览' },
   '/tag-management': { zone: '标签管理', subzone: '编目' },
-  '/fusion-search':  { zone: '融合搜索', subzone: '检索' },
+  '/fusion-search':  { zone: '融合检索', subzone: '检索' },
   '/my-approvals':   { zone: '我的审批', subzone: '待办' },
-  '/branch-topics':  { zone: '分支主题', subzone: '索引' },
+  '/branch-topics':  { zone: '标签共享', subzone: '索引' },
 }
 
 const matchedZone = computed(() => {
@@ -69,3 +76,54 @@ onMounted(() => {
 })
 onUnmounted(() => clearInterval(timer))
 </script>
+
+<style scoped>
+.header-root {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.zone-bar {
+  width: 3px;
+  height: 16px;
+  background: #1138e0;
+  border-radius: 1.5px;
+}
+
+.zone-name {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+.zone-sub {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.08em;
+}
+
+.zone-time {
+  margin-left: 16px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  opacity: 0.5;
+  letter-spacing: 0.04em;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+</style>

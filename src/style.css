@@ -537,6 +537,33 @@ textarea::placeholder { color: rgb(var(--color-on-surface-variant) / 0.6); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   View Transitions — circular reveal from click point.
+   New theme expands as a circle clip-mask over the old.
+   The JS in stores/theme.js drives the keyframes via Web Animations API.
+   Chrome/Edge native; Safari/Firefox auto-fallback to instant.
+   ═══════════════════════════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Old theme stays put; new theme is on top, clip-path drives the reveal */
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
    Chrome transitions (only on color, not on transform)
    ═══════════════════════════════════════════════════════════════ */
 aside, header, section, table, input, button, select, textarea {

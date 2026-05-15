@@ -1,375 +1,220 @@
 <template>
-  <div>
-    <!-- Page Header -->
-    <div class="mb-6">
-      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
-        <span class="text-primary">»</span>
-        <span class="cursor-pointer hover:text-primary transition-colors">标签管理</span>
-        <span class="opacity-40">/</span>
-        <span>点位</span>
-        <span class="opacity-40">/</span>
-        <span class="text-on-surface">编辑</span>
+  <div class="page">
+    <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>标签管理</a-breadcrumb-item>
+      <a-breadcrumb-item>点位</a-breadcrumb-item>
+      <a-breadcrumb-item>编辑</a-breadcrumb-item>
+    </a-breadcrumb>
+
+    <div class="page-head">
+      <div>
+        <a-typography-title :level="3" class="page-title">编辑点位 · {{ form.name }}</a-typography-title>
+        <a-typography-text type="secondary">编辑点位基本信息及调整关联标签。</a-typography-text>
       </div>
-      <div class="flex items-end justify-between gap-6 flex-wrap">
-        <div>
-          <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">编辑点位 · {{ form.name }}</h1>
-          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">编辑点位基本信息及调整关联标签。</p>
-        </div>
-        <div class="flex gap-2 items-center">
-          <button
-            @click="cancel"
-            class="text-[12px] px-3 py-2 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex items-center gap-1.5"
-          >
-            <span class="material-symbols-outlined" style="font-size: 14px">close</span>
-            取消
-          </button>
-          <button
-            @click="save"
-            class="text-[12px] px-3 py-2 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
-          >
-            <span class="material-symbols-outlined" style="font-size: 14px">check</span>
-            保存
-          </button>
-        </div>
-      </div>
+      <a-space :size="8">
+        <a-button @click="cancel">取消</a-button>
+        <a-button type="primary" @click="save">保存</a-button>
+      </a-space>
     </div>
 
-    <!-- Main Grid -->
-    <div class="grid lg:grid-cols-12 gap-6">
-
-      <!-- LEFT COLUMN -->
-      <div class="lg:col-span-8">
-        <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
-
-          <!-- Step Tab Navigation -->
-          <div class="flex border-b border-surface-container-low bg-surface-container-low/30 px-6">
-            <button
-              v-for="tab in steps"
-              :key="tab.key"
-              @click="activeTab = tab.key"
-              :class="[
-                'py-4 px-6 text-sm font-medium transition-colors relative flex items-center gap-2',
-                activeTab === tab.key
-                  ? 'font-bold text-primary border-b-2 border-primary'
-                  : 'text-on-surface-variant hover:text-primary'
-              ]"
-            >
-              <span
-                :class="[
-                  'w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black shrink-0',
-                  activeTab === tab.key
-                    ? 'bg-primary text-on-primary'
-                    : 'bg-surface-container-high text-on-surface-variant'
-                ]"
-              >{{ tab.key }}</span>
-              {{ tab.label }}
-            </button>
-          </div>
-
-          <!-- Tab 01: 基本信息编辑 -->
-          <div v-if="activeTab === '01'" class="p-8">
-            <div class="grid grid-cols-2 gap-x-6 gap-y-6">
-
-              <!-- 点位名称 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
-                  点位名称
-                  <span class="text-danger ml-0.5">*</span>
-                </label>
-                <input
-                  v-model="form.name"
-                  type="text"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
-                />
-              </div>
-
-              <!-- 点位编号 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">点位编号</label>
-                <input
-                  type="text"
-                  :value="form.pid"
-                  disabled
-                  class="bg-surface-container-low/60 border-none rounded-lg px-4 py-2.5 text-sm w-full text-on-surface-variant cursor-not-allowed opacity-70 font-mono"
-                />
-              </div>
-
-              <!-- 经度 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
-                  经度
-                  <span class="text-danger ml-0.5">*</span>
-                </label>
-                <input
-                  v-model="form.lng"
-                  type="text"
-                  placeholder="例: 116.4074"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface font-mono"
-                />
-              </div>
-
-              <!-- 纬度 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
-                  纬度
-                  <span class="text-danger ml-0.5">*</span>
-                </label>
-                <input
-                  v-model="form.lat"
-                  type="text"
-                  placeholder="例: 39.9042"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface font-mono"
-                />
-              </div>
-
-              <!-- 安装位置 -->
-              <div class="flex flex-col gap-1.5 col-span-2">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
-                  安装位置
-                  <span class="text-danger ml-0.5">*</span>
-                </label>
-                <input
-                  v-model="form.location"
-                  type="text"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
-                />
-              </div>
-
-              <!-- 设备状态 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">
-                  设备状态
-                  <span class="text-danger ml-0.5">*</span>
-                </label>
-                <select
-                  v-model="form.status"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
-                >
-                  <option value="在线">在线</option>
-                  <option value="离线">离线</option>
-                  <option value="故障">故障</option>
-                  <option value="维护中">维护中</option>
-                </select>
-              </div>
-
-              <!-- 所属部门 -->
-              <div class="flex flex-col gap-1.5">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">所属部门</label>
-                <select
-                  v-model="form.department"
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface"
-                >
-                  <option value="城市管理指挥中心">城市管理指挥中心</option>
-                  <option value="公安交管支队">公安交管支队</option>
-                  <option value="环保监测中心">环保监测中心</option>
-                  <option value="政务服务管理局">政务服务管理局</option>
-                </select>
-              </div>
-
-              <!-- 点位描述 -->
-              <div class="flex flex-col gap-1.5 col-span-2">
-                <label class="text-[10px] uppercase tracking-wider text-on-surface-variant font-bold px-1">点位描述</label>
-                <textarea
-                  v-model="form.desc"
-                  rows="3"
-                  placeholder="请输入点位描述（选填）..."
-                  class="bg-surface-container-low border-none rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 w-full text-on-surface resize-none leading-relaxed placeholder:text-on-surface-variant/50"
-                ></textarea>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Tab 02: 关联标签管理 -->
-          <div v-if="activeTab === '02'" class="p-6">
-
-            <!-- Header Row -->
-            <div class="flex items-center justify-between mb-5">
-              <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary" style="font-size: 18px">label</span>
-                <span class="text-sm font-bold text-on-surface">当前已关联</span>
-                <span class="text-primary font-black text-base">{{ linkedTags.length }}</span>
-                <span class="text-sm font-bold text-on-surface">个标签</span>
-              </div>
-              <div class="flex gap-3">
-                <button
-                  :class="[
-                    'px-4 py-1.5 rounded-lg text-sm font-medium flex items-center gap-1.5 border transition-colors',
-                    selectedTagIds.length > 0
-                      ? 'border-danger/30 text-danger bg-danger-container hover:bg-danger-container'
-                      : 'border-outline-variant text-on-surface-variant bg-surface-container-lowest hover:bg-surface-container-low'
-                  ]"
-                >
-                  <span class="material-symbols-outlined" style="font-size: 15px">remove_circle_outline</span>
-                  批量移除
-                  <span v-if="selectedTagIds.length > 0" class="ml-1 text-xs bg-danger text-on-primary rounded-full w-4 h-4 flex items-center justify-center font-black">{{ selectedTagIds.length }}</span>
-                </button>
-                <button class="px-4 py-1.5 bg-primary text-on-primary rounded-lg text-sm font-medium flex items-center gap-1.5 hover:opacity-90 transition-all">
-                  <span class="material-symbols-outlined" style="font-size: 15px">add</span>
-                  添加标签
-                </button>
-              </div>
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-x-auto rounded-lg border border-outline-variant/20">
-              <table class="w-full text-left border-collapse">
-                <thead>
-                  <tr class="bg-surface-container-low/60">
-                    <th class="px-4 py-3 w-10">
-                      <input
-                        type="checkbox"
-                        class="rounded border-outline-variant accent-primary w-4 h-4"
-                        :checked="selectedTagIds.length === linkedTags.length && linkedTags.length > 0"
-                        @change="toggleAll"
+    <a-row :gutter="16">
+      <a-col :xs="24" :lg="16">
+        <a-card :body-style="{ padding: '16px 20px 20px' }">
+          <a-tabs v-model:active-key="activeTab" class="edit-tabs">
+            <a-tab-pane key="01" tab="01 基本信息编辑">
+              <a-form layout="vertical" :model="form">
+                <a-row :gutter="[24, 0]">
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="点位名称" name="name" required>
+                      <a-input v-model:value="form.name" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="点位编号" name="pid">
+                      <a-input
+                        :value="form.pid"
+                        :disabled="true"
+                        :style="{ fontFamily: 'IBM Plex Mono, monospace' }"
                       />
-                    </th>
-                    <th class="px-4 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wider">标签名称</th>
-                    <th class="px-4 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wider">所属分类</th>
-                    <th class="px-4 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wider">关联时间</th>
-                    <th class="px-4 py-3 text-xs font-bold text-on-surface-variant uppercase tracking-wider text-right">操作</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-surface-container-low">
-                  <tr
-                    v-for="row in linkedTags"
-                    :key="row.id"
-                    class="hover:bg-surface-container-low/40 transition-colors group"
-                    :class="selectedTagIds.includes(row.id) ? 'bg-primary-fixed/30' : ''"
-                  >
-                    <td class="px-4 py-4">
-                      <input
-                        type="checkbox"
-                        class="rounded border-outline-variant accent-primary w-4 h-4"
-                        :value="row.id"
-                        v-model="selectedTagIds"
+                    </a-form-item>
+                  </a-col>
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="经度" name="lng" required>
+                      <a-input
+                        v-model:value="form.lng"
+                        placeholder="例: 116.4074"
+                        :style="{ fontFamily: 'IBM Plex Mono, monospace' }"
                       />
-                    </td>
-                    <td class="px-4 py-4">
-                      <div class="flex items-center gap-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-primary-fixed flex items-center justify-center shrink-0">
-                          <span class="material-symbols-outlined text-on-primary-fixed-variant" style="font-size: 15px">sell</span>
-                        </div>
-                        <span class="text-sm font-semibold text-on-surface">{{ row.name }}</span>
-                      </div>
-                    </td>
-                    <td class="px-4 py-4">
-                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant text-xs font-medium">{{ row.category }}</span>
-                    </td>
-                    <td class="px-4 py-4 text-sm text-on-surface-variant font-mono">{{ row.linkedAt }}</td>
-                    <td class="px-4 py-4 text-right">
-                      <button class="opacity-0 group-hover:opacity-100 transition-opacity text-danger hover:text-on-danger-container text-xs font-medium flex items-center gap-1 ml-auto">
-                        <span class="material-symbols-outlined" style="font-size: 14px">link_off</span>
-                        移除
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                    </a-form-item>
+                  </a-col>
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="纬度" name="lat" required>
+                      <a-input
+                        v-model:value="form.lat"
+                        placeholder="例: 39.9042"
+                        :style="{ fontFamily: 'IBM Plex Mono, monospace' }"
+                      />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="24">
+                    <a-form-item label="安装位置" name="location" required>
+                      <a-input v-model:value="form.location" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="设备状态" name="status" required>
+                      <a-select v-model:value="form.status" :options="statusOptions" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :xs="24" :md="12">
+                    <a-form-item label="所属部门" name="department">
+                      <a-select v-model:value="form.department" :options="departmentOptions" />
+                    </a-form-item>
+                  </a-col>
+                  <a-col :span="24">
+                    <a-form-item label="点位描述" name="desc">
+                      <a-textarea
+                        v-model:value="form.desc"
+                        :rows="3"
+                        placeholder="请输入点位描述（选填）..."
+                      />
+                    </a-form-item>
+                  </a-col>
+                </a-row>
+              </a-form>
+            </a-tab-pane>
 
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT COLUMN -->
-      <div class="lg:col-span-4 flex flex-col gap-5">
-
-        <!-- Change Log Card -->
-        <div class="bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden bento-shadow">
-
-          <div class="px-6 py-4 border-b border-surface-container-low flex items-center gap-2">
-            <span class="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black bg-surface-container-high text-on-surface-variant shrink-0">03</span>
-            <span class="text-sm font-bold text-on-surface">更改日志</span>
-          </div>
-
-          <div class="p-5 flex flex-col gap-5">
-
-            <div>
-              <div class="bg-warning-container border-l-4 border-warning rounded-r-lg px-4 py-3 mb-4 flex items-center gap-2">
-                <span class="material-symbols-outlined text-on-warning-container" style="font-size: 17px">warning_amber</span>
-                <span class="text-xs font-bold text-on-warning-container">当前未保存的变更</span>
+            <a-tab-pane key="02" tab="02 关联标签管理">
+              <div class="link-toolbar">
+                <div class="link-summary">
+                  <a-typography-text>当前已关联</a-typography-text>
+                  <a-typography-text strong>{{ linkedTags.length }}</a-typography-text>
+                  <a-typography-text>个标签</a-typography-text>
+                </div>
+                <a-space :size="8" class="link-actions">
+                  <a-badge :count="selectedTagIds.length">
+                    <a-button :disabled="!selectedTagIds.length">
+                      <template #icon><DeleteOutlined /></template>
+                      批量移除
+                    </a-button>
+                  </a-badge>
+                  <a-button type="primary">
+                    <template #icon><PlusOutlined /></template>
+                    添加标签
+                  </a-button>
+                </a-space>
               </div>
 
-              <div class="space-y-3">
-                <div class="flex flex-col gap-1.5 p-3 bg-surface-container-low/60 rounded-lg">
-                  <div class="flex items-center justify-between">
-                    <span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">设备状态</span>
-                    <span class="text-[10px] font-bold text-on-warning-container bg-warning-container px-2 py-0.5 rounded">已修改</span>
-                  </div>
-                  <div class="flex items-center gap-2 flex-wrap mt-0.5">
-                    <span class="text-sm text-on-surface-variant line-through decoration-danger">在线</span>
-                    <span class="material-symbols-outlined text-on-surface-variant" style="font-size: 14px">arrow_forward</span>
-                    <span class="text-sm font-semibold text-on-success-container">{{ form.status }}</span>
-                  </div>
+              <a-table
+                class="linked-table"
+                :columns="tagColumns"
+                :data-source="linkedTags"
+                :pagination="false"
+                :row-key="record => record.id"
+                :row-selection="{ selectedRowKeys: selectedTagIds, onChange: handleSelectionChange }"
+                size="middle"
+              >
+                <template #bodyCell="{ column, record }">
+                  <template v-if="column.key === 'name'">
+                    <a-space :size="10">
+                      <a-avatar shape="square" :size="28" class="tag-avatar">
+                        <template #icon><TagOutlined /></template>
+                      </a-avatar>
+                      <a-typography-text strong>{{ record.name }}</a-typography-text>
+                    </a-space>
+                  </template>
+                  <template v-else-if="column.key === 'category'">
+                    <a-tag color="blue" :bordered="false">{{ record.category }}</a-tag>
+                  </template>
+                  <template v-else-if="column.key === 'linkedAt'">
+                    <a-typography-text
+                      type="secondary"
+                      :style="{ fontFamily: 'IBM Plex Mono, monospace' }"
+                    >
+                      {{ record.linkedAt }}
+                    </a-typography-text>
+                  </template>
+                  <template v-else-if="column.key === 'action'">
+                    <a-button class="row-action" type="link" size="small" danger>移除</a-button>
+                  </template>
+                </template>
+              </a-table>
+            </a-tab-pane>
+          </a-tabs>
+        </a-card>
+      </a-col>
+
+      <a-col :xs="24" :lg="8">
+        <a-space direction="vertical" :size="16" class="side-stack">
+          <a-card title="03 更改日志" :body-style="{ padding: '16px' }">
+            <a-space direction="vertical" :size="16" class="side-stack">
+              <a-alert type="warning" :message="'当前未保存的变更'" :show-icon="true" />
+
+              <div class="change-detail">
+                <div class="change-row">
+                  <a-typography-text type="secondary">设备状态</a-typography-text>
+                  <a-space :size="8">
+                    <a-typography-text delete>在线</a-typography-text>
+                    <ArrowRightOutlined />
+                    <a-typography-text type="success" strong>{{ form.status }}</a-typography-text>
+                  </a-space>
                 </div>
               </div>
-            </div>
 
-            <div class="border-t border-surface-container-low"></div>
+              <a-divider />
 
-            <div>
-              <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-4">历史变更记录</p>
-              <div class="relative pl-5">
-                <div class="absolute left-1.5 top-1 bottom-1 w-px bg-outline-variant/40"></div>
-
-                <div class="relative mb-5">
-                  <div class="absolute -left-[14px] top-1 w-2.5 h-2.5 rounded-full bg-primary-fixed border-2 border-primary shrink-0"></div>
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <span class="text-[10px] font-bold text-primary">昨天 16:20</span>
-                      <span class="text-[10px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded font-medium">系统管理员</span>
-                    </div>
-                    <p class="text-xs text-on-surface font-medium">关联了 2 个新标签</p>
-                  </div>
-                </div>
-
-                <div class="relative">
-                  <div class="absolute -left-[14px] top-1 w-2.5 h-2.5 rounded-full bg-surface-container-high border-2 border-outline-variant/60 shrink-0"></div>
-                  <div>
-                    <div class="flex items-center justify-between mb-1">
-                      <span class="text-[10px] font-bold text-on-surface-variant">2023-05-14 10:22</span>
-                      <span class="text-[10px] text-on-surface-variant bg-surface-container-low px-2 py-0.5 rounded font-medium">系统管理员</span>
-                    </div>
-                    <p class="text-xs text-on-surface font-medium">初始化点位</p>
-                  </div>
-                </div>
-
+              <div>
+                <a-typography-text strong>历史变更记录</a-typography-text>
+                <a-timeline class="history-timeline">
+                  <a-timeline-item>
+                    <a-space direction="vertical" :size="2">
+                      <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, monospace' }">
+                        昨天 16:20
+                      </a-typography-text>
+                      <a-typography-text>系统管理员 / 关联了 2 个新标签</a-typography-text>
+                    </a-space>
+                  </a-timeline-item>
+                  <a-timeline-item>
+                    <a-space direction="vertical" :size="2">
+                      <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, monospace' }">
+                        2023-05-14 10:22
+                      </a-typography-text>
+                      <a-typography-text>系统管理员 / 初始化点位</a-typography-text>
+                    </a-space>
+                  </a-timeline-item>
+                </a-timeline>
               </div>
-            </div>
+            </a-space>
+          </a-card>
 
-          </div>
-        </div>
-
-        <!-- Compliance Note -->
-        <div class="bg-primary-fixed rounded-xl p-5 flex items-start gap-3 border border-primary-fixed-dim/20">
-          <div class="w-9 h-9 rounded-lg bg-on-primary-fixed-variant/10 flex items-center justify-center shrink-0 mt-0.5">
-            <span class="material-symbols-outlined text-on-primary-fixed-variant" style="font-size: 20px">policy</span>
-          </div>
-          <div>
-            <p class="text-xs font-bold text-on-primary-fixed-variant mb-1">审核说明</p>
-            <p class="text-xs text-on-primary-fixed-variant/80 leading-relaxed">本次修改将进入审核队列，审核通过后生效。</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
+          <a-card :body-style="{ padding: '16px' }">
+            <a-alert
+              type="info"
+              message="审核说明"
+              description="本次修改将进入审核队列，审核通过后生效。"
+              :show-icon="true"
+            />
+          </a-card>
+        </a-space>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import {
+  ArrowRightOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  TagOutlined,
+} from '@ant-design/icons-vue'
 
 const route = useRoute()
 const router = useRouter()
 
 const activeTab = ref('01')
-
-const steps = [
-  { key: '01', label: '基本信息编辑' },
-  { key: '02', label: '关联标签管理' },
-]
 
 const form = ref({
   name: 'ZX-00829-北京西路',
@@ -382,6 +227,20 @@ const form = ref({
   desc: '',
 })
 
+const statusOptions = [
+  { label: '在线', value: '在线' },
+  { label: '离线', value: '离线' },
+  { label: '故障', value: '故障' },
+  { label: '维护中', value: '维护中' },
+]
+
+const departmentOptions = [
+  { label: '城市管理指挥中心', value: '城市管理指挥中心' },
+  { label: '公安交管支队', value: '公安交管支队' },
+  { label: '环保监测中心', value: '环保监测中心' },
+  { label: '政务服务管理局', value: '政务服务管理局' },
+]
+
 const selectedTagIds = ref([])
 
 const linkedTags = ref([
@@ -390,10 +249,100 @@ const linkedTags = ref([
   { id: 3, name: '重点监控', category: '安防监测', linkedAt: '2023-10-24 15:30' },
 ])
 
-const toggleAll = (e) => {
-  selectedTagIds.value = e.target.checked ? linkedTags.value.map(t => t.id) : []
+const tagColumns = [
+  { key: 'name', dataIndex: 'name', title: '标签名称', minWidth: 180 },
+  { key: 'category', dataIndex: 'category', title: '所属分类', width: 140 },
+  { key: 'linkedAt', dataIndex: 'linkedAt', title: '关联时间', width: 180 },
+  { key: 'action', title: '操作', width: 90, align: 'right' },
+]
+
+const handleSelectionChange = (keys) => {
+  selectedTagIds.value = keys
 }
 
 const save = () => router.push(`/tag-management/point/${route.params.id || '1'}`)
 const cancel = () => router.push(`/tag-management/point/${route.params.id || '1'}`)
 </script>
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crumb {
+  font-size: 12px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  margin: 0 0 4px !important;
+}
+
+.edit-tabs {
+  width: 100%;
+}
+
+.link-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.link-summary {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.side-stack {
+  width: 100%;
+}
+
+.change-detail {
+  padding: 12px 0;
+}
+
+.change-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.history-timeline {
+  margin-top: 16px;
+}
+
+.tag-avatar {
+  color: #1138e0;
+  background: rgba(17, 56, 224, 0.08);
+}
+
+.linked-table :deep(.row-action) {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.linked-table :deep(.ant-table-row:hover .row-action),
+.linked-table :deep(.row-action:focus-visible) {
+  opacity: 1;
+}
+
+:global(.dark) .tag-avatar {
+  color: #85a5ff;
+  background: rgba(255, 255, 255, 0.1);
+}
+</style>

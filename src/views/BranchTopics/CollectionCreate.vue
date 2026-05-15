@@ -1,217 +1,128 @@
 <template>
-  <div class="pb-24">
-    <!-- Page Header -->
-    <div class="mb-6">
-      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
-        <span class="text-primary">»</span>
-        <span>数据</span>
-        <span class="opacity-40">/</span>
-        <span class="cursor-pointer hover:text-primary transition-colors">分支主题</span>
-        <span class="opacity-40">/</span>
-        <span class="text-on-surface">新建集合</span>
+  <div class="page">
+    <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
+      <a-breadcrumb-item>分支主题</a-breadcrumb-item>
+      <a-breadcrumb-item>新建集合</a-breadcrumb-item>
+    </a-breadcrumb>
+
+    <div class="page-head">
+      <div>
+        <a-typography-title :level="3" class="page-title">新建标签集合</a-typography-title>
+        <a-typography-text type="secondary">
+          创建并配置数据标签的共享属性与使用权限。
+        </a-typography-text>
       </div>
-      <h1 class="font-display text-[30px] font-semibold tracking-tight text-on-surface leading-[1.05]">新建标签集合</h1>
-      <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">创建并配置数据标签的共享属性与使用权限。</p>
+      <a-space :size="10">
+        <a-button @click="cancel">取消</a-button>
+        <a-button type="primary" @click="submit">
+          <template #icon><CheckCircleOutlined /></template>
+          确认创建
+        </a-button>
+      </a-space>
     </div>
 
-    <form class="space-y-8 max-w-5xl">
-      <!-- Section 01: 基本信息 -->
-      <section class="bg-surface-container-lowest p-8 rounded-lg border-l-4 border-primary shadow-sm">
-        <div class="flex items-center mb-6">
-          <span class="text-primary font-bold text-xl mr-3 opacity-20 italic">01</span>
-          <h3 class="text-lg font-bold text-on-surface">基本信息</h3>
-        </div>
-        <div class="grid grid-cols-1 gap-y-8">
-          <!-- 标签集合名称 -->
-          <div class="max-w-2xl">
-            <label class="block text-sm font-semibold text-on-surface mb-2">
-              标签集合名称 <span class="text-error">*</span>
-            </label>
-            <input
-              v-model="form.name"
-              class="w-full px-4 py-2.5 bg-surface-container-low border-none rounded focus:ring-2 focus:ring-primary-container text-sm transition-all"
-              placeholder="请输入集合名称，例如：季度财务分析标签组"
-              type="text"
-            />
-          </div>
+    <a-form
+      ref="formRef"
+      layout="vertical"
+      :model="form"
+      :rules="rules"
+      class="collection-form"
+    >
+      <a-card title="01 基本信息" class="section-card" :body-style="{ padding: '20px' }">
+        <a-form-item label="标签集合名称" name="name" class="field-main">
+          <a-input
+            v-model:value="form.name"
+            placeholder="请输入集合名称，例如：季度财务分析标签组"
+            allow-clear
+          />
+        </a-form-item>
 
-          <!-- 关联标签 -->
-          <div class="max-w-2xl">
-            <label class="block text-sm font-semibold text-on-surface mb-2">
-              关联标签 <span class="text-error">*</span>
-            </label>
-            <div class="relative">
-              <div class="w-full min-h-[44px] px-4 py-2 bg-surface-container-low border-none rounded flex flex-wrap gap-2 items-center">
-                <span
-                  v-for="(tag, i) in form.tags"
-                  :key="tag"
-                  class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-xs flex items-center"
+        <a-form-item label="关联标签" name="tags" class="field-main">
+          <a-select
+            v-model:value="form.tags"
+            mode="tags"
+            show-search
+            :options="filteredSuggestions"
+            :filter-option="filterOption"
+            option-filter-prop="label"
+            placeholder="搜索并添加标签..."
+            @search="tagSearch = $event"
+            @change="tagSearch = ''"
+          />
+        </a-form-item>
+
+        <a-form-item label="共享描述" name="description" class="field-large">
+          <a-textarea
+            v-model:value="form.description"
+            :rows="4"
+            placeholder="请详细说明该标签集合的应用场景、数据来源及共享目的..."
+          />
+        </a-form-item>
+      </a-card>
+
+      <a-card title="02 权限配置" class="section-card" :body-style="{ padding: '20px' }">
+        <a-form-item label="管线单位权限" name="unit">
+          <a-radio-group v-model:value="form.unit">
+            <a-radio value="all">全部单位</a-radio>
+            <a-radio value="self">本单位（默认）</a-radio>
+          </a-radio-group>
+          <a-typography-text type="secondary" class="unit-hint">
+            选择"全部单位"将使该集合在全系统的标签中心可见。
+          </a-typography-text>
+        </a-form-item>
+
+        <a-form-item label="使用权限" name="usage" class="usage-form-item">
+          <a-radio-group v-model:value="form.usage" class="usage-group">
+            <a-row :gutter="16">
+              <a-col :xs="24" :md="12">
+                <a-card
+                  class="usage-card"
+                  :class="{ 'usage-card-active': form.usage === 'view' }"
+                  :body-style="{ padding: '16px' }"
+                  @click="form.usage = 'view'"
                 >
-                  {{ tag }}
-                  <button
-                    type="button"
-                    @click="form.tags.splice(i, 1)"
-                    class="ml-1 material-symbols-outlined leading-none"
-                    style="font-size: 14px"
-                  >close</button>
-                </span>
-                <input
-                  v-model="tagInput"
-                  @keyup.enter="addTag"
-                  class="bg-transparent border-none focus:ring-0 p-0 text-sm flex-1 min-w-[120px]"
-                  placeholder="搜索并添加标签..."
-                  type="text"
-                />
-              </div>
-              <!-- Suggestions -->
-              <div v-if="tagInput || showSuggestions" class="absolute w-full mt-1 bg-surface-container-lowest shadow-xl rounded-lg border border-outline-variant/30 z-10 overflow-hidden">
-                <div class="p-2 border-b border-surface-container-low bg-surface-container-low text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">常用推荐</div>
-                <div class="p-1">
-                  <div
-                    v-for="s in filteredSuggestions"
-                    :key="s"
-                    @click="form.tags.push(s); tagInput = ''"
-                    class="px-3 py-2 text-sm hover:bg-secondary-container/30 cursor-pointer rounded transition-colors"
-                  >{{ s }}</div>
-                  <div v-if="filteredSuggestions.length === 0" class="px-3 py-2 text-xs text-on-surface-variant italic">没有匹配项，回车直接添加</div>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <a-radio value="view">
+                    <span class="usage-title">只共享</span>
+                  </a-radio>
+                  <a-typography-paragraph class="usage-desc">
+                    其他单位仅可查看并应用该标签，无法修改标签定义。
+                  </a-typography-paragraph>
+                </a-card>
+              </a-col>
 
-          <!-- 共享描述 -->
-          <div class="max-w-3xl">
-            <label class="block text-sm font-semibold text-on-surface mb-2">共享描述</label>
-            <textarea
-              v-model="form.description"
-              class="w-full px-4 py-2.5 bg-surface-container-low border-none rounded focus:ring-2 focus:ring-primary-container text-sm transition-all resize-none"
-              placeholder="请详细说明该标签集合的应用场景、数据来源及共享目的..."
-              rows="4"
-            ></textarea>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 02: 权限配置 -->
-      <section class="bg-surface-container-lowest p-8 rounded-lg border-l-4 border-primary shadow-sm">
-        <div class="flex items-center mb-6">
-          <span class="text-primary font-bold text-xl mr-3 opacity-20 italic">02</span>
-          <h3 class="text-lg font-bold text-on-surface">权限配置</h3>
-        </div>
-        <div class="space-y-10">
-          <!-- 管线单位权限 -->
-          <div>
-            <label class="block text-sm font-semibold text-on-surface mb-4">管线单位权限</label>
-            <div class="flex space-x-8">
-              <label class="flex items-center group cursor-pointer">
-                <div class="relative flex items-center justify-center">
-                  <input
-                    v-model="form.unit"
-                    value="all"
-                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-outline-variant checked:border-primary transition-all"
-                    name="unit"
-                    type="radio"
-                  />
-                  <div class="absolute h-2.5 w-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                </div>
-                <span class="ml-3 text-sm text-on-surface">全部单位</span>
-              </label>
-              <label class="flex items-center group cursor-pointer">
-                <div class="relative flex items-center justify-center">
-                  <input
-                    v-model="form.unit"
-                    value="self"
-                    class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-outline-variant checked:border-primary transition-all"
-                    name="unit"
-                    type="radio"
-                  />
-                  <div class="absolute h-2.5 w-2.5 rounded-full bg-primary opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                </div>
-                <span class="ml-3 text-sm text-on-surface">本单位（默认）</span>
-              </label>
-            </div>
-            <p class="mt-2 text-xs text-outline">选择"全部单位"将使该集合在全系统的标签中心可见。</p>
-          </div>
-
-          <!-- 使用权限 -->
-          <div>
-            <label class="block text-sm font-semibold text-on-surface mb-4">使用权限</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl">
-              <label
-                class="relative flex p-4 border rounded-lg cursor-pointer transition-all hover:bg-surface-container-low"
-                :class="form.usage === 'view' ? 'border-primary bg-primary/5' : 'border-outline-variant/30'"
-              >
-                <input
-                  v-model="form.usage"
-                  value="view"
-                  class="peer sr-only"
-                  name="usage"
-                  type="radio"
-                />
-                <div class="flex-1">
-                  <p class="text-sm font-bold text-on-surface">只共享</p>
-                  <p class="text-xs text-on-surface-variant mt-1">其他单位仅可查看并应用该标签，无法修改标签定义。</p>
-                </div>
-                <div class="flex items-center justify-center">
-                  <div class="h-5 w-5 rounded-full border border-outline-variant flex items-center justify-center" :class="form.usage === 'view' ? 'border-primary' : ''">
-                    <div class="h-2.5 w-2.5 rounded-full bg-primary" :class="form.usage === 'view' ? 'opacity-100' : 'opacity-0'"></div>
-                  </div>
-                </div>
-              </label>
-              <label
-                class="relative flex p-4 border rounded-lg cursor-pointer transition-all hover:bg-surface-container-low"
-                :class="form.usage === 'edit' ? 'border-primary bg-primary/5' : 'border-outline-variant/30'"
-              >
-                <input
-                  v-model="form.usage"
-                  value="edit"
-                  class="peer sr-only"
-                  name="usage"
-                  type="radio"
-                />
-                <div class="flex-1">
-                  <p class="text-sm font-bold text-on-surface">共享及编辑</p>
-                  <p class="text-xs text-on-surface-variant mt-1">授权单位可对集合内的标签进行二次编辑与更新维护。</p>
-                </div>
-                <div class="flex items-center justify-center">
-                  <div class="h-5 w-5 rounded-full border border-outline-variant flex items-center justify-center" :class="form.usage === 'edit' ? 'border-primary' : ''">
-                    <div class="h-2.5 w-2.5 rounded-full bg-primary" :class="form.usage === 'edit' ? 'opacity-100' : 'opacity-0'"></div>
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-        </div>
-      </section>
-    </form>
-
-    <!-- Sticky Footer Action Bar -->
-    <div class="fixed bottom-0 right-0 left-64 h-20 bg-surface-container-lowest border-t border-outline-variant/20 flex items-center justify-end px-12 space-x-4 z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.03)]">
-      <button
-        @click="cancel"
-        class="px-8 py-2.5 rounded text-sm font-medium text-on-surface-variant hover:bg-surface-container-low transition-colors"
-      >
-        取消
-      </button>
-      <button
-        @click="submit"
-        class="px-8 py-2.5 bg-primary text-on-primary rounded text-sm font-bold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all flex items-center"
-      >
-        <span class="material-symbols-outlined mr-2" style="font-size: 16px; font-variation-settings: 'FILL' 1;">check_circle</span>
-        确认创建
-      </button>
-    </div>
+              <a-col :xs="24" :md="12">
+                <a-card
+                  class="usage-card"
+                  :class="{ 'usage-card-active': form.usage === 'edit' }"
+                  :body-style="{ padding: '16px' }"
+                  @click="form.usage = 'edit'"
+                >
+                  <a-radio value="edit">
+                    <span class="usage-title">共享及编辑</span>
+                  </a-radio>
+                  <a-typography-paragraph class="usage-desc">
+                    授权单位可对集合内的标签进行二次编辑与更新维护。
+                  </a-typography-paragraph>
+                </a-card>
+              </a-col>
+            </a-row>
+          </a-radio-group>
+        </a-form-item>
+      </a-card>
+    </a-form>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { CheckCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
 
-const tagInput = ref('')
-const showSuggestions = ref(false)
+const formRef = ref()
+const tagSearch = ref('')
 
 const form = ref({
   name: '',
@@ -224,18 +135,120 @@ const form = ref({
 const suggestions = ['制造业重点监测', '外资背景', '纳税百强', '高新技术企业', '上市公司', '出口贸易']
 
 const filteredSuggestions = computed(() => {
-  const q = tagInput.value.trim().toLowerCase()
+  const q = tagSearch.value.trim().toLowerCase()
   return suggestions
     .filter(s => !form.value.tags.includes(s))
     .filter(s => !q || s.toLowerCase().includes(q))
+    .map(s => ({ label: s, value: s }))
 })
 
-const addTag = () => {
-  const v = tagInput.value.trim()
-  if (v && !form.value.tags.includes(v)) form.value.tags.push(v)
-  tagInput.value = ''
+const filterOption = (input, option) =>
+  String(option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+
+const rules = {
+  name: [{ required: true, message: '请输入集合名称', trigger: 'blur' }],
+  tags: [{ required: true, type: 'array', message: '请选择关联标签', trigger: 'change' }],
 }
 
-const submit = () => router.push('/branch-topics')
+const submit = async () => {
+  try {
+    await formRef.value?.validate()
+    router.push('/branch-topics')
+  } catch {
+    // antd form displays field-level validation messages
+  }
+}
+
 const cancel = () => router.push('/branch-topics')
 </script>
+
+<style scoped>
+.page {
+  --primary-color: #1138e0;
+  --border-soft: rgba(0, 0, 0, 0.06);
+  --usage-active-bg: rgba(17, 56, 224, 0.05);
+  --usage-desc-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+:global(.dark) .page {
+  --primary-color: #6d8cff;
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --usage-active-bg: rgba(109, 140, 255, 0.12);
+  --usage-desc-color: rgba(255, 255, 255, 0.58);
+}
+
+.crumb {
+  font-size: 12px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  margin: 0 0 4px !important;
+}
+
+.collection-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 960px;
+}
+
+.section-card :deep(.ant-card-head-title) {
+  font-weight: 600;
+}
+
+.field-main {
+  max-width: 640px;
+}
+
+.field-large {
+  max-width: 720px;
+  margin-bottom: 0;
+}
+
+.unit-hint {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.usage-form-item {
+  margin-bottom: 0;
+}
+
+.usage-group {
+  width: 100%;
+}
+
+.usage-card {
+  height: 100%;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.usage-card-active {
+  border-color: var(--primary-color) !important;
+  background: var(--usage-active-bg);
+}
+
+.usage-title {
+  font-weight: 600;
+}
+
+.usage-desc {
+  margin: 8px 0 0 24px !important;
+  color: var(--usage-desc-color);
+  font-size: 12px;
+  line-height: 1.7;
+}
+</style>

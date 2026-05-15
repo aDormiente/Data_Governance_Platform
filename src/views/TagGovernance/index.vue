@@ -1,238 +1,246 @@
 <template>
-  <div>
-    <!-- Page Header -->
-    <div class="mb-6">
-      <div class="flex items-center gap-3 text-on-surface-variant font-mono text-[11px] tracking-wider mb-3">
-        <span class="text-primary">»</span>
-        <span>治理</span>
-        <span class="opacity-40">/</span>
-        <span class="text-on-surface">总览</span>
-        <span class="opacity-40">/</span>
-        <span class="opacity-60">2026·Q2</span>
+  <div class="page">
+    <!-- Page header -->
+    <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>治理</a-breadcrumb-item>
+      <a-breadcrumb-item>总览</a-breadcrumb-item>
+      <a-breadcrumb-item>2026 · Q2</a-breadcrumb-item>
+    </a-breadcrumb>
+
+    <div class="page-head">
+      <div>
+        <h1 class="page-title">标签治理概览</h1>
+        <p class="page-sub">实时洞察全域标签的标准化、关联与质量进展。所有指标取自政务主数据通道，刷新间隔 60 秒。</p>
       </div>
-      <div class="flex items-end justify-between gap-6 flex-wrap">
-        <div>
-          <h1 class="font-display text-[34px] font-semibold text-on-surface leading-[1.05] tracking-tight">标签治理概览</h1>
-          <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">实时洞察全域标签的标准化、关联与质量进展。所有指标取自政务主数据通道，刷新间隔 60 秒。</p>
-        </div>
-        <div class="flex items-center gap-3">
-          <span class="tt-live">实时</span>
-          <span class="font-mono text-[11px] text-on-surface-variant tracking-wider">最近同步&nbsp;·&nbsp;14:32:18</span>
-        </div>
-      </div>
+      <a-space :size="10">
+        <a-tag color="green">
+          <a-badge status="processing" color="green" /> 实时
+        </a-tag>
+        <span class="sync-time">最近同步 · 14:32:18</span>
+      </a-space>
     </div>
 
-    <!-- 6 KPI strip -->
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border border-outline-variant mb-8 divide-x divide-outline-variant bg-surface-container-lowest">
-      <div
-        v-for="card in statCards"
-        :key="card.label"
-        class="relative px-4 py-3.5"
-      >
-        <div class="flex items-center justify-between mb-2">
-          <span class="font-mono text-[10px] tracking-wider text-on-surface-variant">{{ card.code }}</span>
-          <span class="material-symbols-outlined text-on-surface-variant/60" style="font-size: 14px">{{ card.icon }}</span>
-        </div>
-        <p class="font-mono text-[22px] font-semibold tabular-nums text-on-surface leading-none tracking-tight">{{ card.value.toLocaleString() }}</p>
-        <p class="text-[11px] text-on-surface-variant mt-1.5 truncate">{{ card.label }}</p>
-        <div class="mt-2 flex items-center justify-between font-mono text-[10px] tabular-nums">
-          <span class="tt-delta tt-delta-up">▲ {{ card.delta }}</span>
-          <span class="text-on-surface-variant tracking-wider">{{ card.percent }}</span>
-        </div>
-      </div>
-    </div>
+    <!-- KPI strip -->
+    <a-row :gutter="[12, 12]" class="kpi-row">
+      <a-col v-for="card in statCards" :key="card.label" :xs="12" :sm="8" :md="8" :lg="4">
+        <a-card size="small" :body-style="{ padding: '16px' }">
+          <div class="kpi-head">
+            <span class="kpi-code">{{ card.code }}</span>
+            <component :is="card.icon" class="kpi-icon" />
+          </div>
+          <a-statistic
+            :value="card.value"
+            :value-style="{ fontSize: '22px', fontWeight: 600, letterSpacing: '-0.01em' }"
+          />
+          <div class="kpi-meta">
+            <span class="kpi-label">{{ card.label }}</span>
+          </div>
+          <div class="kpi-foot">
+            <span class="kpi-delta">
+              <ArrowUpOutlined /> {{ card.delta }}
+            </span>
+            <span class="kpi-percent">{{ card.percent }}</span>
+          </div>
+        </a-card>
+      </a-col>
+    </a-row>
 
-    <!-- Main Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Main grid -->
+    <a-row :gutter="16" class="main-grid">
       <!-- Left: Table -->
-      <div class="lg:col-span-8">
-        <div class="tt-rule mb-3">
-          <span>01&nbsp;&nbsp;子标签明细</span>
-          <span class="tt-rule-sub">标签记录</span>
-        </div>
-        <div class="border border-outline-variant bg-surface-container-lowest">
-          <div class="px-4 py-3 border-b border-outline-variant flex items-center justify-between gap-3 flex-wrap">
-            <div class="flex items-center gap-2 flex-1 min-w-[200px]">
-              <span class="font-mono text-[11px] text-primary">&gt;</span>
-              <input
-                v-model="searchText"
-                class="flex-1 bg-transparent border-0 text-[12px] text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:ring-0"
-                placeholder="按标签名称筛选..."
-                type="text"
-              />
-              <span class="font-mono text-[10px] text-on-surface-variant tracking-wider">{{ filteredTableData.length }}/142</span>
-            </div>
-            <div class="flex items-center gap-2">
-              <button
-                class="text-[12px] px-3 py-1.5 border border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary transition-colors"
-              >导出&nbsp;CSV</button>
-              <button
-                @click="router.push('/tag-management/create')"
-                class="text-[12px] px-3 py-1.5 bg-primary text-on-primary flex items-center gap-1.5 hover:opacity-90 transition-opacity"
+      <a-col :xs="24" :lg="16" class="left-col">
+        <a-card
+          title="子标签明细"
+          class="left-card"
+          :body-style="{ padding: '16px' }"
+        >
+          <template #extra>
+            <a-space :size="8">
+              <a-input
+                v-model:value="searchText"
+                placeholder="按标签名称筛选…"
+                style="width: 220px"
+                allow-clear
               >
-                <span class="material-symbols-outlined" style="font-size: 14px">add</span>
+                <template #prefix><SearchOutlined style="opacity:.45" /></template>
+              </a-input>
+              <a-button>
+                <template #icon><DownloadOutlined /></template>
+                导出 CSV
+              </a-button>
+              <a-button type="primary" @click="router.push('/tag-management/create')">
+                <template #icon><PlusOutlined /></template>
                 新建标签
-              </button>
-            </div>
-          </div>
+              </a-button>
+            </a-space>
+          </template>
 
-          <table class="w-full text-left">
-            <thead>
-              <tr class="border-b border-outline-variant">
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold w-[34px]"></th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">编号</th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">名称</th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">分类</th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold text-right">覆盖量</th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold">状态</th>
-                <th class="px-4 py-2.5 text-[11px] tracking-wider text-on-surface-variant font-semibold text-right"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(row, idx) in filteredTableData"
-                :key="row.id"
-                class="tt-row border-b border-outline-variant/60 cursor-pointer"
-                @click="router.push(`/tag-management/detail/${row.id}`)"
-              >
-                <td class="px-4 py-3 font-mono text-[10px] text-on-surface-variant tabular-nums">{{ String(idx + 1).padStart(2, '0') }}</td>
-                <td class="px-4 py-3 font-mono text-[11px] text-on-surface-variant tracking-wider">T-{{ String(100200 + row.id).padStart(6, '0') }}</td>
-                <td class="px-4 py-3">
-                  <div class="flex items-center gap-2.5">
-                    <span class="w-1.5 h-1.5 flex-shrink-0" :style="{ background: row.color }"></span>
-                    <span class="text-[13px] font-semibold text-on-surface">{{ row.name }}</span>
-                  </div>
-                </td>
-                <td class="px-4 py-3 text-[12px] text-on-surface-variant">{{ row.category }}</td>
-                <td class="px-4 py-3 text-right font-mono text-[12px] font-semibold tabular-nums text-on-surface">{{ row.count }}</td>
-                <td class="px-4 py-3">
-                  <span class="status-pill" :class="statusColor(row.status)">{{ row.status }}</span>
-                </td>
-                <td class="px-4 py-3 text-right" @click.stop>
-                  <button
-                    @click="router.push(`/tag-management/detail/${row.id}`)"
-                    class="text-[12px] text-primary hover:underline tracking-wider"
-                  >详情 ›</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-
-          <div class="px-4 py-2.5 border-t border-outline-variant flex justify-between items-center font-mono text-[11px] text-on-surface-variant tracking-wider">
-            <span>显示 01-{{ filteredTableData.length }} / 共 142 条</span>
-            <div class="flex items-center gap-1">
-              <button class="tt-kbd hover:border-primary hover:text-primary">←</button>
-              <span class="px-2 text-on-surface">1</span>
-              <button class="tt-kbd hover:border-primary hover:text-primary">2</button>
-              <button class="tt-kbd hover:border-primary hover:text-primary">3</button>
-              <button class="tt-kbd hover:border-primary hover:text-primary">→</button>
-            </div>
-          </div>
-        </div>
-      </div>
+          <a-table
+            :columns="columns"
+            :data-source="filteredTableData"
+            :pagination="{ pageSize: 10, total: 142, showSizeChanger: false, showTotal: t => `共 ${t} 条` }"
+            :row-key="r => r.id"
+            :custom-row="rowClickHandler"
+            size="middle"
+          >
+            <template #bodyCell="{ column, record, index }">
+              <template v-if="column.key === 'idx'">
+                <span class="cell-idx">{{ String(index + 1).padStart(2, '0') }}</span>
+              </template>
+              <template v-else-if="column.key === 'code'">
+                <span class="cell-code">T-{{ String(100200 + record.id).padStart(6, '0') }}</span>
+              </template>
+              <template v-else-if="column.key === 'name'">
+                <a-space :size="8">
+                  <span class="cell-dot" :style="{ background: record.color }"></span>
+                  <span class="cell-name">{{ record.name }}</span>
+                </a-space>
+              </template>
+              <template v-else-if="column.key === 'status'">
+                <a-tag :color="statusColor(record.status)">{{ record.status }}</a-tag>
+              </template>
+              <template v-else-if="column.key === 'action'">
+                <a-button type="link" size="small" @click.stop="router.push(`/tag-management/detail/${record.id}`)">
+                  详情 <RightOutlined />
+                </a-button>
+              </template>
+            </template>
+          </a-table>
+        </a-card>
+      </a-col>
 
       <!-- Right: Charts -->
-      <div class="lg:col-span-4 flex flex-col gap-6">
-        <!-- Donut -->
-        <div>
-          <div class="tt-rule mb-3">
-            <span>02&nbsp;&nbsp;标签分布占比</span>
-            <span class="tt-rule-sub">分布</span>
-          </div>
-          <div class="border border-outline-variant bg-surface-container-lowest p-5">
-            <div class="relative w-44 h-44 mx-auto mb-5">
-              <svg class="transform -rotate-90" viewBox="0 0 100 100">
-                <circle class="stroke-outline-variant" cx="50" cy="50" fill="transparent" r="40" stroke-width="14" />
-                <circle class="stroke-primary" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="103.5 251.2" stroke-width="14" />
-                <circle class="stroke-primary-container" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="54.8 251.2" stroke-dashoffset="-103.5" stroke-width="14" />
-                <circle class="stroke-success" cx="50" cy="50" fill="transparent" r="40" stroke-dasharray="36.2 251.2" stroke-dashoffset="-158.3" stroke-width="14" />
+      <a-col :xs="24" :lg="8">
+        <a-space direction="vertical" :size="16" style="width:100%">
+          <!-- Donut -->
+          <a-card title="标签分布占比">
+            <div class="donut-wrap">
+              <svg class="donut" viewBox="0 0 100 100">
+                <circle class="donut-track" cx="50" cy="50" r="40" fill="transparent" stroke-width="14" />
+                <circle class="donut-seg seg-1" cx="50" cy="50" r="40" fill="transparent" stroke-width="14" stroke-dasharray="103.5 251.2" />
+                <circle class="donut-seg seg-2" cx="50" cy="50" r="40" fill="transparent" stroke-width="14" stroke-dasharray="54.8 251.2" stroke-dashoffset="-103.5" />
+                <circle class="donut-seg seg-3" cx="50" cy="50" r="40" fill="transparent" stroke-width="14" stroke-dasharray="36.2 251.2" stroke-dashoffset="-158.3" />
               </svg>
-              <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <p class="text-[10px] tracking-wider text-on-surface-variant">点位总数</p>
-                <p class="font-mono text-[22px] font-semibold text-on-surface tabular-nums tracking-tight mt-0.5">58,669</p>
+              <div class="donut-center">
+                <div class="donut-label">点位总数</div>
+                <div class="donut-value">58,669</div>
               </div>
             </div>
-            <div class="space-y-2 border-t border-outline-variant pt-4">
-              <div v-for="item in legendItems" :key="item.label" class="flex items-center justify-between text-[12px] tracking-wider">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2" :class="item.swatch"></span>
-                  <span class="text-on-surface-variant">{{ item.label }}</span>
-                </div>
-                <span class="font-mono font-semibold tabular-nums text-on-surface">{{ item.value }}</span>
+            <a-divider style="margin: 12px 0" />
+            <div class="legend">
+              <div v-for="item in legendItems" :key="item.label" class="legend-row">
+                <span class="legend-mark" :style="{ background: item.color }"></span>
+                <span class="legend-label">{{ item.label }}</span>
+                <span class="legend-value">{{ item.value }}</span>
               </div>
             </div>
-          </div>
-        </div>
+          </a-card>
 
-        <!-- Progress -->
-        <div>
-          <div class="tt-rule mb-3">
-            <span>03&nbsp;&nbsp;治理进展详情</span>
-            <span class="tt-rule-sub">进展</span>
-          </div>
-          <div class="border border-outline-variant bg-surface-container-lowest p-5">
-            <div class="space-y-4">
-              <div v-for="item in progressItems" :key="item.label">
-                <div class="flex justify-between items-baseline text-[12px] mb-1.5 tracking-wider">
-                  <span class="text-on-surface-variant"><span class="font-mono text-on-surface-variant/70 mr-1">{{ item.code }}&nbsp;·</span>{{ item.label }}</span>
-                  <span class="font-mono font-semibold tabular-nums text-on-surface">{{ item.value }}<span class="text-[10px] text-on-surface-variant">%</span></span>
-                </div>
-                <div class="tt-bar">
-                  <div class="tt-bar-fill" :style="{ width: item.value + '%' }"></div>
-                </div>
+          <!-- Progress -->
+          <a-card title="治理进展详情">
+            <div v-for="item in progressItems" :key="item.label" class="progress-row">
+              <div class="progress-head">
+                <span class="progress-label">
+                  <span class="progress-code">{{ item.code }} ·</span> {{ item.label }}
+                </span>
+                <span class="progress-pct">{{ item.value }}<small>%</small></span>
               </div>
+              <a-progress
+                :percent="item.value"
+                :show-info="false"
+                :stroke-color="item.value >= 80 ? '#52c41a' : '#1138e0'"
+                size="small"
+              />
             </div>
-            <div class="mt-5 pt-4 border-t border-outline-variant">
-              <p class="font-mono text-[11px] text-primary tracking-wider mb-1.5">▲ 提示</p>
-              <p class="text-[12px] text-on-surface leading-relaxed">本周完成 <span class="font-mono font-semibold">12</span> 个新标签标准化，质量达标率 +<span class="font-mono font-semibold">4.2%</span>。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            <a-alert
+              type="info"
+              show-icon
+              style="margin-top: 12px"
+            >
+              <template #message>
+                本周完成 <b>12</b> 个新标签标准化，质量达标率 <b>+4.2%</b>。
+              </template>
+            </a-alert>
+          </a-card>
+        </a-space>
+      </a-col>
+    </a-row>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import {
+  ArrowUpOutlined,
+  SearchOutlined,
+  PlusOutlined,
+  DownloadOutlined,
+  RightOutlined,
+  UserOutlined,
+  BankOutlined,
+  EnvironmentOutlined,
+  IdcardOutlined,
+  InboxOutlined,
+  SafetyCertificateOutlined,
+} from '@ant-design/icons-vue'
 
 const router = useRouter()
 const searchText = ref('')
 
 const statCards = [
-  { code: '人口',   label: '人口基础', value: 12840, percent: '24%', delta: '+312', icon: 'person' },
-  { code: '法人',   label: '法人单位', value: 8421,  percent: '18%', delta: '+128', icon: 'domain' },
-  { code: '地理',   label: '空间地理', value: 24190, percent: '32%', delta: '+846', icon: 'location_on' },
-  { code: '证照',   label: '电子证照', value: 6720,  percent: '12%', delta:  '+92', icon: 'credit_card' },
-  { code: '资产',   label: '资产资源', value: 4388,  percent:  '9%', delta:  '+48', icon: 'inventory_2' },
-  { code: '信用',   label: '社会信用', value: 2110,  percent:  '5%', delta:  '+21', icon: 'shield' },
+  { code: '人口', label: '人口基础', value: 12840, percent: '24%', delta: '+312', icon: UserOutlined },
+  { code: '法人', label: '法人单位', value: 8421,  percent: '18%', delta: '+128', icon: BankOutlined },
+  { code: '地理', label: '空间地理', value: 24190, percent: '32%', delta: '+846', icon: EnvironmentOutlined },
+  { code: '证照', label: '电子证照', value: 6720,  percent: '12%', delta:  '+92', icon: IdcardOutlined },
+  { code: '资产', label: '资产资源', value: 4388,  percent:  '9%', delta:  '+48', icon: InboxOutlined },
+  { code: '信用', label: '社会信用', value: 2110,  percent:  '5%', delta:  '+21', icon: SafetyCertificateOutlined },
 ]
 
 const tableData = ref([
-  { id: 1, name: '常住人口标识', category: '人口基础标签', count: '12,045', status: '治理中', color: 'rgb(var(--color-primary))' },
-  { id: 2, name: '企业纳税等级', category: '法人单位标签', count: '5,412',  status: '治理中', color: 'rgb(var(--color-primary))' },
-  { id: 3, name: '街道行政编码', category: '空间地理标签', count: '22,100', status: '已完成', color: 'rgb(var(--color-success))' },
-  { id: 4, name: '高新技术企业', category: '法人单位标签', count: '3,200',  status: '治理中', color: 'rgb(var(--color-primary))' },
-  { id: 5, name: '医疗机构许可证', category: '电子证照标签', count: '1,250', status: '待审核', color: 'rgb(var(--color-warning))' },
+  { id: 1, name: '常住人口标识',     category: '人口基础标签', count: '12,045', status: '治理中', color: '#1138e0' },
+  { id: 2, name: '企业纳税等级',     category: '法人单位标签', count: '5,412',  status: '治理中', color: '#1138e0' },
+  { id: 3, name: '街道行政编码',     category: '空间地理标签', count: '22,100', status: '已完成', color: '#52c41a' },
+  { id: 4, name: '高新技术企业',     category: '法人单位标签', count: '3,200',  status: '治理中', color: '#1138e0' },
+  { id: 5, name: '医疗机构许可证',   category: '电子证照标签', count: '1,250',  status: '待审核', color: '#faad14' },
+  { id: 6, name: '社保参保人员',     category: '人口基础标签', count: '9,872',  status: '已完成', color: '#52c41a' },
+  { id: 7, name: '商事主体登记',     category: '法人单位标签', count: '6,348',  status: '治理中', color: '#1138e0' },
+  { id: 8, name: '不动产权属编码',   category: '空间地理标签', count: '14,560', status: '治理中', color: '#1138e0' },
+  { id: 9, name: '食品经营许可证',   category: '电子证照标签', count: '2,108',  status: '待审核', color: '#faad14' },
+  { id: 10, name: '城市网格单元码',  category: '空间地理标签', count: '18,920', status: '已完成', color: '#52c41a' },
 ])
 
 const filteredTableData = computed(() =>
   tableData.value.filter(item => !searchText.value || item.name.includes(searchText.value))
 )
 
+const columns = [
+  { key: 'idx',      title: '序号',    width: 64 },
+  { key: 'code',     title: '编号',    width: 120 },
+  { key: 'name',     title: '名称' },
+  { dataIndex: 'category', title: '分类' },
+  { dataIndex: 'count',    title: '覆盖量', align: 'right', width: 100 },
+  { key: 'status',   title: '状态',    width: 90 },
+  { key: 'action',   title: '',        width: 90, align: 'right' },
+]
+
+const rowClickHandler = (record) => ({
+  onClick: () => router.push(`/tag-management/detail/${record.id}`),
+  style: 'cursor: pointer',
+})
+
 const statusColor = (status) => ({
-  '治理中': 'text-primary',
-  '已完成': 'text-success',
-  '待审核': 'text-warning',
-  '已停用': 'text-on-surface-variant',
-}[status] || 'text-on-surface-variant')
+  '治理中': 'blue',
+  '已完成': 'green',
+  '待审核': 'orange',
+  '已停用': 'default',
+}[status] || 'default')
 
 const legendItems = [
-  { label: '空间地理',  value: '41.2%', swatch: 'bg-primary' },
-  { label: '人口基础',  value: '21.8%', swatch: 'bg-primary-container' },
-  { label: '法人单位',  value: '14.4%', swatch: 'bg-success' },
-  { label: '其他类型',  value: '22.6%', swatch: 'bg-outline-variant' },
+  { label: '空间地理', value: '41.2%', color: '#1138e0' },
+  { label: '人口基础', value: '21.8%', color: '#597ef7' },
+  { label: '法人单位', value: '14.4%', color: '#52c41a' },
+  { label: '其他类型', value: '22.6%', color: '#d9d9d9' },
 ]
 
 const progressItems = [
@@ -241,3 +249,254 @@ const progressItems = [
   { code: '03', label: '质量核查',   value: 48 },
 ]
 </script>
+
+<style scoped>
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.crumb {
+  font-size: 12px;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.page-sub {
+  font-size: 13px;
+  opacity: 0.6;
+  margin: 6px 0 0;
+  max-width: 640px;
+  line-height: 1.55;
+}
+
+.sync-time {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  opacity: 0.55;
+  letter-spacing: 0.04em;
+}
+
+/* Main grid: left card stretches to match right col height */
+.main-grid {
+  align-items: stretch;
+}
+
+.left-col {
+  display: flex;
+}
+
+.left-card {
+  width: 100%;
+  height: 100%;
+}
+
+/* KPI cards */
+.kpi-row {
+  margin-bottom: 4px;
+}
+
+.kpi-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.kpi-code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  opacity: 0.55;
+}
+
+.kpi-icon {
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+.kpi-meta {
+  margin-top: 2px;
+}
+
+.kpi-label {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.kpi-foot {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+.kpi-delta {
+  color: #52c41a;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.kpi-percent {
+  opacity: 0.5;
+  letter-spacing: 0.06em;
+}
+
+/* Table cells */
+.cell-idx,
+.cell-code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 11px;
+  opacity: 0.65;
+  letter-spacing: 0.04em;
+}
+
+.cell-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 1px;
+}
+
+.cell-name {
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* Donut chart */
+.donut-wrap {
+  position: relative;
+  width: 176px;
+  height: 176px;
+  margin: 0 auto;
+}
+
+.donut {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.donut-track {
+  stroke: rgba(0, 0, 0, 0.06);
+}
+
+:global(.dark) .donut-track {
+  stroke: rgba(255, 255, 255, 0.08);
+}
+
+.seg-1 { stroke: #1138e0; }
+.seg-2 { stroke: #597ef7; }
+.seg-3 { stroke: #52c41a; }
+
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.donut-label {
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+.donut-value {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-top: 2px;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.legend-mark {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 1px;
+}
+
+.legend-label {
+  opacity: 0.7;
+  flex: 1;
+}
+
+.legend-value {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 600;
+}
+
+/* Progress rows */
+.progress-row {
+  margin-bottom: 14px;
+}
+
+.progress-row:last-of-type {
+  margin-bottom: 0;
+}
+
+.progress-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.progress-label {
+  opacity: 0.75;
+}
+
+.progress-code {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  opacity: 0.55;
+  margin-right: 4px;
+}
+
+.progress-pct {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
+  font-weight: 600;
+}
+
+.progress-pct small {
+  font-size: 10px;
+  opacity: 0.6;
+  margin-left: 1px;
+}
+</style>
