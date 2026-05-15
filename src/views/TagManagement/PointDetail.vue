@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
       <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
-      <a-breadcrumb-item>点位</a-breadcrumb-item>
-      <a-breadcrumb-item>P-100249</a-breadcrumb-item>
+      <a-breadcrumb-item>点位详情</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -77,6 +77,7 @@
             :pagination="false"
             :row-key="r => r.id"
             size="middle"
+            class="content-table"
           >
             <template #bodyCell="{ column, record, index }">
               <template v-if="column.key === 'idx'">
@@ -91,7 +92,7 @@
                 </a-typography-text>
               </template>
               <template v-else-if="column.key === 'action'">
-                <a-button type="link" size="small" danger>删除</a-button>
+                <a-button type="link" size="small" danger class="row-actions">删除</a-button>
               </template>
             </template>
           </a-table>
@@ -195,7 +196,7 @@ const auxKpis = [
 }
 
 .crumb a:hover {
-  color: #1138e0;
+  color: rgb(var(--color-primary));
   opacity: 1;
 }
 
@@ -282,5 +283,29 @@ const auxKpis = [
 
 :global(.dark) .log-footer {
   border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+  opacity: 1;
 }
 </style>

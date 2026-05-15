@@ -2,7 +2,7 @@
   <div class="page">
     <a-breadcrumb class="crumb">
       <a-breadcrumb-item>数据</a-breadcrumb-item>
-      <a-breadcrumb-item>分支主题</a-breadcrumb-item>
+      <a-breadcrumb-item><a @click.prevent="router.push('/branch-topics')">标签共享</a></a-breadcrumb-item>
       <a-breadcrumb-item>新建集合</a-breadcrumb-item>
     </a-breadcrumb>
 
@@ -182,6 +182,16 @@ const cancel = () => router.push('/branch-topics')
 
 .crumb {
   font-size: 12px;
+}
+
+.crumb a {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.crumb a:hover {
+  color: rgb(var(--color-primary));
+  opacity: 1;
 }
 
 .page-head {

@@ -9,8 +9,10 @@
 
     <div class="page-head">
       <div>
-        <h1 class="page-title">标签治理概览</h1>
-        <p class="page-sub">实时洞察全域标签的标准化、关联与质量进展。所有指标取自政务主数据通道，刷新间隔 60 秒。</p>
+        <a-typography-title :level="3" class="page-title">标签治理概览</a-typography-title>
+        <a-typography-text type="secondary" class="page-sub">
+          实时洞察全域标签的标准化、关联与质量进展。所有指标取自政务主数据通道，刷新间隔 60 秒。
+        </a-typography-text>
       </div>
       <a-space :size="10">
         <a-tag color="green">
@@ -82,25 +84,26 @@
             :row-key="r => r.id"
             :custom-row="rowClickHandler"
             size="middle"
+            class="content-table"
           >
             <template #bodyCell="{ column, record, index }">
               <template v-if="column.key === 'idx'">
-                <span class="cell-idx">{{ String(index + 1).padStart(2, '0') }}</span>
+                <a-typography-text type="secondary" :style="{ fontSize: '12px' }">{{ index + 1 }}</a-typography-text>
               </template>
               <template v-else-if="column.key === 'code'">
-                <span class="cell-code">T-{{ String(100200 + record.id).padStart(6, '0') }}</span>
+                <a-typography-text type="secondary" :style="{ fontFamily: 'IBM Plex Mono, ui-monospace, monospace', fontSize: '12px' }">T-{{ String(100200 + record.id).padStart(6, '0') }}</a-typography-text>
               </template>
               <template v-else-if="column.key === 'name'">
                 <a-space :size="8">
-                  <span class="cell-dot" :style="{ background: record.color }"></span>
-                  <span class="cell-name">{{ record.name }}</span>
+                  <a-badge :color="record.color" />
+                  <a-typography-text strong>{{ record.name }}</a-typography-text>
                 </a-space>
               </template>
               <template v-else-if="column.key === 'status'">
                 <a-tag :color="statusColor(record.status)">{{ record.status }}</a-tag>
               </template>
               <template v-else-if="column.key === 'action'">
-                <a-button type="link" size="small" @click.stop="router.push(`/tag-management/detail/${record.id}`)">
+                <a-button type="link" size="small" class="row-actions" @click.stop="router.push(`/tag-management/detail/${record.id}`)">
                   详情 <RightOutlined />
                 </a-button>
               </template>
@@ -271,19 +274,12 @@ const progressItems = [
 }
 
 .page-title {
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  margin: 0;
-  line-height: 1.15;
+  margin: 0 0 4px !important;
 }
 
 .page-sub {
-  font-size: 13px;
-  opacity: 0.6;
-  margin: 6px 0 0;
+  display: block;
   max-width: 640px;
-  line-height: 1.55;
 }
 
 .sync-time {
@@ -362,25 +358,29 @@ const progressItems = [
   letter-spacing: 0.06em;
 }
 
-/* Table cells */
-.cell-idx,
-.cell-code {
-  font-family: 'IBM Plex Mono', ui-monospace, monospace;
-  font-size: 11px;
-  opacity: 0.65;
-  letter-spacing: 0.04em;
+/* Table style */
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.cell-dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 1px;
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
 }
 
-.cell-name {
-  font-weight: 500;
-  font-size: 13px;
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+  opacity: 1;
 }
 
 /* Donut chart */

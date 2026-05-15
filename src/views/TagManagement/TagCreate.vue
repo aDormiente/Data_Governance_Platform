@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <a-breadcrumb class="crumb">
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
       <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
       <a-breadcrumb-item>新建标签</a-breadcrumb-item>
     </a-breadcrumb>
@@ -150,7 +151,7 @@
               :pagination="false"
               :row-key="r => r.id"
               size="middle"
-              class="point-table"
+              class="content-table"
             >
               <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'name'">
@@ -180,7 +181,7 @@
                   />
                 </template>
                 <template v-else-if="column.key === 'action'">
-                  <a-button type="link" size="small" danger @click="removePoint(record.id)">移除</a-button>
+                  <a-button type="link" size="small" danger class="row-actions" @click="removePoint(record.id)">移除</a-button>
                 </template>
               </template>
             </a-table>
@@ -343,7 +344,7 @@ const handleSubmit = async () => {
 
 .crumb a:hover {
   opacity: 1;
-  color: #1138e0;
+  color: rgb(var(--color-primary));
 }
 
 .page-head {
@@ -369,20 +370,29 @@ const handleSubmit = async () => {
   padding: 14px 24px !important;
 }
 
-/* Point table tweaks */
-.point-table :deep(.ant-table-thead > tr > th) {
+/* Content table tweaks */
+.content-table :deep(.ant-table-thead > tr > th) {
   font-size: 12px;
   font-weight: 600;
   background: rgba(0, 0, 0, 0.015);
 }
 
-:global(.dark) .point-table :deep(.ant-table-thead > tr > th) {
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
   background: rgba(255, 255, 255, 0.025);
 }
 
-.point-table :deep(.ant-table-tbody > tr > td) {
-  padding-top: 12px;
-  padding-bottom: 12px;
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+  opacity: 1;
 }
 
 /* Statistic title */

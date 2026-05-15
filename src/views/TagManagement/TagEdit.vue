@@ -3,7 +3,7 @@
     <a-breadcrumb class="crumb">
       <a-breadcrumb-item>数据</a-breadcrumb-item>
       <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
-      <a-breadcrumb-item>编辑</a-breadcrumb-item>
+      <a-breadcrumb-item>编辑标签</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -22,7 +22,7 @@
     <!-- Section 01: 基本信息编辑 -->
     <a-card title="01 基本信息编辑" :body-style="{ padding: '20px 24px 4px' }">
       <a-form layout="vertical" :model="form">
-        <a-row :gutter="48">
+        <a-row :gutter="[16, 0]">
           <a-col :xs="24" :md="12">
             <a-form-item label="标签名称" required>
               <a-input v-model:value="form.name" placeholder="请输入标签名称" />
@@ -83,6 +83,7 @@
         :row-key="r => r.id"
         :row-selection="{ selectedRowKeys: selectedPoints, onChange: keys => (selectedPoints = keys) }"
         size="middle"
+        class="content-table"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
@@ -103,7 +104,7 @@
             <a-typography-text type="secondary">{{ record.updated }}</a-typography-text>
           </template>
           <template v-else-if="column.key === 'action'">
-            <a-button type="link" size="small" danger>移除</a-button>
+            <a-button type="link" size="small" danger class="row-actions">移除</a-button>
           </template>
         </template>
       </a-table>
@@ -180,7 +181,31 @@ const cancel = () => router.push(`/tag-management/detail/${route.params.id || 1}
 }
 
 .crumb a:hover {
-  color: #1138e0;
+  color: rgb(var(--color-primary));
+  opacity: 1;
+}
+
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
   opacity: 1;
 }
 

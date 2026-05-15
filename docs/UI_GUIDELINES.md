@@ -164,11 +164,140 @@
 
 ### 5.2 表格
 
-- 列定义用 `key`，自定义渲染走 `#bodyCell={ column, record }` 插槽
-- 行点击跳详情用 `customRow`（避免 `@click` 在 `<tr>` 上失效）
-- 操作列宽度：2 个按钮 130px，3-4 个 icon 150px
-- 操作按钮：`a-button type="link"` 文字 / `a-button type="text"` 图标 + `a-tooltip` 提示
-- 行 hover 显示操作按钮的写法：参考 `src/views/TagManagement/index.vue` 的 `point-table`（`opacity: 0` → `:hover .row-actions { opacity: 1 }`）
+> 所有列表表格遵循以下统一规范。视觉与行为基线参考 `src/views/TagManagement/index.vue`「标签列表 / 点位列表」两个 tab。
+
+#### 5.2.1 表格容器
+
+- class 一律为 `content-table`（不再使用 `point-table` / `api-table` / `linked-table` 等变体名）
+- 必须配置：`:row-key`、`:pagination` 或 `:pagination="false"`、`size="middle"`
+- 列定义用 `key`，自定义渲染走 `#bodyCell="{ column, record }"` 插槽
+- 行点击跳详情用 `:custom-row="row => ({ onClick: ..., style: 'cursor: pointer' })"`，不要在 `<tr>` 上写 `@click`
+- 多选用 `:row-selection="{ selectedRowKeys, onChange }"`，state 用 `ref([])` 维护
+
+#### 5.2.2 必备样式（scoped style 内）
+
+```css
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 12px;
+  font-weight: 600;
+}
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
+}
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+  opacity: 1;
+}
+```
+
+#### 5.2.3 列渲染统一约定
+
+**名称列（主列）**：avatar + 双行（名字 + mono ID/编号 sub line）
+
+```vue
+<template v-if="column.key === 'name'">
+  <a-space :size="12">
+    <a-avatar
+      shape="square"
+      :size="32"
+      style="background: rgba(17, 56, 224, 0.08); color: #1138e0"
+    >
+      <template #icon><component :is="record.icon" /></template>
+    </a-avatar>
+    <div>
+      <a-typography-text strong :style="{ display: 'block' }">{{ record.name }}</a-typography-text>
+      <a-typography-text type="secondary" :style="{ fontSize: '11px', fontFamily: 'IBM Plex Mono, ui-monospace, monospace' }">{{ record.id }}</a-typography-text>
+    </div>
+  </a-space>
+</template>
+```
+
+- Avatar 颜色固定单色蓝（`bg rgba(17,56,224,0.08) + color #1138e0`），不按业务类型变彩；类型差异由独立 `type` 列承载
+- Sub line 是 ID / 英文标识 / 编号 等定位类信息，用 IBM Plex Mono；该实体无 ID 概念可省略 sub
+- 极简关联表（如 PointDetail "关联标签"）可降为单行 `a-tag`，无 avatar
+
+| 列类型 | 渲染 |
+|---|---|
+| 类型 / 分类 | `a-tag :color :bordered="false"` |
+| 状态 | `a-badge :status :text` |
+| 数量 / 关联标签 | `a-tag color="blue" :bordered="false"` |
+| 描述 | `a-typography-text type="secondary" :style="{ fontSize: '12px' }"` + 列定义 `ellipsis: true` |
+| 时间 | `a-typography-text type="secondary" :style="{ fontSize: '12px' }"`（不用 mono） |
+| ID / 坐标 / 接口名 | inline `font-family: 'IBM Plex Mono', ui-monospace, monospace`（3.2 例外条款） |
+
+#### 5.2.4 操作列
+
+- wrap class 一律为 `row-actions`（不要 `tag-actions` / `row-action` 单数）
+- 按钮统一用 `a-button type="link" size="small"`；危险动作加 `danger`
+- 阻止行跳转必须加 `@click.stop`
+- 列宽：2 个按钮 130px / 3 个 160px / 4 个 180px；`align: 'right'`
+- 行 hover 时操作才显示（CSS 已在 5.2.2 提供）
+
+```vue
+<template v-else-if="column.key === 'action'">
+  <a-space :size="0" class="row-actions">
+    <a-button type="link" size="small" @click.stop="...">查看</a-button>
+    <a-button type="link" size="small" @click.stop="...">编辑</a-button>
+    <a-button type="link" size="small" danger @click.stop>删除</a-button>
+  </a-space>
+</template>
+```
+
+#### 5.2.5 筛选条（表格上方 filter bar）
+
+```vue
+<a-form layout="inline" class="filter-bar">
+  <a-form-item label="状态">
+    <a-select ... />
+  </a-form-item>
+  <a-form-item class="filter-search">
+    <a-input ...><template #prefix><SearchOutlined /></template></a-input>
+  </a-form-item>
+</a-form>
+```
+
+```css
+.filter-bar {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  row-gap: 12px;
+}
+:global(.dark) .filter-bar {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+.filter-search,
+.filter-reset {
+  margin-left: auto;
+  margin-right: 0 !important;
+}
+```
+
+- 透明背景，不要灰底
+- 末尾 `filter-search` / `filter-reset` 推到右端
+
+#### 5.2.6 分页
+
+- 嵌入式：`:pagination="{ pageSize: 10, total: N, showSizeChanger: false, showTotal: t => '共 ' + t + ' 条' }"`
+- 大数据集可加 `showQuickJumper: true`
+- 分页区 padding 由 `.content-table :deep(.ant-table-pagination)` 兜底（详见样板页）
+
+#### 5.2.7 禁止项
+
+- ❌ 表格 class 不要再起 `xxx-table` 变体名（`api-table` / `linked-table` / `point-table`），统一 `content-table`
+- ❌ 操作 wrap 不要叫 `tag-actions` / `row-action`（单数），统一 `row-actions`
+- ❌ 序号列不要 mono + `padStart(2, '0')`（属于 2.3 禁止的 `[01] Mono 编号`）
+- ❌ avatar 颜色不要按业务类型变彩（蓝/橙混合），统一单色蓝
+- ❌ 时间列不要用 mono（除非该列内容本质是 ID / 坐标）
+- ❌ filter-bar 不要加灰底背景
+- ❌ 同一类操作按钮不要在不同表里混用 `type="link"` 文字 / `type="text"` icon-only，统一文字 link
 
 ### 5.3 表单
 

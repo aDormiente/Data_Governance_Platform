@@ -1,11 +1,9 @@
 <template>
   <div class="page">
     <a-breadcrumb class="crumb">
-      <a-breadcrumb-item>
-        <a-typography-link @click="router.push('/tag-management')">标签管理</a-typography-link>
-      </a-breadcrumb-item>
-      <a-breadcrumb-item>详情</a-breadcrumb-item>
-      <a-breadcrumb-item>T-100312</a-breadcrumb-item>
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
+      <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
+      <a-breadcrumb-item>标签详情</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -259,6 +257,16 @@ const distributionData = computed(() =>
   font-size: 12px;
 }
 
+.crumb a {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.crumb a:hover {
+  color: rgb(var(--color-primary));
+  opacity: 1;
+}
+
 .page-head {
   display: flex;
   align-items: flex-end;
@@ -342,6 +350,8 @@ const distributionData = computed(() =>
 }
 
 .insight-activity {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;

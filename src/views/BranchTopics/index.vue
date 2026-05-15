@@ -3,7 +3,7 @@
     <a-breadcrumb class="crumb">
       <a-breadcrumb-item>数据</a-breadcrumb-item>
       <a-breadcrumb-item>标签共享</a-breadcrumb-item>
-      <a-breadcrumb-item>索引</a-breadcrumb-item>
+      <a-breadcrumb-item>共享中心</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -125,7 +125,7 @@
         :pagination="false"
         :row-key="record => record.id"
         size="middle"
-        class="api-table"
+        class="content-table"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'name'">
@@ -149,7 +149,7 @@
             </a-typography-text>
           </template>
           <template v-else-if="column.key === 'action'">
-            <a-button type="link" size="small">详情</a-button>
+            <a-button type="link" size="small" class="row-actions">详情</a-button>
           </template>
         </template>
       </a-table>
@@ -453,15 +453,28 @@ const helpIcon = (icon) => ({
   min-width: 280px;
 }
 
-.api-table :deep(.ant-table-thead > tr > th) {
-  background: var(--surface-muted);
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
   font-size: 12px;
   font-weight: 600;
 }
 
-.api-table :deep(.ant-table-tbody > tr > td) {
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.content-table :deep(.ant-table-tbody > tr > td) {
   padding-top: 14px;
   padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+  opacity: 1;
 }
 
 .api-row-icon {

@@ -1,9 +1,9 @@
 <template>
   <div class="page">
     <a-breadcrumb class="crumb">
-      <a-breadcrumb-item>标签管理</a-breadcrumb-item>
-      <a-breadcrumb-item>点位</a-breadcrumb-item>
-      <a-breadcrumb-item>编辑</a-breadcrumb-item>
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
+      <a-breadcrumb-item><a @click.prevent="router.push('/tag-management')">标签管理</a></a-breadcrumb-item>
+      <a-breadcrumb-item>编辑点位</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -106,7 +106,7 @@
               </div>
 
               <a-table
-                class="linked-table"
+                class="content-table"
                 :columns="tagColumns"
                 :data-source="linkedTags"
                 :pagination="false"
@@ -135,7 +135,7 @@
                     </a-typography-text>
                   </template>
                   <template v-else-if="column.key === 'action'">
-                    <a-button class="row-action" type="link" size="small" danger>移除</a-button>
+                    <a-button class="row-actions" type="link" size="small" danger>移除</a-button>
                   </template>
                 </template>
               </a-table>
@@ -275,6 +275,16 @@ const cancel = () => router.push(`/tag-management/point/${route.params.id || '1'
   font-size: 12px;
 }
 
+.crumb a {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.crumb a:hover {
+  color: rgb(var(--color-primary));
+  opacity: 1;
+}
+
 .page-head {
   display: flex;
   align-items: flex-end;
@@ -331,13 +341,27 @@ const cancel = () => router.push(`/tag-management/point/${route.params.id || '1'
   background: rgba(17, 56, 224, 0.08);
 }
 
-.linked-table :deep(.row-action) {
-  opacity: 0;
-  transition: opacity 0.2s ease;
+.content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(0, 0, 0, 0.015);
+  font-size: 12px;
+  font-weight: 600;
 }
 
-.linked-table :deep(.ant-table-row:hover .row-action),
-.linked-table :deep(.row-action:focus-visible) {
+:global(.dark) .content-table :deep(.ant-table-thead > tr > th) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.content-table :deep(.ant-table-tbody > tr > td) {
+  padding-top: 14px;
+  padding-bottom: 14px;
+}
+
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
   opacity: 1;
 }
 

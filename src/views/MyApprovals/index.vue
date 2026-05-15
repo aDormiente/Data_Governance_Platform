@@ -3,7 +3,7 @@
     <a-breadcrumb class="crumb">
       <a-breadcrumb-item>工作台</a-breadcrumb-item>
       <a-breadcrumb-item>{{ activeTab === 'mine' ? '我的审批' : '我的申请' }}</a-breadcrumb-item>
-      <a-breadcrumb-item>待办</a-breadcrumb-item>
+      <a-breadcrumb-item>{{ activeTab === 'mine' ? '待办列表' : '申请记录' }}</a-breadcrumb-item>
     </a-breadcrumb>
 
     <div class="page-head">
@@ -213,7 +213,7 @@
           :pagination="false"
           :row-key="row => row.reqId"
           size="middle"
-          class="content-table"
+          class="content-table apply-table"
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'reqId'">
@@ -237,7 +237,7 @@
               </a-typography-text>
             </template>
             <template v-else-if="column.key === 'action'">
-              <a-space :size="0">
+              <a-space :size="0" class="row-actions">
                 <a-button type="link" size="small">详情</a-button>
                 <a-button v-if="record.canRecall" type="link" size="small" danger>撤回</a-button>
                 <a-button v-else-if="record.canResubmit" type="link" size="small">重新发起</a-button>
@@ -629,12 +629,14 @@ const resetApplyFilters = () => {
   padding-bottom: 14px;
 }
 
-.mine-table :deep(.ant-table-tbody > tr) .row-actions {
+.mine-table :deep(.ant-table-tbody > tr) .row-actions,
+.apply-table :deep(.ant-table-tbody > tr) .row-actions {
   opacity: 0;
   transition: opacity 0.15s;
 }
 
-.mine-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+.mine-table :deep(.ant-table-tbody > tr:hover) .row-actions,
+.apply-table :deep(.ant-table-tbody > tr:hover) .row-actions {
   opacity: 1;
 }
 

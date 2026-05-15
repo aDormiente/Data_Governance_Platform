@@ -3,6 +3,7 @@
     <a-breadcrumb class="crumb">
       <a-breadcrumb-item>工作台</a-breadcrumb-item>
       <a-breadcrumb-item>融合检索</a-breadcrumb-item>
+      <a-breadcrumb-item>检索中心</a-breadcrumb-item>
     </a-breadcrumb>
 
     <section class="hero-section">

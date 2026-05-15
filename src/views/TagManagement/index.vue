@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <a-breadcrumb class="crumb">
-      <a-breadcrumb-item>政务数据治理</a-breadcrumb-item>
+      <a-breadcrumb-item>数据</a-breadcrumb-item>
       <a-breadcrumb-item>标签管理</a-breadcrumb-item>
       <a-breadcrumb-item>{{ activeTab === 'tags' ? '标签列表' : '点位列表' }}</a-breadcrumb-item>
     </a-breadcrumb>
@@ -64,6 +64,7 @@
             :data-source="filteredTags"
             :pagination="tagPagination"
             :row-key="r => r.id"
+            :row-selection="{ selectedRowKeys: selectedTagKeys, onChange: keys => (selectedTagKeys = keys) }"
             :custom-row="tagRowClickHandler"
             size="middle"
             class="content-table"
@@ -74,15 +75,18 @@
                   <a-avatar
                     shape="square"
                     :size="32"
-                    :style="{ background: typeIconBg(record.type), color: typeIconColor(record.type) }"
+                    style="background: rgba(17, 56, 224, 0.08); color: #1138e0"
                   >
                     <template #icon><component :is="typeIcon(record.type)" /></template>
                   </a-avatar>
-                  <a-typography-text strong>{{ record.name }}</a-typography-text>
+                  <div>
+                    <a-typography-text strong :style="{ display: 'block' }">{{ record.name }}</a-typography-text>
+                    <a-typography-text type="secondary" :style="{ fontSize: '11px', fontFamily: 'IBM Plex Mono, ui-monospace, monospace' }">{{ record.enId }}</a-typography-text>
+                  </div>
                 </a-space>
               </template>
               <template v-else-if="column.key === 'type'">
-                <a-tag :color="typeTagColor(record.type)">{{ record.type }}</a-tag>
+                <a-tag :color="typeTagColor(record.type)" :bordered="false">{{ record.type }}</a-tag>
               </template>
               <template v-else-if="column.key === 'desc'">
                 <a-typography-text type="secondary" :style="{ fontSize: '12px' }">{{ record.desc }}</a-typography-text>
@@ -98,7 +102,7 @@
                 <a-badge :status="statusBadge(record.status)" :text="record.status" />
               </template>
               <template v-else-if="column.key === 'action'">
-                <a-space :size="0">
+                <a-space :size="0" class="row-actions">
                   <a-button type="link" size="small" @click.stop="router.push(`/tag-management/detail/${record.id}`)">查看</a-button>
                   <a-button type="link" size="small" @click.stop="router.push(`/tag-management/edit/${record.id}`)">编辑</a-button>
                 </a-space>
@@ -108,7 +112,7 @@
         </a-tab-pane>
 
         <a-tab-pane key="points" tab="点位列表">
-          <a-form layout="inline" class="filter-bar filter-bar-points">
+          <a-form layout="inline" class="filter-bar">
             <a-form-item label="搜索点位">
               <a-input
                 v-model:value="pointSearch"
@@ -146,10 +150,10 @@
             :data-source="filteredPoints"
             :pagination="pointPagination"
             :row-key="r => r.id"
-            :row-selection="{ type: 'checkbox' }"
+            :row-selection="{ selectedRowKeys: selectedPointKeys, onChange: keys => (selectedPointKeys = keys) }"
             :custom-row="pointRowClickHandler"
             size="middle"
-            class="content-table point-table"
+            class="content-table"
           >
             <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'name'">
@@ -187,21 +191,9 @@
               </template>
               <template v-else-if="column.key === 'action'">
                 <a-space :size="0" class="row-actions">
-                  <a-tooltip title="编辑">
-                    <a-button type="text" size="small" @click.stop="router.push(`/tag-management/point/edit/${record.id}`)">
-                      <template #icon><EditOutlined /></template>
-                    </a-button>
-                  </a-tooltip>
-                  <a-tooltip title="地图定位">
-                    <a-button type="text" size="small" @click.stop>
-                      <template #icon><CompassOutlined /></template>
-                    </a-button>
-                  </a-tooltip>
-                  <a-tooltip title="删除">
-                    <a-button type="text" size="small" danger @click.stop>
-                      <template #icon><DeleteOutlined /></template>
-                    </a-button>
-                  </a-tooltip>
+                  <a-button type="link" size="small" @click.stop="router.push(`/tag-management/point/edit/${record.id}`)">编辑</a-button>
+                  <a-button type="link" size="small" @click.stop>地图</a-button>
+                  <a-button type="link" size="small" danger @click.stop>删除</a-button>
                 </a-space>
               </template>
             </template>
@@ -344,8 +336,6 @@ import {
   SearchOutlined,
   EnvironmentOutlined,
   FilterOutlined,
-  EditOutlined,
-  DeleteOutlined,
   CompassOutlined,
   VideoCameraOutlined,
   TagOutlined,
@@ -370,6 +360,8 @@ const pointSearch = ref('')
 const pointTagFilter = ref()
 const pointStatusFilter = ref('全部')
 const trendRange = ref('7')
+const selectedTagKeys = ref([])
+const selectedPointKeys = ref([])
 
 const pointStates = ['全部', '在线', '离线', '故障']
 
@@ -393,10 +385,10 @@ const pointTagOptions = [
 ]
 
 const tagData = ref([
-  { id: 1, name: '企业信用等级',   type: '算法标签', desc: '基于工商、税务及诉讼数据综合评定',   count: '12',  created: '2023-10-24 14:30', status: '已发布' },
-  { id: 2, name: '人口年龄分布',   type: '基础标签', desc: '各行政区域常住人口年龄层统计数据',   count: '85',  created: '2023-11-02 09:15', status: '已发布' },
-  { id: 3, name: '医保异地结算',   type: '业务标签', desc: '异地医疗保险结算行为分析标签',       count: '0',   created: '2023-11-15 16:45', status: '待审核' },
-  { id: 4, name: '能耗监测(工业)', type: '基础标签', desc: '主要工业园区用电、用气实时监测',    count: '244', created: '2023-11-20 10:00', status: '已发布' },
+  { id: 1, name: '企业信用等级',   enId: 'LABEL_ENT_CREDIT',  type: '算法标签', desc: '基于工商、税务及诉讼数据综合评定',   count: '12',  created: '2023-10-24 14:30', status: '已发布' },
+  { id: 2, name: '人口年龄分布',   enId: 'LABEL_POP_AGE',     type: '基础标签', desc: '各行政区域常住人口年龄层统计数据',   count: '85',  created: '2023-11-02 09:15', status: '已发布' },
+  { id: 3, name: '医保异地结算',   enId: 'LABEL_MED_REMOTE',  type: '业务标签', desc: '异地医疗保险结算行为分析标签',       count: '0',   created: '2023-11-15 16:45', status: '待审核' },
+  { id: 4, name: '能耗监测(工业)', enId: 'LABEL_ENERGY_IND',  type: '基础标签', desc: '主要工业园区用电、用气实时监测',    count: '244', created: '2023-11-20 10:00', status: '已发布' },
 ])
 
 const filteredTags = computed(() =>
@@ -436,18 +428,6 @@ const typeIcon = (type) => ({
   '业务标签': AreaChartOutlined,
 }[type] || TagOutlined)
 
-const typeIconBg = (type) => ({
-  '算法标签': 'rgba(17, 56, 224, 0.08)',
-  '基础标签': 'rgba(17, 56, 224, 0.08)',
-  '业务标签': 'rgba(250, 140, 22, 0.1)',
-}[type] || 'rgba(0,0,0,0.04)')
-
-const typeIconColor = (type) => ({
-  '算法标签': '#1138e0',
-  '基础标签': '#1138e0',
-  '业务标签': '#fa8c16',
-}[type] || '#1138e0')
-
 const typeTagColor = (type) => ({
   '算法标签': 'blue',
   '基础标签': 'cyan',
@@ -484,7 +464,7 @@ const pointColumns = [
   { key: 'coord',   title: '地理位置', minWidth: 220 },
   { key: 'status',  title: '状态',     width: 110 },
   { key: 'updated', title: '更新时间', width: 160 },
-  { key: 'action',  title: '操作',     width: 130, align: 'right' },
+  { key: 'action',  title: '操作',     width: 160, align: 'right' },
 ]
 
 const pointPagination = {
@@ -571,16 +551,8 @@ const todos = [
   row-gap: 12px;
 }
 
-.filter-bar-points {
-  background: rgba(0, 0, 0, 0.015);
-}
-
 :global(.dark) .filter-bar {
   border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-:global(.dark) .filter-bar-points {
-  background: rgba(255, 255, 255, 0.025);
 }
 
 .filter-search,
@@ -610,13 +582,13 @@ const todos = [
   margin: 0;
 }
 
-/* Row actions hover */
-.point-table :deep(.ant-table-tbody > tr) .row-actions {
+/* Row actions hover (unified for both tabs) */
+.content-table :deep(.ant-table-tbody > tr) .row-actions {
   opacity: 0;
   transition: opacity 0.15s;
 }
 
-.point-table :deep(.ant-table-tbody > tr:hover) .row-actions {
+.content-table :deep(.ant-table-tbody > tr:hover) .row-actions {
   opacity: 1;
 }
 
