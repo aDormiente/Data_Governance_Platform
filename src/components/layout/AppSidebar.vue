@@ -126,7 +126,7 @@ const navItems = [
   { path: '/tag-management', label: '标签管理', icon: 'inventory_2' },
   { path: '/fusion-search', label: '融合搜索', icon: 'manage_search' },
   { path: '/my-approvals', label: '我的审批', icon: 'fact_check' },
-  { path: '/branch-topics', label: '分支主题', icon: 'hub' },
+  { path: '/branch-topics', label: '标签共享', icon: 'hub' },
 ]
 
 const now = new Date()

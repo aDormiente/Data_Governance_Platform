@@ -303,6 +303,7 @@
           class="px-5 py-2 border border-outline-variant text-on-surface-variant text-sm hover:border-primary hover:text-primary transition-colors"
         >取消</button>
         <button
+          @click="form.name && form.enId && router.push('/tag-management')"
           :disabled="!form.name || !form.enId"
           :class="[
             'px-6 py-2 text-sm font-bold transition-all flex items-center gap-2',

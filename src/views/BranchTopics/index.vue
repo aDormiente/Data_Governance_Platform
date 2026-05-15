@@ -6,13 +6,13 @@
         <span class="text-primary">»</span>
         <span>数据</span>
         <span class="opacity-40">/</span>
-        <span class="text-on-surface">分支主题</span>
+        <span class="text-on-surface">标签共享</span>
         <span class="opacity-40">/</span>
         <span class="opacity-60">索引</span>
       </div>
       <div class="flex items-end justify-between gap-6 flex-wrap">
         <div>
-          <h1 class="font-display text-[34px] font-semibold tracking-tight text-on-surface leading-[1.05]">分支主题中心</h1>
+          <h1 class="font-display text-[34px] font-semibold tracking-tight text-on-surface leading-[1.05]">标签共享中心</h1>
           <p class="text-[13px] text-on-surface-variant mt-2 max-w-2xl">围绕主题构建标签集合，面向政务内网与跨部门提供数据共享与 API 接口。</p>
         </div>
         <div class="flex gap-2 items-center">
